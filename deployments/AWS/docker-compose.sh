@@ -5,10 +5,6 @@ services:
     image: ravitandon2/master-300-prod:0.1
     ports:
       - "80:80"
-    links:
-      - autocomplete
-      - indexer
-      - usermanagement
     logging:
       driver: awslogs
       options:
