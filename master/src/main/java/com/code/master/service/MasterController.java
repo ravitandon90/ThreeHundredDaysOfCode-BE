@@ -1,5 +1,6 @@
 package com.code.master.service;
 
+import com.code.master.common.Constants;
 import com.code.master.common.CreateProfileHTTPRequest;
 import com.code.master.common.SubmitCodeHTTPRequest;
 import com.code.master.common.UpdateProfileHTTPRequest;
@@ -12,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class MasterController {
@@ -48,7 +54,27 @@ public class MasterController {
     }
 
     @GetMapping(path = "/problem")
-    public String handleGetProblemOfTheDay() {
+    public String handleGetProblemOfTheDay(Principal user) {
+        try {
+            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            Date startDate = parser.parse(Constants.START_DATE);
+            Date endDate = Date.from(Instant.now());
+            long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+            long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+            ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+            if (problemDescription != null) {
+                String jsonString = new JSONObject()
+                        .put("title", problemDescription.getTitle())
+                        .put("id", problemDescription.getIndex())
+                        .put("complexity", problemDescription.getComplexity())
+                        .put("url", problemDescription.getDescription())
+                        .put("description", problemDescription.getDescription())
+                        .put("example", problemDescription.getExample())
+                        .put("constraints", problemDescription.getConstraints())
+                        .toString();
+                return jsonString;
+            }
+        } catch (ParseException e) {}
         return "{}";
     }
 

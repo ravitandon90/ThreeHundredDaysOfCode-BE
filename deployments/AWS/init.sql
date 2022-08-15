@@ -8,7 +8,7 @@
  );
 
  create table if not exists user_submission (
-  submission_id varchar(500) not null constraint problem_jpa_data_store_credential_pkey primary_key,
+  submission_id varchar(500) not null constraint submission_jpa_data_store_credential_pkey primary_key,
   user_id varchar(500) not null,
   problem_link varchar(500) not null,
   solution_link varchar(500) not null,
@@ -17,9 +17,14 @@
  );
 
 create table if not exists problem_desc {
-  problem_id varchar(500),
+  problem_id varchar(500) not null constraint problem_jpa_data_store_credential_pkey primary_key,
+  title varchar(500) not null,
   url varchar(500) not null,
   description varchar not null,
+  complexity varchar(100) not null,
+  example varchar(500),
+  problem_constraints varchar(500),
+  idx int not null,
   created_at timestamp default now() not null,
   updated_at timestamp default now() not null
 }

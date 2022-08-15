@@ -26,11 +26,24 @@ public class ProblemDescription {
     @Column(name = "problem_id")
     private String problemId;
     @NotNull
+    @Column(name = "title")
+    private String title;
+    @NotNull
     @Column(name = "url")
     private String url;
     @NotNull
+    @Column(name = "complexity")
+    private String complexity;
+    @NotNull
     @Column(name = "description")
     private String description;
+    @Column(name = "example")
+    private String example;
+    @Column(name = "problem_constraints")
+    private String constraints;
+    @NotNull
+    @Column(name = "idx")
+    private long index;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
