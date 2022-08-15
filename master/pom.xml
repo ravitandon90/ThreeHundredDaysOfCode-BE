@@ -91,6 +91,13 @@
         <version>${httpcomponents.version}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.3.3</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-web -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
