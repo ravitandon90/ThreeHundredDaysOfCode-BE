@@ -87,7 +87,7 @@ public class MasterController {
         userSubmission.setProblemLink(request.getProblemLink());
         userSubmission.setSolutionLink(request.getSolutionLink());
         this.userSubmissionRepository.save(userSubmission);
-        return new JSONObject().put("message", "OK").toString();
+        return new JSONObject().put("message", "Success").toString();
     }
 
     @PostMapping(path = "/createProfile")
@@ -95,7 +95,7 @@ public class MasterController {
             @RequestBody CreateProfileHTTPRequest request, Principal user) {
         UserProfile userProfile = new UserProfile(user.getName(), request.getEmailId());
         this.userProfileRepository.save(userProfile);
-        return new JSONObject().put("message", "OK").toString();
+        return new JSONObject().put("message", "Success").toString();
     }
 
     @PostMapping(path = "/updateProfile")
@@ -103,10 +103,13 @@ public class MasterController {
             @RequestBody UpdateProfileHTTPRequest request,
             Principal user) {
         UserProfile userProfile = new UserProfile(user.getName(), request.getEmail());
+        if (!request.getName().isEmpty()) {
+            userProfile.setName(request.getName());
+        }
         if (!request.getOrg().isEmpty()) {
             userProfile.setOrg(request.getOrg());
         }
         this.userProfileRepository.save(userProfile);
-        return new JSONObject().put("message", "OK").toString();
+        return new JSONObject().put("message", "Success").toString();
     }
 }

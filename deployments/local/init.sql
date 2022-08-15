@@ -16,7 +16,7 @@
   updated_at timestamp default now() not null
  );
 
-create table if not exists problem_desc (
+create table if not exists problem_description (
   problem_id varchar(500) not null constraint problem_jpa_data_store_credential_pkey primary key,
   title varchar(500) not null,
   url varchar(500) not null,

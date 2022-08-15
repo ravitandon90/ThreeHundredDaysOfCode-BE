@@ -17,7 +17,7 @@ public class MasterServiceApplication {
     public WebMvcConfigurer corsConfigurer() {
         final String[] allowedURLs = { "http://localhost:3000", "https://threehundreddaysofcode.com" };
 
-        final String[] apiList = {"/me", "/leaderboard", "/submission", "/" };
+        final String[] apiList = {"/me", "/leaderboard", "/problem", "/", "/createProfile", "/updateProfile", "/submitCode" };
 
         return new WebMvcConfigurer() {
             @Override
