@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  master:
+    image: ravitandon2/master-300-prod:0.1
+    container_name: master
+    restart: on-failure
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    networks:
+      - 'es-network'
+
+  db:
+    image: postgres:14.1-alpine
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    networks:
+      - 'es-network'
+    volumes:
+      - db:/var/lib/postgresql/data-
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  es-network:
+    driver: bridge
