@@ -24,6 +24,8 @@ public class UserProfile {
     @NotNull @Id
     @Column(name = "user_id")
     private String userId;
+    @Column(name = "name")
+    private String name;
     @NotNull
     @Column(name = "email_id")
     private String emailId;
