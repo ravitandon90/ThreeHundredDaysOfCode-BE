@@ -20,7 +20,6 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class ProblemDescription {
     @Id @NotNull
     @Column(name = "problem_id")
