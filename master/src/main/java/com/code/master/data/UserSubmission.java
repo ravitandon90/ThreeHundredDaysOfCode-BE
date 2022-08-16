@@ -29,6 +29,9 @@ public class UserSubmission {
     @Column(name = "user_id")
     private String userId;
     @NotNull
+    @Column(name = "problem_name")
+    private String problemName;
+    @NotNull
     @Column(name = "problem_link")
     @NotNull
     private String problemLink;

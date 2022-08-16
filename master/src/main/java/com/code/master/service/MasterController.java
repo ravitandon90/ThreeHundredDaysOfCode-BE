@@ -5,6 +5,9 @@ import com.code.master.common.CreateProfileHTTPRequest;
 import com.code.master.common.SubmitCodeHTTPRequest;
 import com.code.master.common.UpdateProfileHTTPRequest;
 import com.code.master.data.*;
+import com.googlecode.protobuf.format.JsonJacksonFormat;
+import org.apache.catalina.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +19,14 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import static java.lang.Math.max;
 
 @RestController
 public class MasterController {
-
+    public static JsonJacksonFormat jsonFormat = new JsonJacksonFormat();
     @Autowired
     private ProblemDescriptionRepository problemDescriptionRepository;
     @Autowired
@@ -50,7 +55,85 @@ public class MasterController {
 
     @GetMapping(path = "/leaderboard")
     public String handleGetLeaderBoard() {
-        return "{}";
+        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+        JSONObject result = new JSONObject();
+        JSONArray ar = new JSONArray();
+        for (UserProfile profile : userProfiles) {
+           ar.put(getUserStats(profile.getUserId()));
+        }
+        return result.toString();
+    }
+
+    private JSONObject getUserStats(String userId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+        HashSet<Long> dates = new HashSet<>();
+        ArrayList<Long> datesList = new ArrayList<>();
+        int referralCount = 0;
+        int numberUniqueDays = 0;
+        int longestStreak = 0;
+        try {
+            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            Date startDate = parser.parse(Constants.START_DATE);
+            // Step-I: Get Number of Unique Submission Days.
+            for (int idx = 0; idx < submissions.size(); ++idx) {
+                Instant i = submissions.get(idx).getCreatedAt();
+                Date endDate = Date.from(Instant.now());
+                long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+                long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+                dates.add(diffInDays);
+                datesList.add(diffInDays);
+            }
+        } catch (ParseException e) {
+            System.out.printf("Error parsing date: {%s}\n", e);
+        }
+        numberUniqueDays = dates.size();
+
+        // Step-II: Get Number of Referrals.
+        List<UserProfile> userProfiles = this.userProfileRepository.findByReferrerId(userId);
+        for (int idx = 0; idx < userProfiles.size(); ++idx) {
+            UserProfile profile = userProfiles.get(idx);
+            if (profile.getReferrerId() != profile.getUserId()) ++referralCount;
+        }
+
+        // Step-III: Get The Longest Streak.
+        Collections.sort(datesList);
+        int currRun = 0;
+        for (int idx = 0; idx < datesList.size(); ++idx) {
+            final long diff = datesList.get(idx + 1) - datesList.get(idx);
+            if (diff == 0) continue;
+            if (diff == 1) {
+                currRun++;
+                longestStreak = max(longestStreak, currRun);
+            } else {
+                currRun = 1;
+            }
+        }
+        return new JSONObject()
+                .put("numberUniqueDays", numberUniqueDays)
+                .put("referralCount", referralCount)
+                .put("longestStreak", longestStreak);
+    }
+
+    @GetMapping(path = "/mySubmissions")
+    public String handleGetMySubmissions(Principal user) {
+        final String userId = user.getName();
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission);
+            arr.put(submissionJSONObject);
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private JSONObject ToJSONObject(UserSubmission submission) {
+        JSONObject object = new JSONObject();
+        object.put("problemName", submission.getProblemName())
+              .put("problemLink", submission.getProblemLink())
+              .put("solutionLink", submission.getSolutionLink());
+        return object;
     }
 
     @GetMapping(path = "/problem")
@@ -74,7 +157,9 @@ public class MasterController {
                         .toString();
                 return jsonString;
             }
-        } catch (ParseException e) {}
+        } catch (ParseException e) {
+            System.out.printf("Error parsing date: {%s}\n", e);
+        }
         return "{}";
     }
 
