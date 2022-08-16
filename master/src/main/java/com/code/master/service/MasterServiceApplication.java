@@ -15,7 +15,13 @@ public class MasterServiceApplication {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
-        final String[] allowedURLs = { "http://localhost:3000", "https://threehundreddaysofcode.com" };
+        final String[] allowedURLs = {
+                "http://localhost:3000",
+                "https://threehundreddaysofcode.com/",        "http://threehundreddaysofcode.com",
+                "https://www.threehundreddaysofcode.com/", "http://www.threehundreddaysofcode.com",
+                "https://code-api.threehundreddaysofcode.com/", "http://code-api.threehundreddaysofcode.com",
+                "https://www.code-api.threehundreddaysofcode.com/", "http://www.code-api.threehundreddaysofcode.com"
+        };
 
         final String[] apiList = {"/me", "/leaderboard", "/problem", "/", "/createProfile", "/updateProfile", "/submitCode" };
 

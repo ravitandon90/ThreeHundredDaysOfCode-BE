@@ -6,4 +6,5 @@ import lombok.Setter;
 @Getter @Setter
 public class CreateProfileHTTPRequest {
     private String emailId;
+    private String referrerId;
 }

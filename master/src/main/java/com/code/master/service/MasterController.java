@@ -94,6 +94,7 @@ public class MasterController {
     public String handleCreateProfile(
             @RequestBody CreateProfileHTTPRequest request, Principal user) {
         UserProfile userProfile = new UserProfile(user.getName(), request.getEmailId());
+        userProfile.setReferrerId(request.getReferrerId());
         this.userProfileRepository.save(userProfile);
         return new JSONObject().put("message", "Success").toString();
     }

@@ -3,6 +3,7 @@
  name varchar(500),
  email_id varchar(500) not null,
  org varchar(500),
+ referrer_id varchar(500) not null,
  created_at timestamp default now() not null,
  updated_at timestamp default now() not null
  );

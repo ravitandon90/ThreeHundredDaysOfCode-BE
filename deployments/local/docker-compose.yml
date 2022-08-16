@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   master:
-    image: ravitandon2/master-300-prod:0.1
+    image: ravitandon2/master-300-prod:0.2
     container_name: master
     restart: on-failure
     ports:
@@ -25,7 +25,7 @@ services:
       - 'es-network'
     volumes:
       - db:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ../scripts/init.sql:/docker-entrypoint-initdb.d/
 
 volumes:
   db:
