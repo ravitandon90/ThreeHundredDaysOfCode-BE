@@ -23,7 +23,7 @@ public class MasterServiceApplication {
                 "https://www.code-api.threehundreddaysofcode.com/", "http://www.code-api.threehundreddaysofcode.com"
         };
 
-        final String[] apiList = {"/me", "/leaderboard", "/problem", "/", "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions" };
+        final String[] apiList = {"/me", "/leaderBoard", "/problem", "/", "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions" };
 
         return new WebMvcConfigurer() {
             @Override

@@ -1,0 +1,1038 @@
+[
+  {
+    "Description": "Add to Array-Form of Integer",
+    "Link": "https://leetcode.com/problems/add-to-array-form-of-integer/"
+  },
+  {
+    "Description": "Find the intersection of two arrays",
+    "Link": "https://leetcode.com/problems/intersection-of-two-arrays/"
+  },
+  {
+    "Description": "Find the intersection of three arrays",
+    "Link": "https://leetcode.com/problems/intersection-of-three-sorted-arrays/"
+  },
+  {
+    "Description": "Find the maximum consecutive ones in an array",
+    "Link": "https://leetcode.com/problems/max-consecutive-ones/"
+  },
+  {
+    "Description": "Create a target array in a pre-specified format",
+    "Link": "https://leetcode.com/problems/create-target-array-in-the-given-order/"
+  },
+  {
+    "Description": "Decompress Run-Length Encoded List",
+    "Link": "https://leetcode.com/problems/decompress-run-length-encoded-list/"
+  },
+  {
+    "Description": "Find the fixed point in an array",
+    "Link": "https://leetcode.com/problems/fixed-point/"
+  },
+  {
+    "Description": "Number of Good Pairs",
+    "Link": "https://leetcode.com/problems/number-of-good-pairs/"
+  },
+  {
+    "Description": "H-Index Calculator",
+    "Link": "https://leetcode.com/problems/h-index/"
+  },
+  {
+    "Description": "Find the Kth Missing Positive Element in an array",
+    "Link": "https://leetcode.com/problems/kth-missing-positive-number/"
+  },
+  {
+    "Description": "Longest Continuous Increasing Subsequence",
+    "Link": "https://leetcode.com/problems/longest-continuous-increasing-subsequence/"
+  },
+  {
+    "Description": "Check if the coordinates are in a straight line",
+    "Link": "https://leetcode.com/problems/check-if-it-is-a-straight-line/"
+  },
+  {
+    "Description": "Make Two Arrays Equal by Reversing Sub-arrays",
+    "Link": "https://leetcode.com/problems/merge-sorted-array/"
+  },
+  {
+    "Description": "Merge N Sorted Arrays",
+    "Link": "https://leetcode.com/problems/merge-sorted-array/"
+  },
+  {
+    "Description": "Find the missing ranges from an array",
+    "Link": "https://leetcode.com/problems/missing-ranges/"
+  },
+  {
+    "Description": "Move Zeroes",
+    "Link": "https://leetcode.com/problems/nested-list-weight-sum/"
+  },
+  {
+    "Description": "Nested List Weight Sum",
+    "Link": "https://leetcode.com/problems/nested-list-weight-sum/"
+  },
+  {
+    "Description": "Kids With the Greatest Number of Candies",
+    "Link": "https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/"
+  },
+  {
+    "Description": "Plus One",
+    "Link": "https://leetcode.com/problems/plus-one/"
+  },
+  {
+    "Description": "For each element of an array find the product except itself",
+    "Link": "https://leetcode.com/problems/product-of-array-except-self/"
+  },
+  {
+    "Description": "Range Sum Query",
+    "Link": "https://leetcode.com/problems/range-sum-query-mutable/"
+  },
+  {
+    "Description": "Rotate Array",
+    "Link": "https://leetcode.com/problems/rotate-array/"
+  },
+  {
+    "Description": "Find the running sum from an array",
+    "Link": "https://leetcode.com/problems/running-sum-of-1d-array/"
+  },
+  {
+    "Description": "Sentence Similarity",
+    "Link": "https://leetcode.com/problems/sentence-similarity/"
+  },
+  {
+    "Description": "Shifting Letters",
+    "Link": "https://leetcode.com/problems/shifting-letters/"
+  },
+  {
+    "Description": "Sort Array By Parity",
+    "Link": "https://leetcode.com/problems/sort-array-by-parity/"
+  },
+  {
+    "Description": "Sort By Increasing Frequency",
+    "Link": "https://leetcode.com/problems/sort-array-by-increasing-frequency/"
+  },
+  {
+    "Description": "Find the third maximum element in an array",
+    "Link": "https://leetcode.com/problems/third-maximum-number/"
+  },
+  {
+    "Description": "Interval List Intersections",
+    "Link": "https://leetcode.com/problems/interval-list-intersections/"
+  },
+  {
+    "Description": "Monotonic Array",
+    "Link": "https://leetcode.com/problems/monotonic-array/"
+  },
+  {
+    "Description": "Combinations",
+    "Link": "https://leetcode.com/problems/combinations/"
+  },
+  {
+    "Description": "Combinations With Duplicates",
+    "Link": "https://leetcode.com/problems/permutations-ii/"
+  },
+  {
+    "Description": "Generate Subsets",
+    "Link": "https://leetcode.com/problems/subsets/"
+  },
+  {
+    "Description": "Letter Case Permutation",
+    "Link": "https://leetcode.com/problems/letter-case-permutation/"
+  },
+  {
+    "Description": "Palindromic Partitioning",
+    "Link": "https://leetcode.com/problems/palindrome-partitioning/"
+  },
+  {
+    "Description": "Parantheses Generator",
+    "Link": "https://leetcode.com/problems/generate-parentheses/"
+  },
+  {
+    "Description": "Remove Invalid Parantheses",
+    "Link": "https://leetcode.com/problems/remove-invalid-parentheses/"
+  },
+  {
+    "Description": "Count the number of 1 bits in a number",
+    "Link": "https://leetcode.com/problems/number-of-1-bits/"
+  },
+  {
+    "Description": "Counting Bits",
+    "Link": "https://leetcode.com/problems/counting-bits/"
+  },
+  {
+    "Description": "Reverse the bits in a number",
+    "Link": "https://leetcode.com/problems/reverse-bits/"
+  },
+  {
+    "Description": "Find the number that occurs once",
+    "Link": "https://leetcode.com/problems/single-number/"
+  },
+  {
+    "Description": "Subset XOR Sum",
+    "Link": "https://leetcode.com/problems/sum-of-all-subset-xor-totals/"
+  },
+  {
+    "Description": "Barber Shop Problem",
+    "Link": "https://www.geeksforgeeks.org/sleeping-barber-problem-in-process-synchronization/"
+  },
+  {
+    "Description": "The Dining Philosophers Problem",
+    "Link": "https://leetcode.com/problems/the-dining-philosophers/"
+  },
+  {
+    "Description": "Reader Writer Lock",
+    "Link": "https://www.educative.io/blog/top-five-concurrency-interview-questions-for-software-engineers"
+  },
+  {
+    "Description": "Reader Writer Lock (No Starvation)",
+    "Link": "https://www.educative.io/blog/top-five-concurrency-interview-questions-for-software-engineers"
+  },
+  {
+    "Description": "Synchronous Executor",
+    "Link": "https://www.educative.io/blog/top-five-concurrency-interview-questions-for-software-engineers"
+  },
+  {
+    "Description": "Uber Rider Share Problem",
+    "Link": "https://leetcode.com/problems/divisor-game/"
+  },
+  {
+    "Description": "Climbing Stairs",
+    "Link": "https://leetcode.com/problems/climbing-stairs/"
+  },
+  {
+    "Description": "Count Substrings That Differ by One Character",
+    "Link": "https://leetcode.com/problems/count-substrings-that-differ-by-one-character/"
+  },
+  {
+    "Description": "Count Sorted Vowel Strings",
+    "Link": "https://leetcode.com/problems/count-sorted-vowel-strings/"
+  },
+  {
+    "Description": "Decode Ways",
+    "Link": "https://leetcode.com/problems/decode-ways/"
+  },
+  {
+    "Description": "Divisor Game",
+    "Link": "https://leetcode.com/problems/divisor-game/"
+  },
+  {
+    "Description": "Egg Drop",
+    "Link": "https://leetcode.com/problems/egg-drop-with-2-eggs-and-n-floors/"
+  },
+  {
+    "Description": "Find a number in the fibonacci sequence",
+    "Link": "https://leetcode.com/problems/fibonacci-number/"
+  },
+  {
+    "Description": "First Bad Version",
+    "Link": "https://leetcode.com/problems/first-bad-version/"
+  },
+  {
+    "Description": "Get Maximum in Generated Array",
+    "Link": "https://leetcode.com/problems/get-maximum-in-generated-array/"
+  },
+  {
+    "Description": "Interleaving String",
+    "Link": "https://leetcode.com/problems/interleaving-string/"
+  },
+  {
+    "Description": "Is Subsequence",
+    "Link": "https://leetcode.com/problems/is-subsequence/"
+  },
+  {
+    "Description": "Find the sum of the maximum subarray with consecutive elements",
+    "Link": "https://leetcode.com/problems/maximum-subarray/"
+  },
+  {
+    "Description": "N-th Tribonacci Number",
+    "Link": "https://leetcode.com/problems/n-th-tribonacci-number/"
+  },
+  {
+    "Description": "Valid Palindrome with at most 1 deletion",
+    "Link": "https://leetcode.com/problems/valid-palindrome-ii/"
+  },
+  {
+    "Description": "Palindromic Substrings",
+    "Link": "https://leetcode.com/problems/palindromic-substrings/"
+  },
+  {
+    "Description": "Partition Array Maximum Sum",
+    "Link": "https://leetcode.com/problems/partition-array-for-maximum-sum"
+  },
+  {
+    "Description": "Partition Equal Subset Sum",
+    "Link": "https://leetcode.com/problems/partition-equal-subset-sum/"
+  },
+  {
+    "Description": "Pascal Triangle",
+    "Link": "https://leetcode.com/problems/pascals-triangle/"
+  },
+  {
+    "Description": "Rotated Digits",
+    "Link": "https://leetcode.com/problems/rotated-digits/"
+  },
+  {
+    "Description": "Target Sum",
+    "Link": "https://leetcode.com/problems/target-sum/"
+  },
+  {
+    "Description": "Unique Paths",
+    "Link": "https://leetcode.com/problems/unique-paths/"
+  },
+  {
+    "Description": "Word Break",
+    "Link": "https://leetcode.com/problems/word-break/"
+  },
+  {
+    "Description": "Word Break-II",
+    "Link": "https://leetcode.com/problems/word-break-ii/"
+  },
+  {
+    "Description": "Find a valid format for an alien dictionary",
+    "Link": "https://leetcode.com/problems/verifying-an-alien-dictionary/"
+  },
+  {
+    "Description": "Binary Watch",
+    "Link": "https://leetcode.com/problems/binary-watch/"
+  },
+  {
+    "Description": "Deep copy a graph",
+    "Link": "https://leetcode.com/problems/clone-graph/"
+  },
+  {
+    "Description": "Find the number of connected components in a graph",
+    "Link": "https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/"
+  },
+  {
+    "Description": "Find if there exists a valid course schedule",
+    "Link": "https://leetcode.com/problems/course-schedule/"
+  },
+  {
+    "Description": "Find a valid course schedule",
+    "Link": "https://leetcode.com/problems/course-schedule/"
+  },
+  {
+    "Description": "Employee Importance",
+    "Link": "https://leetcode.com/problems/employee-importance/"
+  },
+  {
+    "Description": "Find Center Of Graph",
+    "Link": "https://leetcode.com/problems/find-center-of-star-graph/"
+  },
+  {
+    "Description": "Find If Path Exists",
+    "Link": "https://leetcode.com/problems/find-if-path-exists-in-graph/"
+  },
+  {
+    "Description": "Find Town Judge",
+    "Link": "https://leetcode.com/problems/find-the-town-judge/"
+  },
+  {
+    "Description": "Find if a graph is a valid tree",
+    "Link": "https://leetcode.com/problems/graph-valid-tree/"
+  },
+  {
+    "Description": "Keys And Rooms",
+    "Link": "https://leetcode.com/problems/keys-and-rooms/"
+  },
+  {
+    "Description": "Minimum Vertices To Nodes",
+    "Link": "https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/"
+  },
+  {
+    "Description": "Reorder Routes to Make All Paths Lead to the City Zero",
+    "Link": "https://leetcode.com/problems/reorder-routes-to-make-all-paths-lead-to-the-city-zero/"
+  },
+  {
+    "Description": "Calculate the minimum network delay",
+    "Link": "https://leetcode.com/problems/network-delay-time/"
+  },
+  {
+    "Description": "Number of Provinces",
+    "Link": "https://leetcode.com/problems/number-of-provinces/"
+  },
+  {
+    "Description": "All Paths from Source Lead to Destination",
+    "Link": "https://leetcode.com/problems/all-paths-from-source-lead-to-destination/"
+  },
+  {
+    "Description": "All Paths From Source to Target",
+    "Link": "https://leetcode.com/problems/all-paths-from-source-to-target/"
+  },
+  {
+    "Description": "Reconstruct Itinerary",
+    "Link": "https://leetcode.com/problems/reconstruct-itinerary/"
+  },
+  {
+    "Description": "Letter Tile Possibilities",
+    "Link": "https://leetcode.com/problems/letter-tile-possibilities/"
+  },
+  {
+    "Description": "Parallel Courses",
+    "Link": "https://leetcode.com/problems/parallel-courses/"
+  },
+  {
+    "Description": "Can Place Flowers",
+    "Link": "https://leetcode.com/problems/can-place-flowers/"
+  },
+  {
+    "Description": "Maximum Score",
+    "Link": "https://leetcode.com/problems/maximum-score-from-removing-stones/"
+  },
+  {
+    "Description": "Find the container with the maximum water",
+    "Link": "https://leetcode.com/problems/container-with-most-water/"
+  },
+  {
+    "Description": "Best Time To Buy And Sell Stocks",
+    "Link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
+  },
+  {
+    "Description": "Maximum Swap",
+    "Link": "https://leetcode.com/problems/maximum-swap/"
+  },
+  {
+    "Description": "Maximum Units on a Truck",
+    "Link": "https://leetcode.com/problems/maximum-units-on-a-truck/"
+  },
+  {
+    "Description": "Verifying an Alien Dictionary",
+    "Link": "https://leetcode.com/problems/verifying-an-alien-dictionary/"
+  },
+  {
+    "Description": "Continuous Subarray Sum",
+    "Link": "https://leetcode.com/problems/continuous-subarray-sum/"
+  },
+  {
+    "Description": "Check if a duplicate exists in an array in O(N)",
+    "Link": "https://leetcode.com/problems/contains-duplicate/"
+  },
+  {
+    "Description": "First Unique Character in a String",
+    "Link": "https://leetcode.com/problems/first-unique-character-in-a-string/"
+  },
+  {
+    "Description": "Find all collection of four elements that have sum equal to K",
+    "Link": "https://leetcode.com/problems/4sum/"
+  },
+  {
+    "Description": "Group Anagrams",
+    "Link": "https://leetcode.com/problems/group-anagrams/"
+  },
+  {
+    "Description": "Design a HitCounter",
+    "Link": "https://leetcode.com/problems/design-hit-counter/"
+  },
+  {
+    "Description": "Count number of jewels and stones in a collection",
+    "Link": "https://leetcode.com/problems/jewels-and-stones/"
+  },
+  {
+    "Description": "Logger Rate Limiter",
+    "Link": "https://leetcode.com/problems/logger-rate-limiter/"
+  },
+  {
+    "Description": "Find the majority element in an array",
+    "Link": "https://leetcode.com/problems/majority-element/"
+  },
+  {
+    "Description": "Find the missing number in an array",
+    "Link": "https://leetcode.com/problems/missing-number/"
+  },
+  {
+    "Description": "Number of matching subsequences in an array",
+    "Link": "https://leetcode.com/problems/number-of-matching-subsequences/"
+  },
+  {
+    "Description": "Random Pick Index",
+    "Link": "https://leetcode.com/problems/random-pick-index/"
+  },
+  {
+    "Description": "Add two sparse vectors",
+    "Link": "https://leetcode.com/problems/dot-product-of-two-sparse-vectors/"
+  },
+  {
+    "Description": "Subarray Sum Equals K",
+    "Link": "https://leetcode.com/problems/subarray-sum-equals-k/"
+  },
+  {
+    "Description": "3Sum - Find a triplet with a given sum",
+    "Link": "https://leetcode.com/problems/3sum/"
+  },
+  {
+    "Description": "Design a time-based key-value data structure",
+    "Link": "https://leetcode.com/problems/time-based-key-value-store/"
+  },
+  {
+    "Description": "Design a Trie",
+    "Link": "https://leetcode.com/problems/implement-trie-prefix-tree/"
+  },
+  {
+    "Description": "Find if there are two numbers with a specific target sum",
+    "Link": "https://leetcode.com/problems/two-sum/"
+  },
+  {
+    "Description": "Shortest Completing Word",
+    "Link": "https://leetcode.com/problems/shortest-completing-word/"
+  },
+  {
+    "Description": "Remove Duplicates from Sorted Array",
+    "Link": "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+  },
+  {
+    "Description": "Design an Ordered Stream",
+    "Link": "https://leetcode.com/problems/design-an-ordered-stream/"
+  },
+  {
+    "Description": "Insert Delete GetRandom O(1)",
+    "Link": "https://leetcode.com/problems/insert-delete-getrandom-o1/"
+  },
+  {
+    "Description": "Dot Product of Two Sparse Vectors",
+    "Link": "https://leetcode.com/problems/dot-product-of-two-sparse-vectors/"
+  },
+  {
+    "Description": "Group Shifted Strings",
+    "Link": "https://leetcode.com/problems/group-shifted-strings/"
+  },
+  {
+    "Description": "Tweet Counts Per Frequency",
+    "Link": "https://leetcode.com/problems/tweet-counts-per-frequency/"
+  },
+  {
+    "Description": "Two Sum III - Data structure design",
+    "Link": "https://leetcode.com/problems/two-sum-iii-data-structure-design/"
+  },
+  {
+    "Description": "Uncommon Words from Two Sentences",
+    "Link": "https://leetcode.com/problems/uncommon-words-from-two-sentences/"
+  },
+  {
+    "Description": "Word Pattern",
+    "Link": "https://leetcode.com/problems/word-pattern/"
+  },
+  {
+    "Description": "Kth Smallest Element in a Sorted Matrix",
+    "Link": "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/"
+  },
+  {
+    "Description": "Last Stone Weight",
+    "Link": "https://leetcode.com/problems/last-stone-weight/"
+  },
+  {
+    "Description": "Reorganize String",
+    "Link": "https://leetcode.com/problems/reorganize-string/"
+  },
+  {
+    "Description": "Top K Frequent Words",
+    "Link": "https://leetcode.com/problems/top-k-frequent-words/"
+  },
+  {
+    "Description": "Kth Largest Element in an Array",
+    "Link": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
+  },
+  {
+    "Description": "Top K Frequent Elements",
+    "Link": "https://leetcode.com/problems/top-k-frequent-elements/"
+  },
+  {
+    "Description": "Sort Characters By Frequency",
+    "Link": "https://leetcode.com/problems/sort-characters-by-frequency/"
+  },
+  {
+    "Description": "Insert new interval in non-overlapping intervals",
+    "Link": "https://leetcode.com/problems/insert-interval/"
+  },
+  {
+    "Description": "Merge all overlapping intervals",
+    "Link": "https://leetcode.com/problems/merge-intervals/"
+  },
+  {
+    "Description": "Find non-overlapping meeting rooms",
+    "Link": "https://leetcode.com/problems/non-overlapping-intervals/"
+  },
+  {
+    "Description": "Detect a cycle in a linked-list",
+    "Link": "https://leetcode.com/problems/linked-list-cycle/"
+  },
+  {
+    "Description": "Binary Tree To Doubly Linked List",
+    "Link": "https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/"
+  },
+  {
+    "Description": "Delete Node in a Linked List",
+    "Link": "https://leetcode.com/problems/delete-node-in-a-linked-list/"
+  },
+  {
+    "Description": "Find the middle of a linked-list",
+    "Link": "https://leetcode.com/problems/middle-of-the-linked-list/"
+  },
+  {
+    "Description": "Merge Two Sorted Lists",
+    "Link": "https://leetcode.com/problems/merge-two-sorted-lists/"
+  },
+  {
+    "Description": "Reverse a linked-list",
+    "Link": "https://leetcode.com/problems/reverse-linked-list/"
+  },
+  {
+    "Description": "Design an LRU Cache",
+    "Link": "https://leetcode.com/problems/lru-cache/"
+  },
+  {
+    "Description": "Insert into a Sorted Circular Linked List",
+    "Link": "https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/"
+  },
+  {
+    "Description": "Intersection of Two Linked Lists",
+    "Link": "https://leetcode.com/problems/intersection-of-two-linked-lists/"
+  },
+  {
+    "Description": "Merge k Sorted Lists",
+    "Link": "https://leetcode.com/problems/merge-k-sorted-lists/"
+  },
+  {
+    "Description": "Design a SkipList",
+    "Link": "https://leetcode.com/problems/design-skiplist/"
+  },
+  {
+    "Description": "Write an algorithm to re-order a linked-list",
+    "Link": "https://leetcode.com/problems/reorder-list/"
+  },
+  {
+    "Description": "Palindrome Linked List",
+    "Link": "https://leetcode.com/problems/palindrome-linked-list/"
+  },
+  {
+    "Description": "Add Two Numbers",
+    "Link": "https://leetcode.com/problems/add-two-numbers/"
+  },
+  {
+    "Description": "Swap Nodes in Pairs",
+    "Link": "https://leetcode.com/problems/swap-nodes-in-pairs/"
+  },
+  {
+    "Description": "K Closest Points to Origin",
+    "Link": "https://leetcode.com/problems/k-closest-points-to-origin/"
+  },
+  {
+    "Description": "Kth Largest Element in a Stream",
+    "Link": "https://leetcode.com/problems/kth-largest-element-in-a-stream/"
+  },
+  {
+    "Description": "Maximum Average Pass Ratio",
+    "Link": "https://leetcode.com/problems/maximum-average-pass-ratio/"
+  },
+  {
+    "Description": "Find word in a matrix",
+    "Link": "https://leetcode.com/problems/word-search/"
+  },
+  {
+    "Description": "Find spiral order in a matrix",
+    "Link": "https://leetcode.com/problems/spiral-matrix/"
+  },
+  {
+    "Description": "Robot Bounded In Circle",
+    "Link": "https://leetcode.com/problems/robot-bounded-in-circle/"
+  },
+  {
+    "Description": "Find the longest consecutive element sequence",
+    "Link": "https://leetcode.com/problems/longest-consecutive-sequence/solution/"
+  },
+  {
+    "Description": "Toeplitz Matrix",
+    "Link": "https://leetcode.com/problems/toeplitz-matrix/"
+  },
+  {
+    "Description": "Tic Tac Toe",
+    "Link": "https://leetcode.com/problems/design-tic-tac-toe/"
+  },
+  {
+    "Description": "Number Of Islands",
+    "Link": "https://leetcode.com/problems/number-of-islands/"
+  },
+  {
+    "Description": "Minimum Path Sum",
+    "Link": "https://leetcode.com/problems/minimum-path-sum/"
+  },
+  {
+    "Description": "Max Area Of Island",
+    "Link": "https://leetcode.com/problems/max-area-of-island/"
+  },
+  {
+    "Description": "Longest Line Of Ones",
+    "Link": "https://leetcode.com/problems/max-area-of-island/"
+  },
+  {
+    "Description": "Island Perimeter",
+    "Link": "https://leetcode.com/problems/island-perimeter/"
+  },
+  {
+    "Description": "Find the customer with the maximum wealth",
+    "Link": "https://leetcode.com/problems/richest-customer-wealth/"
+  },
+  {
+    "Description": "Flood Fill",
+    "Link": "https://leetcode.com/problems/flood-fill/"
+  },
+  {
+    "Description": "Farmland Groups",
+    "Link": "https://leetcode.com/problems/find-all-groups-of-farmland/"
+  },
+  {
+    "Description": "Best Meeting Spot",
+    "Link": "https://leetcode.com/problems/best-meeting-point/"
+  },
+  {
+    "Description": "Reverse a 32-bit integer",
+    "Link": "https://leetcode.com/problems/reverse-integer/"
+  },
+  {
+    "Description": "Word Dictionary",
+    "Link": "https://leetcode.com/problems/design-add-and-search-words-data-structure/"
+  },
+  {
+    "Description": "Valid Perfect Square",
+    "Link": "https://leetcode.com/problems/valid-perfect-square/"
+  },
+  {
+    "Description": "Valid Parantheses",
+    "Link": "https://leetcode.com/problems/valid-parentheses/"
+  },
+  {
+    "Description": "Underground System",
+    "Link": "https://leetcode.com/problems/design-underground-system/"
+  },
+  {
+    "Description": "Strobogrammatic Number",
+    "Link": "https://leetcode.com/problems/strobogrammatic-number/"
+  },
+  {
+    "Description": "Roman To Integer",
+    "Link": "https://leetcode.com/problems/roman-to-integer/"
+  },
+  {
+    "Description": "Num Teams",
+    "Link": "https://leetcode.com/problems/count-number-of-teams/"
+  },
+  {
+    "Description": "Nested Iterator",
+    "Link": "https://leetcode.com/problems/flatten-nested-list-iterator/"
+  },
+  {
+    "Description": "Moving Average",
+    "Link": "https://leetcode.com/problems/moving-average-from-data-stream/"
+  },
+  {
+    "Description": "Accounts Merge",
+    "Link": "https://leetcode.com/problems/accounts-merge/"
+  },
+  {
+    "Description": "Robot Bounded In Circle",
+    "Link": "https://leetcode.com/problems/robot-bounded-in-circle/"
+  },
+  {
+    "Description": "Fizz Buzz",
+    "Link": "https://leetcode.com/problems/fizz-buzz/"
+  },
+  {
+    "Description": "Implement Binary Search",
+    "Link": "https://leetcode.com/problems/binary-search/"
+  },
+  {
+    "Description": "Search Insert Position",
+    "Link": "https://leetcode.com/problems/search-insert-position/"
+  },
+  {
+    "Description": "Find Minimum in Rotated Sorted Array",
+    "Link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+  },
+  {
+    "Description": "Implement Bubble Sort",
+    "Link": "https://leetcode.com/problems/sort-an-array/"
+  },
+  {
+    "Description": "Design an algorithm to sort colors in a collection",
+    "Link": "https://leetcode.com/problems/sort-colors/"
+  },
+  {
+    "Description": "Implement Insert Sort",
+    "Link": "https://leetcode.com/problems/sort-an-array/"
+  },
+  {
+    "Description": "Implement Heap Sort",
+    "Link": "https://leetcode.com/problems/sort-an-array/"
+  },
+  {
+    "Description": "Implement Merge Sort",
+    "Link": "https://leetcode.com/problems/sort-an-array/"
+  },
+  {
+    "Description": "Implement Quick Sort",
+    "Link": "https://leetcode.com/problems/sort-an-array/"
+  },
+  {
+    "Description": "Calculate a student's top five average",
+    "Link": "https://leetcode.com/problems/high-five/"
+  },
+  {
+    "Description": "Sort strings in a sentence",
+    "Link": "https://leetcode.com/problems/sorting-the-sentence/"
+  },
+  {
+    "Description": "Check if two strings are valid anagrams",
+    "Link": "https://leetcode.com/problems/valid-anagram/"
+  },
+  {
+    "Description": "Two Sum Less Than K",
+    "Link": "https://leetcode.com/problems/two-sum-less-than-k/"
+  },
+  {
+    "Description": "Text Justification",
+    "Link": "https://leetcode.com/problems/text-justification/"
+  },
+  {
+    "Description": "Reorder Data in Log Files",
+    "Link": "https://leetcode.com/problems/reorder-data-in-log-files/"
+  },
+  {
+    "Description": "Minimum Difference Between Largest and Smallest Value in Three Moves",
+    "Link": "https://leetcode.com/problems/minimum-difference-between-largest-and-smallest-value-in-three-moves/"
+  },
+  {
+    "Description": "Asteroid Collision",
+    "Link": "https://leetcode.com/problems/asteroid-collision/"
+  },
+  {
+    "Description": "Basic Calculator",
+    "Link": "https://leetcode.com/problems/basic-calculator-ii/"
+  },
+  {
+    "Description": "Crawler Log Folder",
+    "Link": "https://leetcode.com/problems/valid-parentheses"
+  },
+  {
+    "Description": "Check if a string has valid parantheses",
+    "Link": "https://leetcode.com/problems/valid-parentheses"
+  },
+  {
+    "Description": "Make The String Great",
+    "Link": "https://leetcode.com/problems/make-the-string-great/"
+  },
+  {
+    "Description": "Make String Valid",
+    "Link": "https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/"
+  },
+  {
+    "Description": "Max Nesting Depth",
+    "Link": "https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses"
+  },
+  {
+    "Description": "Max Stack",
+    "Link": "https://leetcode.com/problems/max-stack/"
+  },
+  {
+    "Description": "Min Stack",
+    "Link": "https://leetcode.com/problems/min-stack/"
+  },
+  {
+    "Description": "Implement Queue using Stacks",
+    "Link": "https://leetcode.com/problems/implement-queue-using-stacks/"
+  },
+  {
+    "Description": "Design an algorithm to encode a list of strings to a string",
+    "Link": "https://leetcode.com/problems/encode-and-decode-strings/"
+  },
+  {
+    "Description": "Given a valid IPv4 address, find a defanged version of that IP address",
+    "Link": "https://leetcode.com/problems/defanging-an-ip-address/"
+  },
+  {
+    "Description": "Decode a string with a specific encoding",
+    "Link": "https://leetcode.com/problems/decode-string/"
+  },
+  {
+    "Description": "Implement strStr()",
+    "Link": "https://leetcode.com/problems/implement-strstr/"
+  },
+  {
+    "Description": "Remove vowels from a string",
+    "Link": "https://leetcode.com/problems/remove-vowels-from-a-string/"
+  },
+  {
+    "Description": "Find a happy substring from a given string",
+    "Link": "https://leetcode.com/problems/longest-happy-string/"
+  },
+  {
+    "Description": "Check if Word Equals Summation of Two Words",
+    "Link": "https://leetcode.com/problems/check-if-word-equals-summation-of-two-words/"
+  },
+  {
+    "Description": "Check if two strings are buddy strings",
+    "Link": "https://leetcode.com/problems/buddy-strings/"
+  },
+  {
+    "Description": "Find the longest common prefix from an array of strings",
+    "Link": "https://leetcode.com/problems/longest-common-prefix/"
+  },
+  {
+    "Description": "Excel Sheet Column Title",
+    "Link": "https://leetcode.com/problems/excel-sheet-column-title/"
+  },
+  {
+    "Description": "Shuffle String",
+    "Link": "https://leetcode.com/problems/shuffle-string/"
+  },
+  {
+    "Description": "Add Binary",
+    "Link": "https://leetcode.com/problems/add-binary/"
+  },
+  {
+    "Description": "Valid Palindrome",
+    "Link": "https://leetcode.com/problems/valid-palindrome/"
+  },
+  {
+    "Description": "Decode String",
+    "Link": "https://leetcode.com/problems/decode-string/"
+  },
+  {
+    "Description": "Palindrome Permutation",
+    "Link": "https://leetcode.com/problems/palindrome-permutation/"
+  },
+  {
+    "Description": "Ransom Note",
+    "Link": "https://leetcode.com/problems/ransom-note/"
+  },
+  {
+    "Description": "Reverse String",
+    "Link": "https://leetcode.com/problems/reverse-string/"
+  },
+  {
+    "Description": "Longest Substring Without Repeating Characters",
+    "Link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+  },
+  {
+    "Description": "Longest Uncommon Subsequence I",
+    "Link": "https://leetcode.com/problems/longest-uncommon-subsequence-i/"
+  },
+  {
+    "Description": "Goat Latin",
+    "Link": "https://leetcode.com/problems/goat-latin/"
+  },
+  {
+    "Description": "Add String",
+    "Link": "https://leetcode.com/problems/add-strings/"
+  },
+  {
+    "Description": "Backspace String Compare",
+    "Link": "https://leetcode.com/problems/backspace-string-compare/"
+  },
+  {
+    "Description": "Average of Levels in Binary Tree",
+    "Link": "https://leetcode.com/problems/average-of-levels-in-binary-tree/"
+  },
+  {
+    "Description": "Validate a binary search tree",
+    "Link": "https://leetcode.com/problems/validate-binary-search-tree/"
+  },
+  {
+    "Description": "Find the Kth smallest element in a binary search tree",
+    "Link": "https://leetcode.com/problems/kth-smallest-element-in-a-bst/"
+  },
+  {
+    "Description": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "Link": "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/"
+  },
+  {
+    "Description": "Invert a binary tree",
+    "Link": "https://leetcode.com/problems/invert-binary-tree/"
+  },
+  {
+    "Description": "Print the level order traversal of a binary tree",
+    "Link": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+  },
+  {
+    "Description": "Find the lowest common ancestor of two nodes in a subtree",
+    "Link": "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/"
+  },
+  {
+    "Description": "Find the maximum depth of a binary tree",
+    "Link": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
+  },
+  {
+    "Description": "Find if a path has a specific sum",
+    "Link": "https://leetcode.com/problems/path-sum/"
+  },
+  {
+    "Description": "Print the level order traversal of a tree",
+    "Link": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
+  },
+  {
+    "Description": "Validate if a tree is a subtree of another tree",
+    "Link": "https://leetcode.com/problems/subtree-of-another-tree/"
+  },
+  {
+    "Description": "Serialize and Deserialize Binary Tree",
+    "Link": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
+  },
+  {
+    "Description": "Compare two binary tress",
+    "Link": "https://leetcode.com/problems/same-tree/"
+  },
+  {
+    "Description": "Check If Two Expression Trees are Equivalent",
+    "Link": "https://leetcode.com/problems/check-if-two-expression-trees-are-equivalent/"
+  },
+  {
+    "Description": "Range Sum of a binary search tree",
+    "Link": "https://leetcode.com/problems/range-sum-of-bst/"
+  },
+  {
+    "Description": "Balanced Binary Tree",
+    "Link": "https://leetcode.com/problems/balanced-binary-tree/"
+  },
+  {
+    "Description": "Binary Tree Tilt",
+    "Link": "https://leetcode.com/problems/binary-tree-tilt/"
+  },
+  {
+    "Description": "Increasing Order Search Tree",
+    "Link": "https://leetcode.com/problems/increasing-order-search-tree/"
+  },
+  {
+    "Description": "Diameter of Binary Tree",
+    "Link": "https://leetcode.com/problems/diameter-of-binary-tree/"
+  },
+  {
+    "Description": "Binary Tree Maximum Path Sum",
+    "Link": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
+  },
+  {
+    "Description": "Validate a binary search tree",
+    "Link": "https://leetcode.com/problems/validate-binary-search-tree/"
+  },
+  {
+    "Description": "Closest Binary Search Tree Value",
+    "Link": "https://leetcode.com/problems/closest-binary-search-tree-value/"
+  },
+  {
+    "Description": "Convert Sorted Array to Binary Search Tree",
+    "Link": "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/"
+  },
+  {
+    "Description": "Merge Two Binary Trees",
+    "Link": "https://leetcode.com/problems/merge-two-binary-trees/"
+  },
+  {
+    "Description": "Minimum Depth of Binary Tree",
+    "Link": "https://leetcode.com/problems/minimum-depth-of-binary-tree/"
+  },
+  {
+    "Description": "Validate if a tree is a subtree of another tree",
+    "Link": "https://leetcode.com/problems/subtree-of-another-tree/"
+  },
+  {
+    "Description": "Serialize and Deserialize Binary Tree",
+    "Link": "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
+  },
+  {
+    "Description": "Vertical Order Traversal of a Binary Tree",
+    "Link": "https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/"
+  }
+]

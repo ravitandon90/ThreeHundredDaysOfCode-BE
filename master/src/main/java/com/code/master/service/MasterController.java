@@ -53,20 +53,21 @@ public class MasterController {
         return jsonString;
     }
 
-    @GetMapping(path = "/leaderboard")
+    @GetMapping(path = "/leaderBoard")
     public String handleGetLeaderBoard() {
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
         for (UserProfile profile : userProfiles) {
-           ar.put(getUserStats(profile.getUserId()));
+           ar.put(getUserStats(profile.getUserId(), profile.getName()));
         }
+        result.put("data", ar);
         return result.toString();
     }
 
-    private JSONObject getUserStats(String userId) {
+    private JSONObject getUserStats(String userId, String userName) {
         List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
-        HashSet<Long> dates = new HashSet<>();
+        HashSet<Long> datesSet = new HashSet<>();
         ArrayList<Long> datesList = new ArrayList<>();
         int referralCount = 0;
         int numberUniqueDays = 0;
@@ -80,25 +81,26 @@ public class MasterController {
                 Date endDate = Date.from(Instant.now());
                 long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
-                dates.add(diffInDays);
-                datesList.add(diffInDays);
+                datesSet.add(diffInDays);
             }
         } catch (ParseException e) {
             System.out.printf("Error parsing date: {%s}\n", e);
         }
-        numberUniqueDays = dates.size();
+        numberUniqueDays = datesSet.size();
 
         // Step-II: Get Number of Referrals.
         List<UserProfile> userProfiles = this.userProfileRepository.findByReferrerId(userId);
         for (int idx = 0; idx < userProfiles.size(); ++idx) {
             UserProfile profile = userProfiles.get(idx);
-            if (profile.getReferrerId() != profile.getUserId()) ++referralCount;
+            if (!profile.getReferrerId().equalsIgnoreCase(profile.getUserId())) ++referralCount;
         }
 
         // Step-III: Get The Longest Streak.
+        datesList.addAll(datesSet);
         Collections.sort(datesList);
+
         int currRun = 0;
-        for (int idx = 0; idx < datesList.size(); ++idx) {
+        for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
             final long diff = datesList.get(idx + 1) - datesList.get(idx);
             if (diff == 0) continue;
             if (diff == 1) {
@@ -108,7 +110,9 @@ public class MasterController {
                 currRun = 1;
             }
         }
+        if (datesList.size() > 0) longestStreak++;
         return new JSONObject()
+                .put("name", userName)
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
                 .put("longestStreak", longestStreak);
@@ -132,7 +136,8 @@ public class MasterController {
         JSONObject object = new JSONObject();
         object.put("problemName", submission.getProblemName())
               .put("problemLink", submission.getProblemLink())
-              .put("solutionLink", submission.getSolutionLink());
+              .put("solutionLink", submission.getSolutionLink())
+              .put("submissionDate", submission.getCreatedAt());
         return object;
     }
 
@@ -147,13 +152,8 @@ public class MasterController {
             ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
             if (problemDescription != null) {
                 String jsonString = new JSONObject()
-                        .put("title", problemDescription.getTitle())
-                        .put("id", problemDescription.getIndex())
-                        .put("complexity", problemDescription.getComplexity())
-                        .put("url", problemDescription.getDescription())
-                        .put("description", problemDescription.getDescription())
-                        .put("example", problemDescription.getExample())
-                        .put("constraints", problemDescription.getConstraints())
+                        .put("problemName", problemDescription.getTitle())
+                        .put("problemLink", problemDescription.getUrl())
                         .toString();
                 return jsonString;
             }
@@ -169,6 +169,7 @@ public class MasterController {
         final String userId = user.getName();
         UserSubmission userSubmission = new UserSubmission();
         userSubmission.setUserId(userId);
+        userSubmission.setProblemName(request.getProblemName());
         userSubmission.setProblemLink(request.getProblemLink());
         userSubmission.setSolutionLink(request.getSolutionLink());
         this.userSubmissionRepository.save(userSubmission);
@@ -188,7 +189,13 @@ public class MasterController {
     public String handleUpdateProfile(
             @RequestBody UpdateProfileHTTPRequest request,
             Principal user) {
-        UserProfile userProfile = new UserProfile(user.getName(), request.getEmail());
+        final String userId = user.getName();
+        UserProfile oldProfile = this.userProfileRepository.getByUserId(userId);
+        System.out.printf("Previous profile of the user: {%s}\n", oldProfile.toString());
+        UserProfile userProfile = new UserProfile(userId, request.getEmail());
+        if (oldProfile != null) {
+            userProfile.setReferrerId(oldProfile.getReferrerId());
+        }
         if (!request.getName().isEmpty()) {
             userProfile.setName(request.getName());
         }
