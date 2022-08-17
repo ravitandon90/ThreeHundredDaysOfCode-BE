@@ -30,6 +30,8 @@ public class MasterServiceApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 for (String api : apiList) {
                     registry.addMapping(api).allowedOrigins(allowedURLs);
+                    final String googleAPI = "/google" + api;
+                    registry.addMapping(googleAPI).allowedOrigins(allowedURLs);
                 }
             }
         };

@@ -10,10 +10,7 @@ import org.apache.catalina.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.text.ParseException;
@@ -39,30 +36,153 @@ public class MasterController {
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
-        final String userId = user.getName();
-        // Step-I: Get data from the database.
-        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
-        if (userProfile == null) return "{}";
+        return GetProfile(user.getName());
+    }
 
-        // Step-II: Translate this into a JSON & send response back to the client.
-        String jsonString = new JSONObject()
-                .put("name", userProfile.getName())
-                .put("email", userProfile.getEmailId())
-                .put("org", userProfile.getOrg())
-                .toString();
-        return jsonString;
+    @GetMapping
+    public String handleGoogleGetProfile(@RequestParam(value = "userId") String userId) {
+        return GetProfile(userId);
+    }
+
+    @GetMapping("/google/leaderBoard")
+    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId) {
+        return GetLeaderBoard();
     }
 
     @GetMapping(path = "/leaderBoard")
     public String handleGetLeaderBoard() {
-        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
-        JSONObject result = new JSONObject();
-        JSONArray ar = new JSONArray();
-        for (UserProfile profile : userProfiles) {
-           ar.put(getUserStats(profile.getUserId(), profile.getName()));
+        return GetLeaderBoard();
+    }
+
+    @GetMapping(path = "/mySubmissions")
+    public String handleGetMySubmissions(Principal user) {
+        return GetMySubmissions(user.getName());
+    }
+    @GetMapping(path = "/google/mySubmissions")
+    public String handleGetMySubmissions(@RequestParam(value = "userId") String userId) {
+        return GetMySubmissions(userId);
+    }
+
+    @GetMapping(path = "/problem")
+    public String handleGetProblemOfTheDay(Principal user) { return GetProblemOfTheDay(); }
+    @GetMapping(path = "/google/problem")
+    public String handleGoogleGetProblemOfTheDay() { return GetProblemOfTheDay(); }
+
+    @PostMapping(path = "/submitCode")
+    public String handleCodeSubmission(
+            @RequestBody SubmitCodeHTTPRequest request, Principal user) {
+        return SubmitCode(request);
+    }
+
+    @PostMapping(path = "/google/submitCode")
+    public String handleGoogleSubmitCode(@RequestBody SubmitCodeHTTPRequest request) {
+        return SubmitCode(request);
+    }
+
+    @PostMapping(path = "/createProfile")
+    public String handleCreateProfile(
+            @RequestBody CreateProfileHTTPRequest request, Principal user) {
+        return CreateProfile(user.getName(), request.getEmailId(), request.getUserName(), request.getReferrerId());
+    }
+
+    @PostMapping(path = "/google/createProfile")
+    public String handleCreateProfile(@RequestBody CreateProfileHTTPRequest request) {
+        return CreateProfile(request.getUserId(), request.getEmailId(), request.getUserName(), request.getReferrerId());
+    }
+
+    @PostMapping(path = "/updateProfile")
+    public String handleUpdateProfile(@RequestBody UpdateProfileHTTPRequest request, Principal user) {
+        return UpdateProfile(request);
+    }
+
+    @PostMapping(path = "/google/updateProfile")
+    public String handleGoogleUpdateProfile(@RequestBody UpdateProfileHTTPRequest request) {
+        return UpdateProfile(request);
+    }
+
+    private String GetMySubmissions(String userId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission);
+            arr.put(submissionJSONObject);
         }
-        result.put("data", ar);
-        return result.toString();
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private JSONObject ToJSONObject(UserSubmission submission) {
+        JSONObject object = new JSONObject();
+        object.put("problemName", submission.getProblemName())
+                .put("problemLink", submission.getProblemLink())
+                .put("solutionLink", submission.getSolutionLink())
+                .put("submissionDate", submission.getCreatedAt());
+        return object;
+    }
+
+    private String SubmitCode(SubmitCodeHTTPRequest request) {
+        UserSubmission userSubmission = new UserSubmission();
+        userSubmission.setUserId(request.getUserId());
+        userSubmission.setProblemName(request.getProblemName());
+        userSubmission.setProblemLink(request.getProblemLink());
+        userSubmission.setSolutionLink(request.getSolutionLink());
+        this.userSubmissionRepository.save(userSubmission);
+        return new JSONObject().put("message", "Success").toString();
+    }
+
+    private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {
+        // Check if the profile already exists in the database.
+        UserProfile profile = this.userProfileRepository.getByUserId(userId);
+        // Create a new profile if it already does not exist in the database.
+        if (profile == null) {
+            // If not create the profile.
+            UserProfile userProfile = new UserProfile(userId, userEmailId);
+            userProfile.setName(userName);
+            userProfile.setReferrerId(referrerId);
+            this.userProfileRepository.save(userProfile);
+        }
+        return new JSONObject().put("message", "Success").toString();
+    }
+
+    @PostMapping
+    private String UpdateProfile(UpdateProfileHTTPRequest request) {
+        final String userId = request.getUserId();
+        UserProfile oldProfile = this.userProfileRepository.getByUserId(userId);
+        System.out.printf("Previous profile of the user: {%s}\n", oldProfile.toString());
+        UserProfile userProfile = new UserProfile(userId, request.getEmail());
+        if (oldProfile != null) {
+            userProfile.setReferrerId(oldProfile.getReferrerId());
+        }
+        if (!request.getName().isEmpty()) {
+            userProfile.setName(request.getName());
+        }
+        if (!request.getOrg().isEmpty()) {
+            userProfile.setOrg(request.getOrg());
+        }
+        this.userProfileRepository.save(userProfile);
+        return new JSONObject().put("message", "Success").toString();
+    }
+
+    private String GetProblemOfTheDay() {
+        try {
+            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            Date startDate = parser.parse(Constants.START_DATE);
+            Date endDate = Date.from(Instant.now());
+            long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+            long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+            ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+            if (problemDescription != null) {
+                String jsonString = new JSONObject()
+                        .put("problemName", problemDescription.getTitle())
+                        .put("problemLink", problemDescription.getUrl())
+                        .toString();
+                return jsonString;
+            }
+        } catch (ParseException e) {
+            System.out.printf("Error parsing date: {%s}\n", e);
+        }
+        return "{}";
     }
 
     private JSONObject getUserStats(String userId, String userName) {
@@ -118,91 +238,28 @@ public class MasterController {
                 .put("longestStreak", longestStreak);
     }
 
-    @GetMapping(path = "/mySubmissions")
-    public String handleGetMySubmissions(Principal user) {
-        final String userId = user.getName();
-        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
-        JSONObject object = new JSONObject();
-        JSONArray arr = new JSONArray();
-        for (UserSubmission submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission);
-            arr.put(submissionJSONObject);
-        }
-        object.put("data", arr);
-        return object.toString();
+    private String GetProfile(String userId) {
+        // Step-I: Get data from the database.
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        if (userProfile == null) return "{}";
+
+        // Step-II: Translate this into a JSON & send response back to the client.
+        String jsonString = new JSONObject()
+                .put("name", userProfile.getName())
+                .put("email", userProfile.getEmailId())
+                .put("org", userProfile.getOrg())
+                .toString();
+        return jsonString;
     }
 
-    private JSONObject ToJSONObject(UserSubmission submission) {
-        JSONObject object = new JSONObject();
-        object.put("problemName", submission.getProblemName())
-              .put("problemLink", submission.getProblemLink())
-              .put("solutionLink", submission.getSolutionLink())
-              .put("submissionDate", submission.getCreatedAt());
-        return object;
-    }
-
-    @GetMapping(path = "/problem")
-    public String handleGetProblemOfTheDay(Principal user) {
-        try {
-            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-            Date startDate = parser.parse(Constants.START_DATE);
-            Date endDate = Date.from(Instant.now());
-            long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
-            long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
-            ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
-            if (problemDescription != null) {
-                String jsonString = new JSONObject()
-                        .put("problemName", problemDescription.getTitle())
-                        .put("problemLink", problemDescription.getUrl())
-                        .toString();
-                return jsonString;
-            }
-        } catch (ParseException e) {
-            System.out.printf("Error parsing date: {%s}\n", e);
+    private String GetLeaderBoard() {
+        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+        JSONObject result = new JSONObject();
+        JSONArray ar = new JSONArray();
+        for (UserProfile profile : userProfiles) {
+            ar.put(getUserStats(profile.getUserId(), profile.getName()));
         }
-        return "{}";
-    }
-
-    @PostMapping(path = "/submitCode")
-    public String handleCodeSubmission(
-            @RequestBody SubmitCodeHTTPRequest request, Principal user) {
-        final String userId = user.getName();
-        UserSubmission userSubmission = new UserSubmission();
-        userSubmission.setUserId(userId);
-        userSubmission.setProblemName(request.getProblemName());
-        userSubmission.setProblemLink(request.getProblemLink());
-        userSubmission.setSolutionLink(request.getSolutionLink());
-        this.userSubmissionRepository.save(userSubmission);
-        return new JSONObject().put("message", "Success").toString();
-    }
-
-    @PostMapping(path = "/createProfile")
-    public String handleCreateProfile(
-            @RequestBody CreateProfileHTTPRequest request, Principal user) {
-        UserProfile userProfile = new UserProfile(user.getName(), request.getEmailId());
-        userProfile.setReferrerId(request.getReferrerId());
-        this.userProfileRepository.save(userProfile);
-        return new JSONObject().put("message", "Success").toString();
-    }
-
-    @PostMapping(path = "/updateProfile")
-    public String handleUpdateProfile(
-            @RequestBody UpdateProfileHTTPRequest request,
-            Principal user) {
-        final String userId = user.getName();
-        UserProfile oldProfile = this.userProfileRepository.getByUserId(userId);
-        System.out.printf("Previous profile of the user: {%s}\n", oldProfile.toString());
-        UserProfile userProfile = new UserProfile(userId, request.getEmail());
-        if (oldProfile != null) {
-            userProfile.setReferrerId(oldProfile.getReferrerId());
-        }
-        if (!request.getName().isEmpty()) {
-            userProfile.setName(request.getName());
-        }
-        if (!request.getOrg().isEmpty()) {
-            userProfile.setOrg(request.getOrg());
-        }
-        this.userProfileRepository.save(userProfile);
-        return new JSONObject().put("message", "Success").toString();
+        result.put("data", ar);
+        return result.toString();
     }
 }
