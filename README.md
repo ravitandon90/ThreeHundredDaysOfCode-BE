@@ -2,12 +2,16 @@
 This repository serves the backend system for [The Three Hundred Days Of Code Challenge](https://www.threehundreddaysofcode.com/).<br />
 To learn more about the challenge please check out [this link](https://www.threehundreddaysofcode.com/faq).
 
-Note: This setup is for running the cluster locally.
+Note: 
+1. This setup is for running the cluster locally.
+2. The codebase for the FE is present in [this repository](https://github.com/ravitandon90/fe-three-days-of-code). 
 
 # Pre-Requisites
 The following are the pre-requisites for setting up the backend cluster:
 * Docker
 * Git
+* Java 
+* MVN
 
 # Instructions to setup the backend
 1. Download the repo using the command:<br />
@@ -44,4 +48,4 @@ There are three prizes:
 3. The Coding God: The first person to complete a 300-day-long streak, will get a brand new IPhone. The solution should be your own and not copied from any other place.
 
 # Contact
-  * Ravi Tandon (LinkedIn, Email)
+  * Ravi Tandon ([LinkedIn](https://www.linkedin.com/in/ravi-tandon-b6534049/), [Email](mailto:ravitandon2@gmail.com))
