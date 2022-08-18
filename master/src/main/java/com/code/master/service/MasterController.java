@@ -8,6 +8,7 @@ import com.code.master.data.*;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
 import org.apache.catalina.User;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class MasterController {
         return GetProfile(user.getName());
     }
 
-    @GetMapping
+    @GetMapping(path = "/google/me")
     public String handleGoogleGetProfile(@RequestParam(value = "userId") String userId) {
         return GetProfile(userId);
     }
@@ -154,10 +155,10 @@ public class MasterController {
         if (oldProfile != null) {
             userProfile.setReferrerId(oldProfile.getReferrerId());
         }
-        if (!request.getName().isEmpty()) {
+        if (request.getName() != null && !request.getName().isEmpty()) {
             userProfile.setName(request.getName());
         }
-        if (!request.getOrg().isEmpty()) {
+        if (request.getOrg() != null && !request.getOrg().isEmpty()) {
             userProfile.setOrg(request.getOrg());
         }
         this.userProfileRepository.save(userProfile);
@@ -256,10 +257,53 @@ public class MasterController {
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
+        int idx = 0;
+        final String userName = "Code Ninja -";
         for (UserProfile profile : userProfiles) {
-            ar.put(getUserStats(profile.getUserId(), profile.getName()));
+            String profileName = profile.getName();
+            if (profile.getName() == null || profile.getName().isEmpty()) {
+                profileName = userName + idx;
+            }
+            JSONObject obj = getUserStats(profile.getUserId(), profileName);
+            if (obj.has("numberUniqueDays") && obj.getInt("numberUniqueDays") > 0) {
+                  ar.put(obj);
+                  idx++;
+            }
         }
-        result.put("data", ar);
+        result.put("data", Sort(ar));
         return result.toString();
+    }
+
+    private JSONArray Sort(JSONArray jsonArr) {
+        JSONArray sortedJsonArray = new JSONArray();
+        List<JSONObject> jsonValues = new ArrayList<>();
+        for (int i = 0; i < jsonArr.length(); i++) {
+            jsonValues.add(jsonArr.getJSONObject(i));
+        }
+        Collections.sort(jsonValues, new Comparator<>() {
+            private static final String KEY_NAME = "numberUniqueDays";
+
+            @Override
+            public int compare(JSONObject a, JSONObject b) {
+                int valA = 0;
+                int valB = 0;
+
+                try {
+                    valA = a.getInt(KEY_NAME);
+                    valB = b.getInt(KEY_NAME);
+                } catch (JSONException e) {
+                    System.out.println(e);
+                }
+
+                return valA - valB;
+                //if you want to change the sort order, simply use the following:
+                //return -valA.compareTo(valB);
+            }
+        });
+
+        for (int i = 0; i < jsonArr.length(); i++) {
+            sortedJsonArray.put(jsonValues.get(i));
+        }
+        return sortedJsonArray;
     }
 }
