@@ -17,10 +17,11 @@ The following are the pre-requisites for setting up the backend cluster:
 1. Download the repo using the command:<br />
    * `git clone git@github.com:ravitandon90/ThreeHundredDaysOfCode-BE.git`
 2. Setup Docker using [this link](https://docs.docker.com/get-docker/).
+3. Install maven using [this link](https://maven.apache.org/install.html) for mac `brew install maven`
 4. Go to root-directory using the command: <br />
    * `cd ThreeHundredDaysOfCode-BE`
 5. Build the backend using the following command.<br /> 
-   * `mvn clean package`
+   * `mvn clean`
 6. Deploy the backend on local using the following commands:<br />
    * `cd deployments/local` 
    * `docker-compose up`
