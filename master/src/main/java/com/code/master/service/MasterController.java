@@ -196,10 +196,10 @@ public class MasterController {
         try {
             SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
             Date startDate = parser.parse(Constants.START_DATE);
-            // Step-I: Get Number of Unique Submission Days.
+            // Step-I: Get the number of Unique Submission Days.
             for (int idx = 0; idx < submissions.size(); ++idx) {
                 Instant i = submissions.get(idx).getCreatedAt();
-                Date endDate = Date.from(Instant.now());
+                Date endDate = Date.from(i);
                 long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
                 datesSet.add(diffInDays);
