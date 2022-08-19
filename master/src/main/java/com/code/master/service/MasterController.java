@@ -193,6 +193,7 @@ public class MasterController {
         int referralCount = 0;
         int numberUniqueDays = 0;
         int longestStreak = 0;
+        int numberOfSubmissions = submissions.size();
         try {
             SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
             Date startDate = parser.parse(Constants.START_DATE);
@@ -234,6 +235,7 @@ public class MasterController {
         if (datesList.size() > 0) longestStreak++;
         return new JSONObject()
                 .put("name", userName)
+                .put ("numberOfSubmissions", numberOfSubmissions)
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
                 .put("longestStreak", longestStreak);
