@@ -1,10 +1,8 @@
 package com.code.master.service;
 
-import com.code.master.common.Constants;
-import com.code.master.common.CreateProfileHTTPRequest;
-import com.code.master.common.SubmitCodeHTTPRequest;
-import com.code.master.common.UpdateProfileHTTPRequest;
+import com.code.master.common.*;
 import com.code.master.data.*;
+import com.code.master.utils.CodeCompiler;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
 import org.apache.catalina.User;
 import org.json.JSONArray;
@@ -13,10 +11,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -101,6 +102,32 @@ public class MasterController {
         return UpdateProfile(request);
     }
 
+    @PostMapping(path = "/submissions")
+    public String handleRunCode(@RequestBody RunCodeHTTPRequest request) {
+        return runCode(request);
+    }
+
+    @PostMapping(path = "/google/submissions")
+    public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
+        return runCode(request);
+    }
+    @PostMapping(path = "/submissions")
+    public String handleRunCode(@RequestBody RunCodeHTTPRequest request, Principal user) {
+        return runCode(request);
+    }
+
+    private String runCode(RunCodeHTTPRequest request) {
+        byte[] decodedBytesProgram = Base64.getDecoder().decode(request.getSource_code());
+        byte[] decodedBytesStdIn = Base64.getDecoder().decode(request.getStdin());
+        final String decodedProgram = new String(decodedBytesProgram);
+        System.out.printf("Decoded Program: {%s}\n", decodedProgram);
+        final String decodedStdIn = new String(decodedBytesStdIn);
+        System.out.printf("Decoded Input: {%s}\n", decodedStdIn);
+        CodeCompiler compiler = new CodeCompiler();
+        compiler.run(decodedProgram, decodedStdIn, request.getLanguage_id(), "Main");
+        return new JSONObject().put("message", "Success").toString();
+    }
+
     private String GetMySubmissions(String userId) {
         List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
         JSONObject object = new JSONObject();
@@ -150,9 +177,9 @@ public class MasterController {
     private String UpdateProfile(UpdateProfileHTTPRequest request) {
         final String userId = request.getUserId();
         UserProfile oldProfile = this.userProfileRepository.getByUserId(userId);
-        System.out.printf("Previous profile of the user: {%s}\n", oldProfile.toString());
         UserProfile userProfile = new UserProfile(userId, request.getEmail());
         if (oldProfile != null) {
+            System.out.printf("Previous profile of the user: {%s}\n", oldProfile);
             userProfile.setReferrerId(oldProfile.getReferrerId());
         }
         if (request.getName() != null && !request.getName().isEmpty()) {
@@ -169,8 +196,11 @@ public class MasterController {
         try {
             SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
             Date startDate = parser.parse(Constants.START_DATE);
-            Date endDate = Date.from(Instant.now());
-            long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+            Instant nowUtc = Instant.now();
+            ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
+            ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
+            Date currentDate = Date.from(Instant.from(nowAsiaIndia));
+            long diffInMillis = Math.abs(currentDate.getTime() - startDate.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
             ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
             if (problemDescription != null) {
@@ -245,12 +275,20 @@ public class MasterController {
         // Step-I: Get data from the database.
         UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
         if (userProfile == null) return "{}";
+        String userName = userProfile.getName();
+        if (userName == null || userName.isEmpty()) {
+            userName = "Coding Ninja";
+        }
+        JSONObject userStats = getUserStats(userProfile.getUserId(), userName);
 
         // Step-II: Translate this into a JSON & send response back to the client.
         String jsonString = new JSONObject()
                 .put("name", userProfile.getName())
                 .put("email", userProfile.getEmailId())
                 .put("org", userProfile.getOrg())
+                .put("numberUniqueDays", userStats.getInt("numberUniqueDays"))
+                .put("numberOfSubmissions", userStats.getInt("numberOfSubmissions"))
+                .put("longestStreak", userStats.getInt("longestStreak"))
                 .toString();
         return jsonString;
     }

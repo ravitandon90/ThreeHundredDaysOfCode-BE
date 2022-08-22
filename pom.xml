@@ -7,6 +7,23 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.code</groupId>
+        <artifactId>master</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 <parent>
     <groupId>org.springframework.boot</groupId>

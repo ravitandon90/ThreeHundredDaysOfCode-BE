@@ -20,10 +20,15 @@ public class MasterServiceApplication {
                 "https://threehundreddaysofcode.com/",        "http://threehundreddaysofcode.com",
                 "https://www.threehundreddaysofcode.com/", "http://www.threehundreddaysofcode.com",
                 "https://code-api.threehundreddaysofcode.com/", "http://code-api.threehundreddaysofcode.com",
-                "https://www.code-api.threehundreddaysofcode.com/", "http://www.code-api.threehundreddaysofcode.com"
+                "https://www.code-api.threehundreddaysofcode.com/", "http://www.code-api.threehundreddaysofcode.com",
+                "https://master.d1ai8g2pfn1x6u.amplifyapp.com"
         };
 
-        final String[] apiList = {"/me", "/leaderBoard", "/problem", "/", "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions" };
+        final String[] apiList = {
+                "/me", "/leaderBoard", "/problem", "/",
+                "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions",
+                "/submissions"
+        };
 
         return new WebMvcConfigurer() {
             @Override
