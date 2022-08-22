@@ -4,14 +4,12 @@ import com.code.master.common.*;
 import com.code.master.data.*;
 import com.code.master.utils.CodeCompiler;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
-import org.apache.catalina.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,13 +45,13 @@ public class MasterController {
     }
 
     @GetMapping("/google/leaderBoard")
-    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId) {
-        return GetLeaderBoard();
+    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId, @RequestParam(value = "timeFilter") String timeFilter) {
+        return GetLeaderBoard(timeFilter);
     }
 
     @GetMapping(path = "/leaderBoard")
-    public String handleGetLeaderBoard() {
-        return GetLeaderBoard();
+    public String handleGetLeaderBoard(@RequestParam(value = "timeFilter") String timeFilter) {
+        return GetLeaderBoard(timeFilter);
     }
 
     @GetMapping(path = "/mySubmissions")
@@ -111,10 +109,7 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
-    @PostMapping(path = "/submissions")
-    public String handleRunCode(@RequestBody RunCodeHTTPRequest request, Principal user) {
-        return runCode(request);
-    }
+
 
     private String runCode(RunCodeHTTPRequest request) {
         byte[] decodedBytesProgram = Base64.getDecoder().decode(request.getSource_code());
@@ -216,8 +211,26 @@ public class MasterController {
         return "{}";
     }
 
-    private JSONObject getUserStats(String userId, String userName) {
-        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+    private static Date firstDayOfWeek(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.DAY_OF_WEEK, 1);
+        return calendar.getTime();
+    }
+
+    private JSONObject getUserStats(String userId, String userName, String timeFilter) {
+        List<UserSubmission> submissions = null;
+
+        // Step-I: Calculate start of the start this week.
+        if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
+            Instant nowUtc = Instant.now();
+            ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
+            ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
+            Date currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia)));
+            submissions = this.userSubmissionRepository.findByUserIdAndByCreatedAtGreateThan(userId, currentDate);
+        } else { // TimeFilter = ANY-Time
+            submissions = this.userSubmissionRepository.findByUserId(userId);
+        }
         HashSet<Long> datesSet = new HashSet<>();
         ArrayList<Long> datesList = new ArrayList<>();
         int referralCount = 0;
@@ -279,7 +292,7 @@ public class MasterController {
         if (userName == null || userName.isEmpty()) {
             userName = "Coding Ninja";
         }
-        JSONObject userStats = getUserStats(userProfile.getUserId(), userName);
+        JSONObject userStats = getUserStats(userProfile.getUserId(), userName, "ANY_TIME");
 
         // Step-II: Translate this into a JSON & send response back to the client.
         String jsonString = new JSONObject()
@@ -293,7 +306,7 @@ public class MasterController {
         return jsonString;
     }
 
-    private String GetLeaderBoard() {
+    private String GetLeaderBoard(String timeFilter) {
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
@@ -304,7 +317,7 @@ public class MasterController {
             if (profile.getName() == null || profile.getName().isEmpty()) {
                 profileName = userName + idx;
             }
-            JSONObject obj = getUserStats(profile.getUserId(), profileName);
+            JSONObject obj = getUserStats(profile.getUserId(), profileName, timeFilter);
             if (obj.has("numberUniqueDays") && obj.getInt("numberUniqueDays") > 0) {
                   ar.put(obj);
                   idx++;
