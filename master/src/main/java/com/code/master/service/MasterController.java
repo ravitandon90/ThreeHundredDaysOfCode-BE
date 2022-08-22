@@ -153,7 +153,10 @@ public class MasterController {
         userSubmission.setProblemLink(request.getProblemLink());
         userSubmission.setSolutionLink(request.getSolutionLink());
         this.userSubmissionRepository.save(userSubmission);
-        return new JSONObject().put("message", "Success").toString();
+        JSONObject obj = getUserStats(request.getUserId(), "", "");
+        return new JSONObject().put("message", "Success")
+                .put("userStats", obj)
+                .toString();
     }
 
     private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {
