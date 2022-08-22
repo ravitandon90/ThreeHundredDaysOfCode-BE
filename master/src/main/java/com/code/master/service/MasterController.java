@@ -219,15 +219,15 @@ public class MasterController {
     }
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
-        List<UserSubmission> submissions = null;
+        List<UserSubmission> submissions;
 
         // Step-I: Calculate start of the start this week.
         if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
             ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
-            Date currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia)));
-            submissions = this.userSubmissionRepository.findByUserIdAndByCreatedAtGreateThan(userId, currentDate);
+            Instant currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
+            submissions = this.userSubmissionRepository.findByUserIdAndCreatedAtGreaterThan(userId, currentDate);
         } else { // TimeFilter = ANY-Time
             submissions = this.userSubmissionRepository.findByUserId(userId);
         }
