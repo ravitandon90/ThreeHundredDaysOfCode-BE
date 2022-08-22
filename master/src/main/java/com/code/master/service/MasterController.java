@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.max;
@@ -64,9 +65,10 @@ public class MasterController {
     }
 
     @GetMapping(path = "/problem")
-    public String handleGetProblemOfTheDay(Principal user) { return GetProblemOfTheDay(); }
+    public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
+
     @GetMapping(path = "/google/problem")
-    public String handleGoogleGetProblemOfTheDay() { return GetProblemOfTheDay(); }
+    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
@@ -187,7 +189,12 @@ public class MasterController {
         return new JSONObject().put("message", "Success").toString();
     }
 
-    private String GetProblemOfTheDay() {
+    private String GetProblemOfTheDay(String logic) {
+        boolean getRandom = false;
+        if (logic.equalsIgnoreCase("random")) {
+            getRandom = true;
+        }
+
         try {
             SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
             Date startDate = parser.parse(Constants.START_DATE);
@@ -197,6 +204,7 @@ public class MasterController {
             Date currentDate = Date.from(Instant.from(nowAsiaIndia));
             long diffInMillis = Math.abs(currentDate.getTime() - startDate.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+            if (getRandom) diffInDays = ThreadLocalRandom.current().nextLong(Constants.MAX_NUM_PROBLEMS);
             ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
             if (problemDescription != null) {
                 String jsonString = new JSONObject()
@@ -218,6 +226,14 @@ public class MasterController {
         return calendar.getTime();
     }
 
+    private int GetNumberOfProblemSubmissions(List<UserSubmission> submissions) {
+        Set<String> submissionSet = new HashSet<>();
+        for (UserSubmission userSubmission : submissions) {
+            submissionSet.add(userSubmission.getProblemLink());
+        }
+        return submissionSet.size();
+    }
+
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
 
@@ -236,7 +252,7 @@ public class MasterController {
         int referralCount = 0;
         int numberUniqueDays = 0;
         int longestStreak = 0;
-        int numberOfSubmissions = submissions.size();
+        int numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
         try {
             SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
             Date startDate = parser.parse(Constants.START_DATE);
