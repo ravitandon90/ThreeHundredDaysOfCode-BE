@@ -1,4 +1,4 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class Sum {
     public static void main(String[] args) {
@@ -8,6 +8,9 @@ public class Sum {
         // Scans the next token of the input as an int.
         int n2 = reader.nextInt();
         reader.close();
+        List<Integer> numbers = null;
+        numbers.add(1);
+        System.out.println(numbers.size());
         System.out.println(n1 + n2);
     }
 }

@@ -2,9 +2,11 @@ package com.code.master.utils;
 
 import com.code.master.common.Constants;
 import jodd.io.StreamGobbler;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.Random;
 
 public class CodeCompiler {
     public JSONObject run(String sourceCode, String input, int selectedLanguage, String className)  {
@@ -40,18 +42,20 @@ public class CodeCompiler {
             // Step-I: Write the program to the tempFile.
             File sourceCodeFile = CreateFile(sourceCode, "Solution", ".cpp");
             sourceCodeFile.deleteOnExit();
-            System.out.printf("Source code file: {%s}\n", sourceCodeFile);
             try {
                 final String exeName = "Solution";
                 // Step-II: Compile the program.
                 final String compilerOutput = CompileFileWithCpp(String.valueOf(sourceCodeFile), exeName);
                 if (!compilerOutput.isEmpty()) {
+                    if (sourceCodeFile != null) sourceCodeFile.delete();
                     return new JSONObject().put("message", "Error").put("output", compilerOutput);
                 }
-                System.out.printf("Compiler Output: {%s}\n", compilerOutput);
                 // Step-III: Execute the program.
                 try {
-                    output = RunCppExecutable(exeName, input);
+                    final String cmd = "./" + exeName;
+                    File f = new File(exeName);
+                    f.deleteOnExit();
+                    return RunExecutable(input, new String[]{cmd});
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -65,35 +69,33 @@ public class CodeCompiler {
         return new JSONObject().put("message", "Success").put("output", output);
     }
 
-    private JSONObject runCodeJava(String sourceCode, String input, String className) throws IOException {
+    private JSONObject runCodeJava(String sourceCodeIn, String input, String classNameIn) {
         String output = "";
-        File classFile = null;
-        File sourceCodeFile = null;
+        String message = "Success";
+        final String className = classNameIn + RandomStringUtils.randomAlphabetic (4);
+        final String sourceCode = sourceCodeIn.replace("public class " + classNameIn, "public class " + className);
         try {
             // Step-I: Copy the source code to a temporary file.
-            sourceCodeFile = CreateFile(sourceCode, className, ".java");
-            try {
-                // Step-II: Compile the file to generate the Main class.
-                String compileOutput = CompileFileWithJava(String.valueOf(sourceCodeFile), className);
-                System.out.printf("Compiler-Output: {%s}\n", compileOutput);
-                classFile = new File(className);
-                // Step-III: Run the executable
-                output = RunJavaExecutable(className, input);
-            } catch (IOException e) {
-                System.out.println(e);
+            File sourceCodeFile = CreateFile(sourceCode, className, ".java");
+            sourceCodeFile.deleteOnExit();
+            // Step-II: Compile the file to generate the Main class.
+            String compilerError = CompileFileWithJava(String.valueOf(sourceCodeFile));
+            output = compilerError;
+            File classFile = new File(className);
+            classFile.deleteOnExit();
+            // Step-III: Run the executable.
+            if (output.isEmpty()) {
+                return RunExecutable(input, new String[]{"java", classFile.getName()});
+            } else {
+                message = "Error";
             }
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // Step-IV: Clean up all the generated files.
-        finally {
-            if (sourceCodeFile != null) sourceCodeFile.delete();
-            if (classFile != null) classFile.delete();
-        }
-        return new JSONObject().put("message", "Success").put("output", output);
+        return new JSONObject().put("message", message).put("output", output);
     }
 
-    private JSONObject runCodePython(String sourceCode, String input) throws IOException {
+    private JSONObject runCodePython(String sourceCode, String input) {
         String output = "";
 
         File sourceCodeFile = null;
@@ -103,12 +105,12 @@ public class CodeCompiler {
             System.out.println(sourceCodeFile);
             try {
                 // Step-III: Run the executable
-                output = RunPythonExecutable(String.valueOf(sourceCodeFile), input);
+                return RunExecutable(input, new String[]{"python3", sourceCodeFile.getName()});
             } catch (IOException e) {
                 System.out.println(e);
             }
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         // Step-IV: Clean up all the generated files.
         finally {
@@ -117,28 +119,19 @@ public class CodeCompiler {
         return new JSONObject().put("message", "Success").put("output", output);
     }
 
-    private JSONObject runCodeGo(String sourceCode, String input) throws IOException {
-        String output = "";
-
-        File sourceCodeFile = null;
+    private JSONObject runCodeGo(String sourceCode, String input) {
+        final String className = RandomStringUtils.randomAlphabetic(8);
         try {
             // Step-I: Copy the source code to a temporary file.
-            sourceCodeFile = CreateFile(sourceCode, "Main", ".go");
+            File sourceCodeFile = CreateFile(sourceCode, className, ".go");
+            sourceCodeFile.deleteOnExit();
             System.out.println(sourceCodeFile);
-            try {
-                // Step-III: Run the executable
-                output = RunGoExecutable(String.valueOf(sourceCodeFile), input);
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-        } catch (IOException e) {
-            System.out.println(e);
+            // Step-III: Run the executable
+            return RunExecutable(input, new String[]{"go", "run", sourceCodeFile.getName()});
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // Step-IV: Clean up all the generated files.
-        finally {
-           if (sourceCodeFile != null) sourceCodeFile.delete();
-        }
-        return new JSONObject().put("message", "Success").put("output", output);
+        return new JSONObject().put("message", "Error").put("output", "");
     }
 
 
@@ -194,11 +187,11 @@ public class CodeCompiler {
         return sb.toString();
     }
 
-    private String CompileFileWithJava(String sourceCodeFile, String className) throws IOException {
+    private String CompileFileWithJava(String sourceCodeFile) throws IOException {
         ProcessBuilder pb =
                 new ProcessBuilder("javac", sourceCodeFile);
         Process p = pb.start();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         String line;
         StringBuilder builder = new StringBuilder();
         while ((line = in.readLine()) != null) {
@@ -207,6 +200,8 @@ public class CodeCompiler {
         }
         return builder.toString();
     }
+
+
     private String RunCppExecutable(String exeName, String input) throws IOException, InterruptedException {
         String output = "";
         final String cmd = "./" + exeName;
@@ -218,49 +213,56 @@ public class CodeCompiler {
         File errorFile = new File("/tmp/error.txt");
         PrintStream oStream = new PrintStream(outputFile);
         PrintStream eStream = new PrintStream(errorFile);
-        //outputFile.deleteOnExit();
-        //errorFile.deleteOnExit();
+        outputFile.deleteOnExit();
+        errorFile.deleteOnExit();
         StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), eStream);
         StreamGobbler inputGobbler = new StreamGobbler(p.getInputStream(), oStream);
         errorGobbler.run();
         inputGobbler.run();
-        p.waitFor();
+        int exitCode = p.waitFor();
         oStream.flush();
         eStream.flush();
-        new PrintStream(errorFile).flush();
-        System.out.printf("Error: {%s}\n", ReadFile(errorFile.getPath()));
-        System.out.printf("Output: {%s}\n", ReadFile(outputFile.getPath()));
+        if (exitCode == 0) {
+            output = ReadFile(outputFile.getPath()).trim();
+        } else if (exitCode == 139) {
+            output = "Segmentation Fault.";
+        } else {
+            output = ReadFile(errorFile.getPath()).trim();
+        }
         return output;
     }
 
-    private String RunJavaExecutable(String className, String input) throws IOException {
-        Process p = Runtime.getRuntime().exec(new String[]{"java", className});
+    private JSONObject RunExecutable(String input, String[] cmdArray) throws IOException, InterruptedException {
+        JSONObject jsonObject = new JSONObject();
+        String output = "";
+        Process p = Runtime.getRuntime().exec(cmdArray);
         OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());
         writer.write(input);
         writer.close();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
-        }
-        return builder.toString().trim();
-    }
+        File outputFile = new File("/tmp/output.txt");
+        File errorFile = new File("/tmp/error.txt");
+        PrintStream oStream = new PrintStream(outputFile);
+        PrintStream eStream = new PrintStream(errorFile);
+        outputFile.deleteOnExit();
+        errorFile.deleteOnExit();
+        StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), eStream);
+        StreamGobbler inputGobbler = new StreamGobbler(p.getInputStream(), oStream);
+        errorGobbler.run();
+        inputGobbler.run();
+        int exitCode = p.waitFor();
+        oStream.flush();
+        eStream.flush();
+        if (exitCode == 0) {
+            output = ReadFile(outputFile.getPath()).trim();
 
-    private String RunGoExecutable(String fileName, String input) throws IOException {
-        Process p = Runtime.getRuntime().exec(new String[]{"go", "run", fileName});
-        OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());
-        writer.write(input);
-        writer.close();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
+        } else if (exitCode == 139) { // Specific to Cpp for now.
+            output = "Segmentation Fault.";
+        } else {
+            output = ReadFile(errorFile.getPath()).trim();
         }
-        return builder.toString().trim();
+        final String message = (exitCode == 0) ? "Success" : "Error";
+        jsonObject.put("message", message).put("output", output);
+        return jsonObject;
     }
 
     private String RunPythonExecutable(String fileName, String input) throws IOException {
