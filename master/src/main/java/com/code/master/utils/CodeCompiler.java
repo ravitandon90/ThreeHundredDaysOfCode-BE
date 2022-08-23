@@ -1,5 +1,7 @@
 package com.code.master.utils;
 
+import com.code.master.common.Constants;
+import jodd.io.StreamGobbler;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -9,19 +11,19 @@ public class CodeCompiler {
         JSONObject result = null;
         try {
             switch (selectedLanguage) {
-                case (54):
+                case (Constants.LANGUAGE_CPP_CODE):
                     result = runCodeCpp(sourceCode, input);
                     break;
 
-                case (60):
+                case (Constants.LANGUAGE_GO_CODE):
                     result = runCodeGo(sourceCode, input);
                     break;
 
-                case (71):
+                case (Constants.LANGUAGE_PYTHON_CODE):
                     result = runCodePython(sourceCode, input);
                     break;
 
-                case (1004):
+                case (Constants.LANGUAGE_JAVA_CODE):
                     result = runCodeJava(sourceCode, input, className);
                     break;
 
@@ -36,17 +38,27 @@ public class CodeCompiler {
         String output = "";
         try {
             // Step-I: Write the program to the tempFile.
-            File sourceCodeFile = CreateTempFile(sourceCode);
+            File sourceCodeFile = CreateFile(sourceCode, "Solution", ".cpp");
+            sourceCodeFile.deleteOnExit();
+            System.out.printf("Source code file: {%s}\n", sourceCodeFile);
             try {
-                final String exeName = "/tmp/out";
+                final String exeName = "Solution";
                 // Step-II: Compile the program.
-                CompileFileWithCpp(String.valueOf(sourceCodeFile), exeName);
+                final String compilerOutput = CompileFileWithCpp(String.valueOf(sourceCodeFile), exeName);
+                if (!compilerOutput.isEmpty()) {
+                    return new JSONObject().put("message", "Error").put("output", compilerOutput);
+                }
+                System.out.printf("Compiler Output: {%s}\n", compilerOutput);
                 // Step-III: Execute the program.
-                output = RunCppExecutable(exeName, input);
+                try {
+                    output = RunCppExecutable(exeName, input);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.printf("RunCppExecutable: {%s}\n", output);
             } catch (IOException e) {
                 System.out.println(e);
             }
-            sourceCodeFile.delete();
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -62,10 +74,11 @@ public class CodeCompiler {
             sourceCodeFile = CreateFile(sourceCode, className, ".java");
             try {
                 // Step-II: Compile the file to generate the Main class.
-                classFile = CompileFileWithJava(String.valueOf(sourceCodeFile), className);
+                String compileOutput = CompileFileWithJava(String.valueOf(sourceCodeFile), className);
+                System.out.printf("Compiler-Output: {%s}\n", compileOutput);
+                classFile = new File(className);
                 // Step-III: Run the executable
                 output = RunJavaExecutable(className, input);
-                classFile.delete();
             } catch (IOException e) {
                 System.out.println(e);
             }
@@ -139,7 +152,7 @@ public class CodeCompiler {
     }
 
     private File CreateFile(String sourceCode, String className, String suffix) throws IOException {
-        File tempFile = new File("/tmp/" + className + suffix);
+        File tempFile = new File(className + suffix);
         FileWriter fileWriter = new FileWriter(tempFile, true);
         BufferedWriter bw = new BufferedWriter(fileWriter);
         bw.write(sourceCode);
@@ -147,20 +160,41 @@ public class CodeCompiler {
         return tempFile;
     }
 
-    private void CompileFileWithCpp(String sourceCodeFile, String exeName) throws IOException {
+    private String CompileFileWithCpp(String sourceCodeFile, String exeName) throws IOException {
+        File outputFile = new File("/tmp/error.txt");
+        outputFile.deleteOnExit();
+        PrintStream stdout = System.out;
+        System.setOut(new PrintStream(outputFile));
         ProcessBuilder pb =
                 new ProcessBuilder("gcc", "-std=c++17", sourceCodeFile, "-o", exeName, "-lstdc++");
         Process p = pb.start();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        BufferedReader in = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         String line;
         StringBuilder builder = new StringBuilder();
         while ((line = in.readLine()) != null) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
+            System.out.println(line);
         }
+        System.setOut(stdout);
+        return ReadFile(outputFile.getPath());
     }
 
-    private File CompileFileWithJava(String sourceCodeFile, String className) throws IOException {
+    private String ReadFile(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        StringBuilder sb = new StringBuilder();
+        try {
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+        } finally {
+            br.close();
+        }
+        return sb.toString();
+    }
+
+    private String CompileFileWithJava(String sourceCodeFile, String className) throws IOException {
         ProcessBuilder pb =
                 new ProcessBuilder("javac", sourceCodeFile);
         Process p = pb.start();
@@ -171,23 +205,34 @@ public class CodeCompiler {
             builder.append(line);
             builder.append(System.getProperty("line.separator"));
         }
-        return new File(className);
+        return builder.toString();
     }
-
-    private String RunCppExecutable(String exeName, String input) throws IOException {
-        Process p = Runtime.getRuntime().exec(exeName);
+    private String RunCppExecutable(String exeName, String input) throws IOException, InterruptedException {
+        String output = "";
+        final String cmd = "./" + exeName;
+        Process p = Runtime.getRuntime().exec(new String[] {cmd});
         OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());
         writer.write(input);
         writer.close();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
-        }
-        return builder.toString();
+        File outputFile = new File("/tmp/output.txt");
+        File errorFile = new File("/tmp/error.txt");
+        PrintStream oStream = new PrintStream(outputFile);
+        PrintStream eStream = new PrintStream(errorFile);
+        //outputFile.deleteOnExit();
+        //errorFile.deleteOnExit();
+        StreamGobbler errorGobbler = new StreamGobbler(p.getErrorStream(), eStream);
+        StreamGobbler inputGobbler = new StreamGobbler(p.getInputStream(), oStream);
+        errorGobbler.run();
+        inputGobbler.run();
+        p.waitFor();
+        oStream.flush();
+        eStream.flush();
+        new PrintStream(errorFile).flush();
+        System.out.printf("Error: {%s}\n", ReadFile(errorFile.getPath()));
+        System.out.printf("Output: {%s}\n", ReadFile(outputFile.getPath()));
+        return output;
     }
+
     private String RunJavaExecutable(String className, String input) throws IOException {
         Process p = Runtime.getRuntime().exec(new String[]{"java", className});
         OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());

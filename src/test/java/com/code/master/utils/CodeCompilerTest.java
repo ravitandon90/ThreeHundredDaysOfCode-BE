@@ -1,12 +1,13 @@
 package com.code.master.utils;
 
+import com.code.master.common.Constants;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public class CodeCompilerTest {
     @Test
@@ -20,18 +21,35 @@ public class CodeCompilerTest {
     public void basicTestCpp() {
         CodeCompiler cc = new CodeCompiler();
         JSONObject object = null;
-        String programFileName = "testData/cpp/Dijkstra.cpp";
-        String inputFileName = "testData/cpp/inputDijkstra.txt";
+        String programFileName = "testData/cpp/SumCompilerError.cpp";
+        String inputFileName = "testData/cpp/inputSum.txt";
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 54;
-            object = cc.run(program, input, languageSelected, "");
+            object = cc.run(program, input, Constants.LANGUAGE_CPP_CODE, "");
         } catch (IOException e) {
             System.out.println(e);
         }
         System.out.println(object);
         assertEquals(object.get("message"), "Success");
+        assertEquals(object.get("output"), "3");
+    }
+
+    @Test
+    public void basicTestErrorCpp() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/cpp/SumRuntimeError.cpp";
+        String inputFileName = "testData/cpp/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_CPP_CODE, "");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
     }
 
     @Test
@@ -43,8 +61,7 @@ public class CodeCompilerTest {
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 1004;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_JAVA_CODE, "Sum");
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -63,14 +80,13 @@ public class CodeCompilerTest {
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 60;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_GO_CODE, "Sum");
         } catch (IOException e) {
             System.out.println(e);
         }
         System.out.println(object);
         assertEquals(object.get("message"), "Success");
-        assertEquals(object.get("output"), "21");
+        assertEquals(object.get("output"), "3");
     }
 
     @Test
@@ -83,8 +99,7 @@ public class CodeCompilerTest {
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 71;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_PYTHON_CODE, "Sum");
         } catch (IOException e) {
             System.out.println(e);
         }
