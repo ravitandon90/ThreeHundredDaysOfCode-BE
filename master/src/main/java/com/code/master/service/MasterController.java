@@ -2,7 +2,7 @@ package com.code.master.service;
 
 import com.code.master.common.*;
 import com.code.master.data.*;
-import com.code.master.utils.CodeCompiler;
+import com.code.master.judge.CodeCompiler;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
 import org.json.JSONArray;
 import org.json.JSONException;

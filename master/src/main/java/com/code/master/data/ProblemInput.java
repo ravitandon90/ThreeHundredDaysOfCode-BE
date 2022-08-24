@@ -8,41 +8,29 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
 
-@Entity(name = "problem_description")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProblemDescription {
+public class ProblemInput {
     @Id @NotNull
+    @Column(name = "id")
+    private String id;
+    @NotNull
     @Column(name = "problem_id")
     private String problemId;
     @NotNull
-    @Column(name = "title")
-    private String title;
+    @Column(name = "argument")
+    private String argument;
     @NotNull
-    @Column(name = "url")
-    private String url;
-    @NotNull
-    @Column(name = "complexity")
-    private String complexity;
-    @NotNull
-    @Column(name = "description")
-    private String description;
-    @Column(name = "example")
-    private String example;
-    @Column(name = "problem_constraints")
-    private String constraints;
-    @NotNull
-    @Column(name = "idx")
-    private long index;
+    @Column(name = "output")
+    private String output;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
@@ -50,10 +38,8 @@ public class ProblemDescription {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    public ProblemDescription(String url, String description) {
-        this.problemId = UUID.randomUUID().toString();
-        this.url = url;
-        this.description = description;
+    public ProblemInput(String url, String description) {
+        this.id = UUID.randomUUID().toString();
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
     }

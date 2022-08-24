@@ -1,6 +1,7 @@
 package com.code.master.utils;
 
 import com.code.master.common.Constants;
+import com.code.master.judge.CodeCompiler;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 import java.io.IOException;

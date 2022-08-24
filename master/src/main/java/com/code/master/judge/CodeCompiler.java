@@ -1,4 +1,4 @@
-package com.code.master.utils;
+package com.code.master.judge;
 
 import com.code.master.common.Constants;
 import jodd.io.StreamGobbler;
@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.Random;
 
 public class CodeCompiler {
-    public JSONObject run(String sourceCode, String input, int selectedLanguage, String className)  {
+    public JSONObject run(String sourceCode, String input, int selectedLanguage, String className) {
         JSONObject result = null;
         try {
             switch (selectedLanguage) {
