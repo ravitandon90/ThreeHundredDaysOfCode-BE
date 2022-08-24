@@ -41,7 +41,7 @@ public class MasterController {
 
 
     @GetMapping(path = "/")
-    public String handlePing() {return "local-Ok"; } ;
+    public String handlePing() {return "Master-Ok"; } ;
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
