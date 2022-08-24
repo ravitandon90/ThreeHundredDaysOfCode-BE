@@ -12,7 +12,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().ignoringAntMatchers("/google/**").and().authorizeRequests()
-                .antMatchers("/", "/google/**").permitAll()
+                .antMatchers("/", "/google/**","/status").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
