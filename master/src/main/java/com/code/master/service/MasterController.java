@@ -10,12 +10,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +34,14 @@ public class MasterController {
     @Autowired
     private UserSubmissionRepository userSubmissionRepository;
 
+    @Autowired
+    private NotificationSchedulerService emailSenderService;
+
+
+
+
     @GetMapping(path = "/")
-    public String handlePing() { return "Master-Ok"; }
+    public String handlePing() {return "Master-Ok"; } 
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
