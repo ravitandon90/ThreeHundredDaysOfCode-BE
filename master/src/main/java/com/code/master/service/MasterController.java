@@ -287,7 +287,7 @@ public class MasterController {
         for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
             final long diff = datesList.get(idx + 1) - datesList.get(idx);
             if (diff == 0) continue;
-            if (diff == 1) {
+            if (diff <= 2) {
                 currRun++;
                 longestStreak = max(longestStreak, currRun);
             } else {
