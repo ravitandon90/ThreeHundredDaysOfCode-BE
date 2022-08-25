@@ -31,7 +31,7 @@ public class StatsService {
     @Autowired
     private UserSubmissionRepository userSubmissionRepository;
 
-    public String GetLeaderBoard() {
+    public String getLeaderBoard() {
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
