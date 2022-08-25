@@ -27,7 +27,7 @@ public class MasterServiceApplication {
         final String[] apiList = {
                 "/me", "/leaderBoard", "/problem", "/",
                 "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions",
-                "/submissions"
+                "/submissions", "/problems", "/problemById"
         };
 
         return new WebMvcConfigurer() {
