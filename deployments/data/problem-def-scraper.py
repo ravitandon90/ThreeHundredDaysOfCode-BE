@@ -10,6 +10,22 @@ def get_problem_definition(title_slug):
     leetcode_response = requests.get(leetcode_request_url)
     return leetcode_response.json()['data']['question']['content']
 
+LC_DELIM = "<p>&nbsp;</p>"
+
+def get_problem_dict(title_slug):
+    problem_def = get_problem_definition(title_slug).split(LC_DELIM)
+    problem_dict = dict.fromkeys(['description', 'examples', 'constraints', 'rest'], "")
+    problem_dict['description'] = problem_def[0]
+    problem_def = problem_def[1:]
+    for it in problem_def:
+        if 'Example' in it:
+            problem_dict['examples'] = it
+        elif 'Constraints' in it:
+            problem_dict['constraints'] = it
+        else:
+            problem_dict['rest'] += it
+    return problem_dict
+
 def encode_str(message):
     message_bytes = message.encode('utf-8')
     base64_bytes = base64.b64encode(message_bytes)
