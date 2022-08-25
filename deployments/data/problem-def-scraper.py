@@ -5,16 +5,18 @@ import requests
 import base64
 import time
 
-def get_problem_definition(title_slug):
-    leetcode_request_url = f"https://leetcode.com/graphql?query=query {{ question(titleSlug: \"{title_slug}\") {{ content }} }} "
-    leetcode_response = requests.get(leetcode_request_url)
-    return leetcode_response.json()['data']['question']['content']
-
 LC_DELIM = "<p>&nbsp;</p>"
 
+def get_lc_response(title_slug):
+    leetcode_request_url = f"https://leetcode.com/graphql?query=query {{ question(titleSlug: \"{title_slug}\") {{ difficulty content }} }} "
+    leetcode_response = requests.get(leetcode_request_url)
+    return leetcode_response.json()['data']['question']
+
 def get_problem_dict(title_slug):
-    problem_def = get_problem_definition(title_slug).split(LC_DELIM)
-    problem_dict = dict.fromkeys(['description', 'examples', 'constraints', 'rest'], "")
+    problem_dict = dict.fromkeys(['difficulty', 'description', 'examples', 'constraints', 'rest'], "")
+    lc_response = get_lc_response(title_slug)
+    problem_dict['difficulty'] = lc_response['difficulty']
+    problem_def = lc_response['content'].split(LC_DELIM)
     problem_dict['description'] = problem_def[0]
     problem_def = problem_def[1:]
     for it in problem_def:
@@ -25,6 +27,8 @@ def get_problem_dict(title_slug):
         else:
             problem_dict['rest'] += it
     return problem_dict
+
+get_problem_dict("palindrome-number")
 
 def encode_str(message):
     message_bytes = message.encode('utf-8')
