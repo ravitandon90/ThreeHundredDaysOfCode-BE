@@ -54,5 +54,7 @@ public class ProblemDescription {
         this.problemId = UUID.randomUUID().toString();
         this.url = url;
         this.description = description;
+        this.createdAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 }

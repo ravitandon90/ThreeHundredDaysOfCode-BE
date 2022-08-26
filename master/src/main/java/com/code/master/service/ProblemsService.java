@@ -3,8 +3,6 @@ package com.code.master.service;
 import com.code.master.common.Constants;
 import com.code.master.data.ProblemDescription;
 import com.code.master.data.ProblemDescriptionRepository;
-import com.code.master.data.UserProfileRepository;
-import com.code.master.data.UserSubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;

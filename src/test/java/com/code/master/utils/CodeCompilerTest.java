@@ -1,12 +1,14 @@
 package com.code.master.utils;
 
+import com.code.master.common.Constants;
+import com.code.master.judge.CodeCompiler;
 import org.json.JSONObject;
 import org.testng.annotations.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public class CodeCompilerTest {
     @Test
@@ -17,34 +19,15 @@ public class CodeCompilerTest {
     }
 
     @Test
-    public void basicTestCpp() {
+    public void cppCorrectCode() {
         CodeCompiler cc = new CodeCompiler();
         JSONObject object = null;
-        String programFileName = "testData/cpp/Dijkstra.cpp";
-        String inputFileName = "testData/cpp/inputDijkstra.txt";
+        String programFileName = "testData/cpp/Sum.cpp";
+        String inputFileName = "testData/cpp/inputSum.txt";
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 54;
-            object = cc.run(program, input, languageSelected, "");
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-        System.out.println(object);
-        assertEquals(object.get("message"), "Success");
-    }
-
-    @Test
-    public void basicTestJava() {
-        CodeCompiler cc = new CodeCompiler();
-        JSONObject object = null;
-        String programFileName = "testData/java/Sum.java";
-        String inputFileName = "testData/java/inputSum.txt";
-        try {
-            String program = Files.readString(Path.of(programFileName));
-            String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 1004;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_CPP_CODE, "");
         } catch (IOException e) {
             System.out.println(e);
         }
@@ -54,7 +37,97 @@ public class CodeCompilerTest {
     }
 
     @Test
-    public void basicTestGo() {
+    public void cppCompilationError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/cpp/SumCompilerError.cpp";
+        String inputFileName = "testData/cpp/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_CPP_CODE, "");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
+    }
+
+    @Test
+    public void cppRuntimeError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/cpp/SumRuntimeError.cpp";
+        String inputFileName = "testData/cpp/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_CPP_CODE, "");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
+    }
+
+    @Test
+    public void javaCorrectCode() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/java/Sum.java";
+        String inputFileName = "testData/java/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_JAVA_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Success");
+        assertEquals(object.get("output"), "3");
+    }
+
+    @Test
+    public void javaCompilationError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/java/SumCompilationError.java";
+        String inputFileName = "testData/java/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_JAVA_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
+    }
+
+    @Test
+    public void javaRuntimeError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/java/SumRuntimeError.java";
+        String inputFileName = "testData/java/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_JAVA_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
+    }
+
+    @Test
+    public void goCorrectCode() {
         CodeCompiler cc = new CodeCompiler();
         JSONObject object = null;
         String programFileName = "testData/go/Sum.go";
@@ -63,18 +136,36 @@ public class CodeCompilerTest {
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 60;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_GO_CODE, "Sum");
         } catch (IOException e) {
             System.out.println(e);
         }
         System.out.println(object);
         assertEquals(object.get("message"), "Success");
-        assertEquals(object.get("output"), "21");
+        assertEquals(object.get("output"), "3");
     }
 
     @Test
-    public void basicTestPython() {
+    public void goCompilerError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/go/SumCompilationError.go";
+        String inputFileName = "testData/go/inputSum.txt";
+
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_GO_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
+    }
+
+    @Test
+    public void pythonCorrectProgram() {
         CodeCompiler cc = new CodeCompiler();
         JSONObject object = null;
         String programFileName = "testData/python/Sum.py";
@@ -83,13 +174,31 @@ public class CodeCompilerTest {
         try {
             String program = Files.readString(Path.of(programFileName));
             String input = Files.readString(Path.of(inputFileName));
-            int languageSelected = 71;
-            object = cc.run(program, input, languageSelected, "Sum");
+            object = cc.run(program, input, Constants.LANGUAGE_PYTHON_CODE, "Sum");
         } catch (IOException e) {
             System.out.println(e);
         }
         System.out.println(object);
         assertEquals(object.get("message"), "Success");
         assertEquals(object.get("output"), "3");
+    }
+
+    @Test
+    public void pythonCompilationError() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/python/SumCompilationError.py";
+        String inputFileName = "testData/python/inputSum.txt";
+
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_PYTHON_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Error");
+        assertTrue(object.getString("output").length() > 0);
     }
 }
