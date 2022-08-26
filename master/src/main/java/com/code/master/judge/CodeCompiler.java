@@ -27,8 +27,10 @@ public class CodeCompiler {
                     break;
 
                 case (Constants.LANGUAGE_JAVA_CODE):
+                case (Constants.LANGUAGE_JAVA_CODE_2):
                     result = runCodeJava(sourceCode, input, className);
                     break;
+
 
             }
         } catch (IOException e) {
