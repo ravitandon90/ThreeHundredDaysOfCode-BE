@@ -139,32 +139,22 @@ public class MasterController {
     public String handleUpdateProfile(@RequestBody UpdateProfileHTTPRequest request, Principal user) {
         return UpdateProfile(request);
     }
-
     @PostMapping(path = "/google/updateProfile")
     public String handleGoogleUpdateProfile(@RequestBody UpdateProfileHTTPRequest request) {
         return UpdateProfile(request);
     }
-
     @PostMapping(path = "/submissions")
     public String handleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
-
     @PostMapping(path = "/google/submissions")
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
-
     private String runCode(RunCodeHTTPRequest request) {
-        byte[] decodedBytesProgram = Base64.getDecoder().decode(request.getSource_code());
-        byte[] decodedBytesStdIn = Base64.getDecoder().decode(request.getStdin());
-        final String decodedProgram = new String(decodedBytesProgram);
-        System.out.printf("Decoded Program: {%s}\n", decodedProgram);
-        final String decodedStdIn = new String(decodedBytesStdIn);
-        System.out.printf("Decoded Input: {%s}\n", decodedStdIn);
-        // String sourceCode, String problemId, String inputType, int selectedLanguage
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
-        JSONObject response = judge.run(decodedProgram, request.getProblemId(), "evaluate", request.getStdin(), request.getLanguage_id());
+        JSONObject response = judge.run(request.getSource_code(), request.getProblemId(), "evaluate",
+                request.getStdin(), request.getLanguage_id());
         return response.toString();
     }
 

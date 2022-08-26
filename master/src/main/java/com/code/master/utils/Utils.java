@@ -18,10 +18,10 @@ public class Utils {
     }
 
     public static String Encode(String in) {
-        return String.valueOf(Base64.getEncoder().encode(in.getBytes(StandardCharsets.UTF_8)));
+        return new String(Base64.getEncoder().encode(in.getBytes()));
     }
 
-    public static String Decode(String in) {
-        return String.valueOf(Base64.getDecoder().decode(in));
+    public static String Decode(String encoded) {
+        return new String(Base64.getDecoder().decode(encoded));
     }
 }

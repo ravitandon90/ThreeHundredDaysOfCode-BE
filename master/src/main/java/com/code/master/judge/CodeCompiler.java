@@ -9,6 +9,8 @@ import java.io.*;
 
 public class CodeCompiler {
     public JSONObject run(String sourceCode, String input, int selectedLanguage, String className) {
+        System.out.printf("Source Code: \n:%s\n", sourceCode);
+        System.out.printf("Input: \n%s\n", input);
         JSONObject result = null;
         try {
             switch (selectedLanguage) {
@@ -25,9 +27,17 @@ public class CodeCompiler {
                     break;
 
                 case (Constants.LANGUAGE_JAVA_CODE):
+                case (Constants.LANGUAGE_JAVA_CODE_2):
                     result = runCodeJava(sourceCode, input, className);
                     break;
 
+                case (Constants.LANGUAGE_JS_CODE):
+                    result = runJavascript(sourceCode, input, className);
+                    break;
+
+                case (Constants.LANGUAGE_PHP_CODE):
+                    result = runPhp(sourceCode, input, className);
+                    break;
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -39,7 +49,8 @@ public class CodeCompiler {
         String output = "";
         try {
             // Step-I: Write the program to the tempFile.
-            File sourceCodeFile = CreateFile(sourceCode, "Solution", ".cpp");
+            final String filaName = "Solution" + RandomStringUtils.randomAlphabetic(4);
+            File sourceCodeFile = CreateFile(sourceCode, filaName, ".cpp");
             sourceCodeFile.deleteOnExit();
             try {
                 final String exeName = "Solution";
@@ -88,6 +99,39 @@ public class CodeCompiler {
             } else {
                 message = "Error";
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new JSONObject().put("message", message).put("output", output);
+    }
+
+    private JSONObject runJavascript(String sourceCode, String input, String classNameIn) {
+        String output = "";
+        String message = "Success";
+        final String className = classNameIn + RandomStringUtils.randomAlphabetic (4);
+        try {
+            // Step-I: Copy the source code to a temporary file.
+            File sourceCodeFile = CreateFile(sourceCode, className, ".js");
+            sourceCodeFile.deleteOnExit();
+            // Step-II: Run the executable.
+            // SetupEnv(new String[]{"npm", "install", "prompt"});
+            return RunExecutable(input, new String[]{"node", sourceCodeFile.getName()});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new JSONObject().put("message", message).put("output", output);
+    }
+
+    private JSONObject runPhp(String sourceCode, String input, String classNameIn) {
+        String output = "";
+        String message = "Success";
+        final String className = classNameIn + RandomStringUtils.randomAlphabetic (4);
+        try {
+            // Step-I: Copy the source code to a temporary file.
+            File sourceCodeFile = CreateFile(sourceCode, className, ".php");
+            sourceCodeFile.deleteOnExit();
+            // Step-II: Run the executable.
+            return RunExecutable(input, new String[]{"php", sourceCodeFile.getName()});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,6 +275,16 @@ public class CodeCompiler {
         return output;
     }
 
+    private void SetupEnv(String[] cmdArray) throws IOException, InterruptedException {
+        Process p = Runtime.getRuntime().exec(cmdArray);
+        int exitCode = p.waitFor();
+        if (exitCode !=0) {
+            System.out.println("Program did not exit correctly.");
+        } else {
+            System.out.println("Program exited correctly");
+        }
+    }
+
     private JSONObject RunExecutable(String input, String[] cmdArray) throws IOException, InterruptedException {
         JSONObject jsonObject = new JSONObject();
         String output = "";
@@ -253,7 +307,6 @@ public class CodeCompiler {
         eStream.flush();
         if (exitCode == 0) {
             output = ReadFile(outputFile.getPath()).trim();
-
         } else if (exitCode == 139) { // Specific to Cpp for now.
             output = "Segmentation Fault.";
         } else {
@@ -263,20 +316,4 @@ public class CodeCompiler {
         jsonObject.put("message", message).put("output", output);
         return jsonObject;
     }
-
-    private String RunPythonExecutable(String fileName, String input) throws IOException {
-        Process p = Runtime.getRuntime().exec(new String[]{"python3", fileName});
-        OutputStreamWriter writer = new OutputStreamWriter(p.getOutputStream());
-        writer.write(input);
-        writer.close();
-        BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        StringBuilder builder = new StringBuilder();
-        String line;
-        while ((line = in.readLine()) != null) {
-            builder.append(line);
-            builder.append(System.getProperty("line.separator"));
-        }
-        return builder.toString().trim();
-    }
-
 }
