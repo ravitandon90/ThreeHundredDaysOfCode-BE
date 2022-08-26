@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 public class CodeJudge {
     private CodeCompiler compiler;
@@ -23,6 +24,7 @@ public class CodeJudge {
     // Runs the code and sends the result to the client.
     public JSONObject run(String sourceCode, String problemId, String mode, String userInput, int selectedLanguage) {
         JSONObject result = new JSONObject();
+        JSONObject response = new JSONObject();
         String message = "";
         final String sourceCodeDecoded = Utils.Decode(sourceCode);
         // Step-I: Find the problem from the database.
@@ -33,7 +35,7 @@ public class CodeJudge {
                 final String inputDecoded = Utils.Decode(input.getArgument());
                 // Pre-defined input.
                 // Step-II(a): Run the input code to see if the result passes on pre-defined inputs.
-                JSONObject response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
+                response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
                 // If response is success, continue.
                 if (Utils.IsSuccess(response)) {
                     final String output = Utils.GetOutput(response);
@@ -44,9 +46,20 @@ public class CodeJudge {
                 }
             }
         } else if (mode.equalsIgnoreCase("evaluate")) {
-            JSONObject response = compiler.run(sourceCode, userInput, selectedLanguage, "Main");
-            message = response.toString();
+            final String inputDecoded = Utils.Decode(userInput);
+            response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
         }
-        return result.put("message", message);
+        JSONObject status = new JSONObject();
+        status.put("id", 3).put("description", "Accepted");
+        System.out.printf("Output: {%s}\n", response.getString("output"));
+        result.put("stdout", Utils.Encode(response.getString("output")))
+                .put("time", "0.007")
+                .put("memory", 2048)
+                .put("stderr", JSONObject.NULL)
+                .put("token", UUID.randomUUID())
+                .put("compile_output", JSONObject.NULL)
+                .put("message", JSONObject.NULL)
+                .put("status", status);
+        return result;
     }
 }

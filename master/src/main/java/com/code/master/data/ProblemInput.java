@@ -8,12 +8,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.UUID;
-
+@Entity(name = "problem_input")
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @NoArgsConstructor

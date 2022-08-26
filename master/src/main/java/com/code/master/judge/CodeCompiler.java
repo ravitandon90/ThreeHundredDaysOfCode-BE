@@ -9,6 +9,8 @@ import java.io.*;
 
 public class CodeCompiler {
     public JSONObject run(String sourceCode, String input, int selectedLanguage, String className) {
+        System.out.printf("Source Code: \n:%s\n", sourceCode);
+        System.out.printf("Input: \n%s\n", input);
         JSONObject result = null;
         try {
             switch (selectedLanguage) {
@@ -39,7 +41,8 @@ public class CodeCompiler {
         String output = "";
         try {
             // Step-I: Write the program to the tempFile.
-            File sourceCodeFile = CreateFile(sourceCode, "Solution", ".cpp");
+            final String filaName = "Solution" + RandomStringUtils.randomAlphabetic(4);
+            File sourceCodeFile = CreateFile(sourceCode, filaName, ".cpp");
             sourceCodeFile.deleteOnExit();
             try {
                 final String exeName = "Solution";

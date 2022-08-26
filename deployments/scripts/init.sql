@@ -30,3 +30,12 @@ create table if not exists problem_description (
   created_at timestamp default now() not null,
   updated_at timestamp default now() not null
 );
+
+create table if not exists problem_input (
+    id varchar(500) not null constraint problem_input_jpa_data_store_credential_pkey primary key,
+    problem_id varchar(500) not null,
+    argument varchar not null,
+    output varchar not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);

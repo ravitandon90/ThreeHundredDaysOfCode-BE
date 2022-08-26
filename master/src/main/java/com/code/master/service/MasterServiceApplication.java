@@ -23,7 +23,8 @@ public class MasterServiceApplication {
                 "https://www.threehundreddaysofcode.com/", "http://www.threehundreddaysofcode.com",
                 "https://code-api.threehundreddaysofcode.com/", "http://code-api.threehundreddaysofcode.com",
                 "https://www.code-api.threehundreddaysofcode.com/", "http://www.code-api.threehundreddaysofcode.com",
-                "https://master.d1ai8g2pfn1x6u.amplifyapp.com"
+                "https://master.d1ai8g2pfn1x6u.amplifyapp.com", "http://localhost:8080",
+                "http://127.0.0.1:8080", "http://127.0.0.1:8080/"
         };
 
 
