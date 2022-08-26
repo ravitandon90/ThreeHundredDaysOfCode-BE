@@ -9,4 +9,7 @@ public class Constants {
     public static final int LANGUAGE_PYTHON_CODE = 71;
     public static final int LANGUAGE_JAVA_CODE = 1004;
     public static final int LANGUAGE_JAVA_CODE_2 = 4;
+
+    public static final int LANGUAGE_JS_CODE = 63;
+    public static final int LANGUAGE_PHP_CODE = 68;
 }

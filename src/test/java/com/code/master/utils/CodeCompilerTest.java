@@ -201,4 +201,41 @@ public class CodeCompilerTest {
         assertEquals(object.get("message"), "Error");
         assertTrue(object.getString("output").length() > 0);
     }
+
+    @Test
+    public void jsWorkingCode() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/javascript/sum.js";
+        String inputFileName = "testData/javascript/inputSum.txt";
+
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_JS_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Success");
+        assertEquals(object.get("output"), "3");
+    }
+
+    @Test
+    public void phpWorkingCode() {
+        CodeCompiler cc = new CodeCompiler();
+        JSONObject object = null;
+        String programFileName = "testData/php/sum.php";
+        String inputFileName = "testData/php/inputSum.txt";
+        try {
+            String program = Files.readString(Path.of(programFileName));
+            String input = Files.readString(Path.of(inputFileName));
+            object = cc.run(program, input, Constants.LANGUAGE_PHP_CODE, "Sum");
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        System.out.println(object);
+        assertEquals(object.get("message"), "Success");
+        assertEquals(object.get("output"), "3");
+    }
 }
