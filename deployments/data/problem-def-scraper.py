@@ -6,7 +6,7 @@ import base64
 import time
 
 LC_DELIM = "<p>&nbsp;</p>"
-SUPPORTED_LANGUAGES =  ['cpp', 'java', 'python3', 'golang']
+SUPPORTED_LANGUAGES =  ['cpp', 'java', 'python3', 'golang', 'php', 'javascript']
 
 def get_lc_response(title_slug):
     leetcode_request_url = f"https://leetcode.com/graphql?query=query {{ question(titleSlug: \"{title_slug}\") {{ difficulty content codeSnippets {{ lang langSlug code }} }} }} "
