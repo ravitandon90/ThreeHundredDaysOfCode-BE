@@ -3,6 +3,7 @@ package com.code.master.service;
 import com.code.master.common.*;
 import com.code.master.data.*;
 import com.code.master.judge.CodeCompiler;
+import com.code.master.judge.CodeJudge;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,8 +38,8 @@ public class MasterController {
     @Autowired
     private NotificationSchedulerService emailSenderService;
 
-
-
+    @Autowired
+    private ProblemInputRepository problemInputRepository;
 
     @GetMapping(path = "/")
     public String handlePing() {return "Master-Ok"; } 
@@ -154,7 +155,6 @@ public class MasterController {
         return runCode(request);
     }
 
-
     private String runCode(RunCodeHTTPRequest request) {
         byte[] decodedBytesProgram = Base64.getDecoder().decode(request.getSource_code());
         byte[] decodedBytesStdIn = Base64.getDecoder().decode(request.getStdin());
@@ -162,9 +162,10 @@ public class MasterController {
         System.out.printf("Decoded Program: {%s}\n", decodedProgram);
         final String decodedStdIn = new String(decodedBytesStdIn);
         System.out.printf("Decoded Input: {%s}\n", decodedStdIn);
-        CodeCompiler compiler = new CodeCompiler();
-        compiler.run(decodedProgram, decodedStdIn, request.getLanguage_id(), "Main");
-        return new JSONObject().put("message", "Success").toString();
+        // String sourceCode, String problemId, String inputType, int selectedLanguage
+        CodeJudge judge = new CodeJudge(this.problemInputRepository);
+        JSONObject response = judge.run(decodedProgram, request.getProblemId(), "evaluate", request.getStdin(), request.getLanguage_id());
+        return response.toString();
     }
 
     private String GetMySubmissions(String userId) {

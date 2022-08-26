@@ -6,7 +6,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.Random;
 
 public class CodeCompiler {
     public JSONObject run(String sourceCode, String input, int selectedLanguage, String className) {

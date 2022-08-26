@@ -12,4 +12,5 @@ public class RunCodeHTTPRequest {
     private boolean redirect_stderr_to_stdout;
     private String source_code;
     private String stdin;
+    private String problemId;
 }
