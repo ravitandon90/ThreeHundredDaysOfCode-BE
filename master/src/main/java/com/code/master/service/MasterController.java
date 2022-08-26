@@ -10,12 +10,14 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -32,8 +34,14 @@ public class MasterController {
     @Autowired
     private UserSubmissionRepository userSubmissionRepository;
 
+    @Autowired
+    private NotificationSchedulerService emailSenderService;
+
+
+
+
     @GetMapping(path = "/")
-    public String handlePing() { return "Master-Ok"; }
+    public String handlePing() {return "Master-Ok"; } 
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
@@ -64,11 +72,45 @@ public class MasterController {
         return GetMySubmissions(userId);
     }
 
+    @GetMapping(path = "/problems")
+    public String handleGetProblems(Principal user) {
+        return GetProblems();
+    }
+
+    @GetMapping(path = "/google/problems")
+    public String handleGoogleGetProblems() {
+        return GetProblems();
+    }
+
+    private String GetProblems() {
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        final int maxSize = problems.size();
+        JSONArray ar = new JSONArray();
+        for (ProblemDescription problemDescription : problems) {
+            JSONObject object = new JSONObject();
+            object.put("problemIndex", problemDescription.getIndex())
+                    .put("problemId", problemDescription.getProblemId())
+                    .put("problemUrl", problemDescription.getUrl())
+                    .put("problemComplexity", "Easy")
+                    .put("problemTitle", problemDescription.getTitle());
+            ar.put(object);
+        }
+        String problemOfTheDay = GetProblemOfTheDay("daily");
+        return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
+    }
+
     @GetMapping(path = "/problem")
     public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
 
     @GetMapping(path = "/google/problem")
     public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
+
+    @GetMapping(path = "/problemById")
+    public String handleGetProblemById(Principal user, @RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
+
+    @GetMapping(path = "/google/problemById")
+    public String handleGoogleGetProblemById(@RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
+
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
@@ -192,6 +234,20 @@ public class MasterController {
         return new JSONObject().put("message", "Success").toString();
     }
 
+    private String GetProblemById(String problemId) {
+        ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        if (problemDescription != null) {
+            String jsonString = new JSONObject()
+                    .put("problemTitle", problemDescription.getTitle())
+                    .put("problemIndex", problemDescription.getIndex())
+                    .put("problemLink", problemDescription.getUrl())
+                    .put("description", problemDescription.getDescription())
+                    .toString();
+            return jsonString;
+        }
+        return "{}";
+    }
+
     private String GetProblemOfTheDay(String logic) {
         boolean getRandom = false;
         if (logic.equalsIgnoreCase("random")) {
@@ -287,7 +343,7 @@ public class MasterController {
         for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
             final long diff = datesList.get(idx + 1) - datesList.get(idx);
             if (diff == 0) continue;
-            if (diff == 1) {
+            if (diff <= 2) {
                 currRun++;
                 longestStreak = max(longestStreak, currRun);
             } else {
@@ -377,5 +433,39 @@ public class MasterController {
             sortedJsonArray.put(jsonValues.get(i));
         }
         return sortedJsonArray;
+    }
+
+    private JSONArray SortByIndex(JSONArray jsonArr) {
+        JSONArray sortedJsonArray = new JSONArray();
+        List<JSONObject> jsonValues = new ArrayList<>();
+        for (int i = 0; i < jsonArr.length(); i++) {
+            jsonValues.add(jsonArr.getJSONObject(i));
+        }
+        Collections.sort(jsonValues, new Comparator<>() {
+            private static final String KEY_NAME = "problemIndex";
+
+            @Override
+            public int compare(JSONObject a, JSONObject b) {
+                int valA = 0;
+                int valB = 0;
+
+                try {
+                    valA = a.getInt(KEY_NAME);
+                    valB = b.getInt(KEY_NAME);
+                } catch (JSONException e) {
+                    System.out.println(e);
+                }
+
+                return valA - valB;
+                //if you want to change the sort order, simply use the following:
+                //return -valA.compareTo(valB);
+            }
+        });
+
+        for (int i = 0; i < jsonArr.length(); i++) {
+            sortedJsonArray.put(jsonValues.get(i));
+        }
+        return sortedJsonArray;
+
     }
 }

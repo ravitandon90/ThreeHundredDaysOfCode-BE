@@ -8,5 +8,4 @@ public class Constants {
     public static final int LANGUAGE_GO_CODE = 60;
     public static final int LANGUAGE_PYTHON_CODE = 71;
     public static final int LANGUAGE_JAVA_CODE = 1004;
-
 }
