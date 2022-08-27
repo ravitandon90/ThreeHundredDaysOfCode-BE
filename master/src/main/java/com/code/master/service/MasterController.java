@@ -41,6 +41,7 @@ public class MasterController {
     @Autowired
     private ProblemInputRepository problemInputRepository;
 
+    /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
     public String handlePing() {return "Master-Ok"; } 
 
@@ -83,23 +84,6 @@ public class MasterController {
         return GetProblems();
     }
 
-    private String GetProblems() {
-        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
-        final int maxSize = problems.size();
-        JSONArray ar = new JSONArray();
-        for (ProblemDescription problemDescription : problems) {
-            JSONObject object = new JSONObject();
-            object.put("problemIndex", problemDescription.getIndex())
-                    .put("problemId", problemDescription.getProblemId())
-                    .put("problemUrl", problemDescription.getUrl())
-                    .put("problemComplexity", "Easy")
-                    .put("problemTitle", problemDescription.getTitle());
-            ar.put(object);
-        }
-        String problemOfTheDay = GetProblemOfTheDay("daily");
-        return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
-    }
-
     @GetMapping(path = "/problem")
     public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
 
@@ -111,7 +95,6 @@ public class MasterController {
 
     @GetMapping(path = "/google/problemById")
     public String handleGoogleGetProblemById(@RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
-
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
@@ -151,6 +134,64 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
+
+    @GetMapping(path = "/google/feed")
+    public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId) { return getFeed(userId); }
+
+    @GetMapping(path = "/feed")
+    public String handleGetFeed(Principal user) { return getFeed(user.getName()); }
+
+    @PostMapping(path = "/google/comment")
+    public String handleGoogleAddComment(@RequestBody AddCommentHTTPRequest request) {
+        return addComment(request);
+    }
+
+    @PostMapping(path = "/comment")
+    public String handleAddComment(@RequestBody AddCommentHTTPRequest request) {
+        return addComment(request);
+    }
+
+    @PostMapping(path = "/google/like")
+    public String handleGoogleAddLike(@RequestBody AddLikeHTTPRequest request) {
+        return addLike(request);
+    }
+
+    @PostMapping(path = "/like")
+    public String handleAddLike(@RequestBody AddLikeHTTPRequest request) {
+        return addLike(request);
+    }
+
+    /*********************************** End Of API Definitions. *****************************************/
+
+    private String getFeed(String userId) {
+        return new JSONObject().toString();
+    }
+
+    private String addComment(AddCommentHTTPRequest request) {
+        return new JSONObject().toString();
+    }
+
+    private String addLike(AddLikeHTTPRequest request) {
+        return new JSONObject().toString();
+    }
+
+    private String GetProblems() {
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        final int maxSize = problems.size();
+        JSONArray ar = new JSONArray();
+        for (ProblemDescription problemDescription : problems) {
+            JSONObject object = new JSONObject();
+            object.put("problemIndex", problemDescription.getIndex())
+                    .put("problemId", problemDescription.getProblemId())
+                    .put("problemUrl", problemDescription.getUrl())
+                    .put("problemComplexity", "Easy")
+                    .put("problemTitle", problemDescription.getTitle());
+            ar.put(object);
+        }
+        String problemOfTheDay = GetProblemOfTheDay("daily");
+        return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
+    }
+
     private String runCode(RunCodeHTTPRequest request) {
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
         JSONObject response = judge.run(request.getSource_code(), request.getProblemId(), "evaluate",
