@@ -39,3 +39,32 @@ create table if not exists problem_input (
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
+
+create table if not exists user_post (
+    post_id varchar(500) not null constraint user_post_jpa_data_store_credential_pkey primary key,
+    author_id varchar(500) not null,
+    post_type varchar(500) not null,
+    text varchar,
+    img_url varchar(500),
+    video_url varchar(500),
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
+
+create table if not exists post_comment (
+    comment_id varchar(500) not null constraint post_comment_jpa_data_store_credential_pkey primary key,
+    post_id varchar(500) not null,
+    author_id varchar(500) not null,
+    text varchar,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
+
+create table if not exists post_like (
+    like_id varchar(500) not null constraint post_like_jpa_data_store_credential_pkey primary key,
+    post_id varchar(500) not null,
+    author_id varchar(500) not null,
+    seen boolean default false not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
