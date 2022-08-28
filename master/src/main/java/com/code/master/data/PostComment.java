@@ -28,9 +28,11 @@ public class PostComment {
     @Column(name = "post_id")
     private String postId;
 
+    @NotNull
     @Column(name = "author_id")
     private String authorId;
 
+    @NotNull
     @Column(name = "text")
     private String text;
 

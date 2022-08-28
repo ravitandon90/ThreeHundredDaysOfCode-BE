@@ -43,6 +43,7 @@ create table if not exists problem_input (
 create table if not exists user_post (
     post_id varchar(500) not null constraint user_post_jpa_data_store_credential_pkey primary key,
     author_id varchar(500) not null,
+    problem_id varchar(500),
     post_type varchar(500) not null,
     text varchar,
     img_url varchar(500),

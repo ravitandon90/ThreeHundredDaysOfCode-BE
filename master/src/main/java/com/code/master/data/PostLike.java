@@ -19,12 +19,23 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class PostLike {
-    @Id
-    @NotNull
+    @Id @NotNull
     @Column (name = "like_id")
     private String likeId;
+    /**
+     * A like event can be both positive and negative.
+     * Positive: User liked the post.
+     * Negative: User had liked the post, and now doesn't like it anymore.
+     */
+    private boolean isLike;
+
+    @Column(name = "seen")
     private boolean seen;
+    @NotNull
+    @Column(name = "post_id")
     private String postId;
+    @NotNull
+    @Column(name = "author_id")
     private String authorId;
     @CreatedDate
     @Column(name = "created_at")

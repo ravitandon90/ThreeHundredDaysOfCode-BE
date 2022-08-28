@@ -19,14 +19,18 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 public class UserPost {
-
     @Id @NotNull
     @Column(name = "post_id")
     private String postId;
 
+    @NotNull
     @Column(name = "author_id")
     private String authorId;
 
+    @Column(name = "problem_id")
+    private String problemId;
+
+    @NotNull
     @Column(name = "post_type")
     private String postType;
 
