@@ -92,7 +92,7 @@ public class MasterController {
             object.put("problemIndex", problemDescription.getIndex())
                     .put("problemId", problemDescription.getProblemId())
                     .put("problemUrl", problemDescription.getUrl())
-                    .put("problemComplexity", "Easy")
+                    .put("problemComplexity", problemDescription.getComplexity())
                     .put("problemTitle", problemDescription.getTitle());
             ar.put(object);
         }
