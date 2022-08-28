@@ -258,8 +258,10 @@ public class MasterController {
             ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
             if (problemDescription != null) {
                 String jsonString = new JSONObject()
-                        .put("problemName", problemDescription.getTitle())
+                        .put("problemTitle", problemDescription.getTitle())
+                        .put("problemIndex", problemDescription.getIndex())
                         .put("problemLink", problemDescription.getUrl())
+                        .put("description", problemDescription.getDescription())
                         .toString();
                 return jsonString;
             }
