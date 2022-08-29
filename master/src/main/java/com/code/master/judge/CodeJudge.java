@@ -21,18 +21,13 @@ public class CodeJudge {
         this.problemInputRepository = problemInputRepository;
     }
 
-    // Runs the code and sends the result to the client.
-    public JSONObject run(String sourceCode, String problemId, String mode, String userInput, int selectedLanguage) {
-        JSONObject result = new JSONObject();
+    public JSONObject evaluate(String sourceCode, String problemId, int selectedLanguage) {
         JSONObject response = new JSONObject();
-        String message = "";
+        response.put("message", "Success");
         final String sourceCodeDecoded = Utils.Decode(sourceCode);
-        // Step-I: Find the problem from the database.
-        // Step-II: Validate the codebase. Two cases: User-defined input, pre-defined input.
-        if (mode.equalsIgnoreCase("judge")) {
-            List<ProblemInput> inputs = this.problemInputRepository.getByProblemId(problemId);
-            for (ProblemInput input : inputs) {
-                final String inputDecoded = Utils.Decode(input.getArgument());
+        List<ProblemInput> inputs = this.problemInputRepository.getByProblemId(problemId);
+        for (ProblemInput input : inputs) {
+            final String inputDecoded = Utils.Decode(input.getArgument());
                 // Pre-defined input.
                 // Step-II(a): Run the input code to see if the result passes on pre-defined inputs.
                 response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
@@ -45,10 +40,18 @@ public class CodeJudge {
                     }
                 }
             }
-        } else if (mode.equalsIgnoreCase("evaluate")) {
-            final String inputDecoded = Utils.Decode(userInput);
-            response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
-        }
+        return response;
+    }
+
+    // Runs the code and sends the result to the client.
+    public JSONObject run(String sourceCode, String problemId, String mode, String userInput, int selectedLanguage) {
+        JSONObject result = new JSONObject();
+        final String sourceCodeDecoded = Utils.Decode(sourceCode);
+        // Step-I: Find the problem from the database.
+        // Step-II: Validate the codebase.
+        // Two cases: User-defined input, pre-defined input.
+        final String inputDecoded = Utils.Decode(userInput);
+        JSONObject response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
         JSONObject status = new JSONObject();
         status.put("id", 3).put("description", "Accepted");
         System.out.printf("Output: {%s}\n", response.getString("output"));

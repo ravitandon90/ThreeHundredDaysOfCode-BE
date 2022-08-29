@@ -16,10 +16,12 @@ RUN apt-get update && \
     apt-get install -y python3
 
 # Install Php
-RUN apt-get install -y php
+RUN apt-get update && \
+    apt-get install -y php
 
 # Install Node
-RUN apt-get install -y nodejs
+RUN apt-get update && \
+    apt-get install -y nodejs
 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} master.jar

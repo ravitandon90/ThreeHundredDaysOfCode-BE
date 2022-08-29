@@ -40,14 +40,11 @@ create table if not exists problem_input (
     updated_at timestamp default now() not null
 );
 
-create table if not exists user_post (
-    post_id varchar(500) not null constraint user_post_jpa_data_store_credential_pkey primary key,
-    author_id varchar(500) not null,
-    problem_id varchar(500),
-    post_type varchar(500) not null,
-    text varchar,
-    img_url varchar(500),
-    video_url varchar(500),
+create table if not exists problem_base_code (
+    id varchar(500) not null constraint problem_base_code_jpa_data_store_credential_pkey primary key,
+    problem_id varchar(500) not null,
+    language varchar(500) not null,
+    base_code varchar not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
@@ -57,6 +54,31 @@ create table if not exists post_comment (
     post_id varchar(500) not null,
     author_id varchar(500) not null,
     text varchar,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
+
+create table if not exists code_submission (
+    submission_id varchar(500) not null constraint code_submission_jpa_data_store_credential_pkey primary key,
+    user_id varchar(500) not null,
+    problem_id varchar(500) not null,
+    language varchar(500) not null,
+    solution_code varchar not null,
+    accepted boolean not null,
+    running_time_ms long not null,
+    memory_consumed long not null,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
+
+create table if not exists user_post (
+    post_id varchar(500) not null constraint user_post_jpa_data_store_credential_pkey primary key,
+    author_id varchar(500) not null,
+    problem_id varchar(500),
+    post_type varchar(500) not null,
+    text varchar,
+    img_url varchar(500),
+    video_url varchar(500),
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
