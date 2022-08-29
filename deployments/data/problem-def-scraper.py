@@ -17,9 +17,11 @@ def get_problem_dict(title_slug):
     problem_dict = dict.fromkeys(['difficulty', 'description', 'examples', 'constraints', 'rest'], "")
     lc_response = get_lc_response(title_slug)
     problem_dict['difficulty'] = lc_response['difficulty']
-    problem_def = lc_response['content'].split(LC_DELIM)
+    problem_dict['description'] = lc_response['content']
+    #problem_def = lc_response['content'].split(LC_DELIM)
     problem_dict['base_code'] = [base_code for base_code in lc_response['codeSnippets'] if base_code['langSlug'] in SUPPORTED_LANGUAGES]
-    extract_problem_definition(problem_def, problem_dict)
+    code_snippets = lc_response['codeSnippets']
+    #extract_problem_definition(problem_def, problem_dict)
     return problem_dict
 
 def extract_problem_definition(problem_def, problem_dict):
@@ -33,6 +35,12 @@ def extract_problem_definition(problem_def, problem_dict):
         else:
             problem_dict['rest'] += it
 
+def get_base_code_for_lang(base_code_arr, lang):
+    for base_code in base_code_arr:
+        if base_code['langSlug'] == lang:
+            return base_code['code']
+    return ""
+
 def encode_str(message):
     message_bytes = message.encode('utf-8')
     base64_bytes = base64.b64encode(message_bytes)
@@ -45,6 +53,8 @@ def append_to_file(message, fileName):
     f.write("\n")
     f.close()
 
+premium_questions = set(line.strip() for line in open('premium.txt'))
+
 # Opening JSON file
 f = open('problems.json')
 
@@ -53,21 +63,31 @@ f = open('problems.json')
 data = json.load(f)
 # Iterating through the json list
 idx = 0
-start_idx = 156
+start_idx = 1
 end_idx = 300
 
 for row in data:
     idx = idx + 1
     if idx < start_idx:
         continue
-    time.sleep(1)
-    html = get_problem_definition(row['Slug_Title'])
-    if html == None:
-        append_to_file(row['Slug_Title'], 'premium.txt')
+    if row['Slug_Title'] in premium_questions:
         continue
-    description = encode_str(html)
-    line = "INSERT INTO problem_description (problem_id, description, title, url, idx) VALUES('" + str(uuid.uuid4()) + "','"+ description + "','" + row['Title'] + "','" + row['URL'] + "'," + str(idx) + ");"
-    append_to_file(line, 'commands.txt')
+    time.sleep(1)
+    problem_dict = get_problem_dict(row['Slug_Title'])
+    problem_id = str(uuid.uuid4())
+    description = encode_str(problem_dict["description"])
+    complexity = problem_dict['difficulty']
+    base_code = problem_dict['base_code']
+
+    # Generating the problem description
+    line = "INSERT INTO problem_description (problem_id, description, title, url, idx, complexity) VALUES('" + problem_id + "','"+ description + "','" + row['Title'] + "','" + row['URL'] + "'," + str(idx) + ",'" + complexity + "');"
+    append_to_file(line, 'problem_description.sql')
+
+    # Generating the code snippet
+    for lang in SUPPORTED_LANGUAGES:
+        base_program = encode_str(get_base_code_for_lang(base_code, lang))
+        line = "INSERT INTO problem_base_code (id, problem_id, language, base_code) VALUES ('" + str(uuid.uuid4()) + "','" + problem_id + "','" + lang + "','" + base_program + "');"
+        append_to_file(line, 'code_snippets.sql')
     if idx == end_idx:
         break
 

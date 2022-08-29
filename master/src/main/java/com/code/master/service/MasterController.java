@@ -34,7 +34,8 @@ public class MasterController {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private UserSubmissionRepository userSubmissionRepository;
-
+    @Autowired
+    private CodeSubmissionRepository codeSubmissionRepository;
     @Autowired
     private NotificationSchedulerService emailSenderService;
 
@@ -115,9 +116,15 @@ public class MasterController {
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
-            @RequestBody SubmitCodeHTTPRequest request, Principal user) {
-        return SubmitCode(request);
-    }
+            @RequestBody SubmitCodeHTTPRequest request, Principal user) { return SubmitCode(request); }
+
+
+    @PostMapping(path = "/submitCodeSolution")
+    public String handleSubmitCodeSolution(
+            @RequestBody SubmitCodeSolutionHTTPRequest request) { return SubmitCodeSolution(request); }
+
+    @PostMapping(path = "/google/submitCodeSolution")
+    public String handleGoogleSubmitCodeSolution(@RequestBody SubmitCodeSolutionHTTPRequest request) {return SubmitCodeSolution(request);}
 
     @PostMapping(path = "/google/submitCode")
     public String handleGoogleSubmitCode(@RequestBody SubmitCodeHTTPRequest request) {
@@ -190,6 +197,12 @@ public class MasterController {
         return new JSONObject().put("message", "Success")
                 .put("userStats", obj)
                 .toString();
+    }
+
+    private String SubmitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
+        CodeSubmission codeSubmission = new CodeSubmission();
+        this.codeSubmissionRepository.save(codeSubmission);
+        return new JSONObject().put("message", "Success").toString();
     }
 
     private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {
