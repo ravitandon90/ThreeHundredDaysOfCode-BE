@@ -28,6 +28,10 @@ public class Utils {
 
     public static String GetLanguageFromId(String languageId) {
         Integer languageIntId = Integer.parseInt(languageId);
+        return GetLanguageFromId(languageIntId) ;
+    }
+
+    public static String GetLanguageFromId(int languageIntId) {
         switch (languageIntId) {
             case Constants.LANGUAGE_CPP_CODE:
                 return "cpp";

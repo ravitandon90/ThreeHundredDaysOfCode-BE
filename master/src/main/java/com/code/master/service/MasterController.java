@@ -84,23 +84,6 @@ public class MasterController {
         return GetProblems();
     }
 
-    private String GetProblems() {
-        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
-        final int maxSize = problems.size();
-        JSONArray ar = new JSONArray();
-        for (ProblemDescription problemDescription : problems) {
-            JSONObject object = new JSONObject();
-            object.put("problemIndex", problemDescription.getIndex())
-                    .put("problemId", problemDescription.getProblemId())
-                    .put("problemUrl", problemDescription.getUrl())
-                    .put("problemComplexity", problemDescription.getComplexity())
-                    .put("problemTitle", problemDescription.getTitle());
-            ar.put(object);
-        }
-        String problemOfTheDay = GetProblemOfTheDay("daily");
-        return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
-    }
-
     @GetMapping(path = "/problem")
     public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
 
@@ -121,7 +104,6 @@ public class MasterController {
     @GetMapping(path = "/google/problemBaseCode")
     public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "problemId") String problemId, @RequestParam(value = "languageId") String languageId) {
         return GetProblemBaseCode(problemId, languageId);
-
     }
 
 
@@ -169,6 +151,24 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
+
+    private String GetProblems() {
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        final int maxSize = problems.size();
+        JSONArray ar = new JSONArray();
+        for (ProblemDescription problemDescription : problems) {
+            JSONObject object = new JSONObject();
+            object.put("problemIndex", problemDescription.getIndex())
+                    .put("problemId", problemDescription.getProblemId())
+                    .put("problemUrl", problemDescription.getUrl())
+                    .put("problemComplexity", problemDescription.getComplexity())
+                    .put("problemTitle", problemDescription.getTitle());
+            ar.put(object);
+        }
+        String problemOfTheDay = GetProblemOfTheDay("daily");
+        return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
+    }
+
     private String runCode(RunCodeHTTPRequest request) {
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
         JSONObject response = judge.run(request.getSource_code(), request.getProblemId(), "evaluate",
@@ -221,9 +221,26 @@ public class MasterController {
 
     // TOOD(Ravi): Add support for running the code through the Code Judge to get the metrics.
     private String SubmitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
-        CodeSubmission codeSubmission = new CodeSubmission();
-        this.codeSubmissionRepository.save(codeSubmission);
-        return new JSONObject().put("message", "Success").toString();
+        // Step-I: Get the base code.
+        CodeJudge judge = new CodeJudge(this.problemInputRepository);
+        JSONObject response = judge.evaluate(request.getSolutionCode(), request.getSolutionCode(), request.getLanguageId());
+        if (Utils.IsSuccess(response)) {
+            CodeSubmission codeSubmission = new CodeSubmission();
+            codeSubmission.setUserId(request.getUserId());
+            codeSubmission.setAccepted(true);
+            codeSubmission.setSolutionCode(request.getSolutionCode());
+            codeSubmission.setLanguage(Utils.GetLanguageFromId(request.getLanguageId()));
+            codeSubmission.setProblemId(request.getProblemId());
+            if (response.has("time")) {
+                codeSubmission.setRunningTimeMS(response.getLong("time"));
+            }
+            if (response.has("memory")) {
+                codeSubmission.setMemoryConsumption(response.getLong("memory"));
+            }
+            this.codeSubmissionRepository.save(codeSubmission);
+            return new JSONObject().put("message", "Success").toString();
+        }
+        return new JSONObject().put("message", "Error").toString();
     }
 
     private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {
