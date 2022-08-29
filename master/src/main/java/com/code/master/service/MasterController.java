@@ -38,9 +38,14 @@ public class MasterController {
     private CodeSubmissionRepository codeSubmissionRepository;
     @Autowired
     private NotificationSchedulerService emailSenderService;
-
     @Autowired
     private ProblemInputRepository problemInputRepository;
+    @Autowired
+    private UserPostRepository userPostRepository;
+    @Autowired
+    private PostLikeRepository postLikeRepository;
+    @Autowired
+    private PostCommentRepository postCommentRepository;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -153,10 +158,16 @@ public class MasterController {
     }
 
     @GetMapping(path = "/google/feed")
-    public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId) { return getFeed(userId); }
+    public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId,
+                                      @RequestParam(value = "pageId") String pageId) {
+        return getFeed(userId, pageId);
+    }
 
     @GetMapping(path = "/feed")
-    public String handleGetFeed(Principal user) { return getFeed(user.getName()); }
+    public String handleGetFeed(Principal user,
+                                @RequestParam(value = "pageId") String pageId) {
+        return getFeed(user.getName(), pageId);
+    }
 
     @PostMapping(path = "/google/comment")
     public String handleGoogleAddComment(@RequestBody AddCommentHTTPRequest request) {
@@ -180,8 +191,63 @@ public class MasterController {
 
     /*********************************** End Of API Definitions. *****************************************/
 
-    private String getFeed(String userId) {
-        return new JSONObject().toString();
+    private String getFeed(String userId, String pageId) {
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+        int endIdx = startIdx + Constants.FEED_PAGE_SIZE;
+
+        // Step-I: Get all the user posts.
+        List<UserPost> userPosts = this.userPostRepository.findAll();
+
+        // Step-II: Find the user posts for the current page.
+        userPosts = userPosts.subList(startIdx, endIdx);
+
+        // Step-III: Format the response.
+        JSONArray jsonArray = new JSONArray();
+        for (UserPost post : userPosts) {
+            JSONObject obj = new JSONObject();
+            List<PostLike> postLikes = this.postLikeRepository.findAllByPostId(post.getPostId());
+            List<PostComment> postComments = this.postCommentRepository.findAllByPostId(post.getPostId());
+            JSONArray commentsArr = new JSONArray();
+            for (PostComment postComment : postComments) {
+                JSONObject commentObj = new JSONObject();
+                commentObj.put("text", postComment.getText());
+                commentObj.put("author", GetUserName(postComment.getAuthorId()));
+                commentsArr.put(commentObj);
+            }
+            final int numLikes = postLikes.size();
+            final int numComments = postComments.size();
+            obj.put("name", GetUserName(post.getAuthorId()));
+            obj.put("numLikes", numLikes);
+            obj.put("numComments", numComments);
+            obj.put("comments", commentsArr);
+            obj.put("codeBlock", post.getText());
+            obj.put("language", "cpp");
+            obj.put("problemName", GetProblemName(post.getProblemId()));
+            obj.put("problemLink", GetProblemLink(post.getProblemId()));
+            jsonArray.put(obj);
+        }
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", jsonArray).toString();
+    }
+
+    private String GetProblemName(String problemId) {
+        ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        if (problemDescription == null) return "";
+        return problemDescription.getTitle();
+    }
+
+    private String GetProblemLink(String problemId) {
+        ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        if (problemDescription == null) return "";
+        return problemDescription.getUrl();
+    }
+
+    private String GetUserName(String userId) {
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        if (userProfile == null) return "";
+        return userProfile.getName();
     }
 
     private String addComment(AddCommentHTTPRequest request) {

@@ -2,4 +2,8 @@ package com.code.master.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostCommentRepository extends JpaRepository<PostComment, String> {}
+import java.util.List;
+
+public interface PostCommentRepository extends JpaRepository<PostComment, String> {
+    List<PostComment> findAllByPostId(String postId);
+}
