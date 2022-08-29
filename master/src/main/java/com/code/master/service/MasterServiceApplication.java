@@ -27,13 +27,12 @@ public class MasterServiceApplication {
                 "http://127.0.0.1:8080", "http://127.0.0.1:8080/"
         };
 
-
         final String[] apiList = {
                 "/me", "/leaderBoard", "/problem", "/",
                 "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions",
-                "/submissions", "/problems", "/problemById", "/submitCodeSolution"
+                "/submissions", "/problems", "/problemById", "/submitCodeSolution",
+                "/problemBaseCode"
         };
-
 
         return new WebMvcConfigurer() {
             @Override

@@ -2,8 +2,8 @@ package com.code.master.service;
 
 import com.code.master.common.*;
 import com.code.master.data.*;
-import com.code.master.judge.CodeCompiler;
 import com.code.master.judge.CodeJudge;
+import com.code.master.utils.Utils;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,14 +11,12 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +32,8 @@ public class MasterController {
     private UserProfileRepository userProfileRepository;
     @Autowired
     private UserSubmissionRepository userSubmissionRepository;
+    @Autowired
+    private ProblemBaseCodeRepository problemBaseCodeRepository;
     @Autowired
     private CodeSubmissionRepository codeSubmissionRepository;
     @Autowired
@@ -113,6 +113,17 @@ public class MasterController {
     @GetMapping(path = "/google/problemById")
     public String handleGoogleGetProblemById(@RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
 
+    @GetMapping(path = "/problemBaseCode")
+    public String handleGetProblemBaseCode(@RequestParam(value = "problemId") String problemId, @RequestParam(value = "languageId") String languageId) {
+        return GetProblemBaseCode(problemId, languageId);
+    }
+
+    @GetMapping(path = "/google/problemBaseCode")
+    public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "problemId") String problemId, @RequestParam(value = "languageId") String languageId) {
+        return GetProblemBaseCode(problemId, languageId);
+
+    }
+
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
@@ -186,6 +197,15 @@ public class MasterController {
         return object;
     }
 
+    private String GetProblemBaseCode(String problemId, String languageId) {
+        ProblemBaseCode problemBaseCode =
+                this.problemBaseCodeRepository.findByProblemIdAndLanguage(problemId, Utils.GetLanguageFromId(languageId));
+        return new JSONObject()
+                .put("message", "Success")
+                .put("base_code", problemBaseCode.getBaseCode())
+                .toString();
+    }
+
     private String SubmitCode(SubmitCodeHTTPRequest request) {
         UserSubmission userSubmission = new UserSubmission();
         userSubmission.setUserId(request.getUserId());
@@ -199,6 +219,7 @@ public class MasterController {
                 .toString();
     }
 
+    // TOOD(Ravi): Add support for running the code through the Code Judge to get the metrics.
     private String SubmitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
         CodeSubmission codeSubmission = new CodeSubmission();
         this.codeSubmissionRepository.save(codeSubmission);
