@@ -1,5 +1,6 @@
 package com.code.master.service;
 
+import ch.qos.logback.classic.Logger;
 import com.code.master.common.Email;
 
 import com.code.master.data.UserProfile;
@@ -12,16 +13,23 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.nio.charset.StandardCharsets;
+
 import java.util.*;
+
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
+import com.amazonaws.services.simpleemail.model.Body;
+import com.amazonaws.services.simpleemail.model.Content;
+import com.amazonaws.services.simpleemail.model.Destination;
+import com.amazonaws.services.simpleemail.model.Message;
+import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -63,8 +71,7 @@ public class NotificationSchedulerService {
         for(UserProfile user : users){
             Email email = new Email();
             email.setTo(user.getEmailId());
-            email.setFrom(env.getProperty("spring.mail.username"));
-            email.setSubject("Knock , knock - Problem of the Day ");
+            email.setSubject("Problem of the Day");
             email.setTemplate(env.getProperty("notification.daily.stats.template"));
             Map<String, Object> properties = new HashMap<>();
             // if the user has not provided the name sebd an empty string to the heml template
@@ -100,17 +107,42 @@ public class NotificationSchedulerService {
 
 
     public void publishEmailNotificationToTheIndividualRecipient(Email email) throws MessagingException {
-        MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        Context context = new Context();
+
+        final Context context = new Context();
         context.setVariables(email.getProperties());
-        helper.setFrom(email.getFrom());
-        helper.setTo(email.getTo());
-        helper.setSubject(email.getSubject());
-        String html = templateEngine.process(email.getTemplate(), context);
-        helper.setText(html, true);
-        // Change Email class to hold userprofile and print user id here than email in the logs
+
+        //TO-DO :: Change Email class to hold userprofile and print user id here than email in the logs
         log.info("Sending notification to : {} ", email.getTo());
-        emailSender.send(message);
+
+        // This address must be verified with Amazon SES.
+         final String FROM = "admin@threehundreddaysofcode.com";
+
+
+        try {
+            AmazonSimpleEmailService client =
+                    AmazonSimpleEmailServiceClientBuilder.standard()
+                            .withRegion(Regions.US_EAST_1).build();
+            SendEmailRequest request = new SendEmailRequest()
+                    .withDestination(
+                            new Destination().withToAddresses(email.getTo()))
+                    .withMessage(new Message()
+                            .withBody(new Body()
+                                    .withHtml(new Content()
+                                            .withCharset("UTF-8").withData(templateEngine.process(email.getTemplate(), context))))
+                            .withSubject(new Content()
+                                    .withCharset("UTF-8").withData(email.getSubject())))
+                    .withSource(FROM);
+
+            client.sendEmail(request);
+
+        } catch (Exception ex) {
+            log.error("The email was not sent. Error message: "
+                    + ex.getMessage());
+
+        }
+
+
     }
+
+
 }
