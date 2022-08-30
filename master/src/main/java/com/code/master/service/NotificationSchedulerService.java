@@ -49,7 +49,7 @@ public class NotificationSchedulerService {
     @Autowired
     private Environment env;
     // schedule at 10 am everyday . to-do : move this to prop file later,also try to disable the Scheduled in dev setups, else every dev env will push emails
-    @Scheduled(cron = "1 * * * * *")
+    @Scheduled(cron = "0 00 10 ? * *")
     public boolean sendDailyProblemAndLeaderBoardToAllUsers(){
 
         boolean sentNotificationsToAllUsers=true;
