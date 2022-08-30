@@ -1,0 +1,8 @@
+3
+a = "aba", b = "cdc"
+3
+a = "aaa", b = "bbb"
+3
+a = "aaa", b = "aaa"
+-1
+

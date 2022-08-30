@@ -1,0 +1,8 @@
+3
+s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+["cats and dog","cat sand dog"]
+s = "pineapplepenapple", wordDict = ["apple","pen","applepen","pine","pineapple"]
+["pine apple pen apple","pineapple pen apple","pine applepen apple"]
+s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+[]
+

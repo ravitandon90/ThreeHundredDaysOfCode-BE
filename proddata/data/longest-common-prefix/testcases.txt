@@ -1,0 +1,6 @@
+2
+strs = ["flower","flow","flight"]
+"fl"
+strs = ["dog","racecar","car"]
+""
+

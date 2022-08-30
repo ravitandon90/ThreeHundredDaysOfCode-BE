@@ -1,0 +1,8 @@
+3
+s = "leetcode"
+0
+s = "loveleetcode"
+2
+s = "aabb"
+-1
+

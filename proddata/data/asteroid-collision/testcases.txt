@@ -1,0 +1,8 @@
+3
+asteroids = [5,10,-5]
+[5,10]
+asteroids = [8,-8]
+[]
+asteroids = [10,2,-5]
+[10]
+

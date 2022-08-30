@@ -1,0 +1,8 @@
+3
+s = "tree"
+"eert"
+s = "cccaaa"
+"aaaccc"
+s = "Aabb"
+"bbAa"
+

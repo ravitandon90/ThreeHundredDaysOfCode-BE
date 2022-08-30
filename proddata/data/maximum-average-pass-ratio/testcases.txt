@@ -1,0 +1,6 @@
+2
+classes = [[1,2],[3,5],[2,2]], <code>extraStudents</code> = 2
+0.78333
+classes = [[2,4],[3,9],[4,5],[2,10]], <code>extraStudents</code> = 4
+0.53485
+

@@ -1,0 +1,6 @@
+2
+s = "abcde", words = ["a","bb","acd","ace"]
+3
+s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+2
+

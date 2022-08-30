@@ -1,0 +1,8 @@
+3
+s = "aba"
+true
+s = "abca"
+true
+s = "abc"
+false
+

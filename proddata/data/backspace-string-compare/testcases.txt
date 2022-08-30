@@ -1,0 +1,8 @@
+3
+s = "ab#c", t = "ad#c"
+true
+s = "ab##", t = "c#d#"
+true
+s = "a#c", t = "b"
+false
+

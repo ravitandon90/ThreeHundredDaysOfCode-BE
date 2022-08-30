@@ -1,0 +1,16 @@
+3
+words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+true
+words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+false
+words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+false
+
+3
+words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+true
+words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+false
+words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+false
+

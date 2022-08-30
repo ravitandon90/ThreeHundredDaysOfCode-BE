@@ -1,0 +1,6 @@
+2
+num = 16
+true
+num = 14
+false
+

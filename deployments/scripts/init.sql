@@ -27,6 +27,7 @@ create table if not exists problem_description (
   example varchar(500),
   problem_constraints varchar(500),
   idx int not null,
+  slug_title varchar(500),
   created_at timestamp default now() not null,
   updated_at timestamp default now() not null
 );

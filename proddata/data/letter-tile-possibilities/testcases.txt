@@ -1,0 +1,8 @@
+3
+tiles = "AAB"
+8
+tiles = "AAABBC"
+188
+tiles = "V"
+1
+

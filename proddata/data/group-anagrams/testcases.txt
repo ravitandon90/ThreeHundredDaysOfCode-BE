@@ -1,0 +1,8 @@
+3
+strs = ["eat","tea","tan","ate","nat","bat"]
+[["bat"],["nat","tan"],["ate","eat","tea"]]
+strs = [""]
+[[""]]
+strs = ["a"]
+[["a"]]
+

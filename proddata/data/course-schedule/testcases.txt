@@ -1,0 +1,12 @@
+2
+numCourses = 2, prerequisites = [[1,0]]
+true
+numCourses = 2, prerequisites = [[1,0],[0,1]]
+false
+
+2
+numCourses = 2, prerequisites = [[1,0]]
+true
+numCourses = 2, prerequisites = [[1,0],[0,1]]
+false
+

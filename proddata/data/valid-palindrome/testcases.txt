@@ -1,0 +1,8 @@
+3
+s = "A man, a plan, a canal: Panama"
+true
+s = "race a car"
+false
+s = " "
+true
+

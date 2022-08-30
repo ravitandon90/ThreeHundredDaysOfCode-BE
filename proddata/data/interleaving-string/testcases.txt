@@ -1,0 +1,8 @@
+3
+s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+true
+s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+false
+s1 = "", s2 = "", s3 = ""
+true
+

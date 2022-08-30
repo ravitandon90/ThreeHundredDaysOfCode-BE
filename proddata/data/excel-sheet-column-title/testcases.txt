@@ -1,0 +1,8 @@
+3
+columnNumber = 1
+"A"
+columnNumber = 28
+"AB"
+columnNumber = 701
+"ZY"
+

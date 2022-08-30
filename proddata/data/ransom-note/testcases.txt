@@ -1,0 +1,8 @@
+3
+ransomNote = "a", magazine = "b"
+false
+ransomNote = "aa", magazine = "ab"
+false
+ransomNote = "aa", magazine = "aab"
+true
+

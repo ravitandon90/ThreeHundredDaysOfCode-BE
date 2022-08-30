@@ -1,0 +1,6 @@
+2
+head = [1,2,2,1]
+true
+head = [1,2]
+false
+

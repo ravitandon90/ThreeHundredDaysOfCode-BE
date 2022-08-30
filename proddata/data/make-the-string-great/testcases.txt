@@ -1,0 +1,8 @@
+3
+s = "leEeetcode"
+"leetcode"
+s = "abBAcC"
+""
+s = "s"
+"s"
+

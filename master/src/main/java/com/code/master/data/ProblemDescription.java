@@ -40,6 +40,8 @@ public class ProblemDescription {
     private String example;
     @Column(name = "problem_constraints")
     private String constraints;
+    @Column(name = "slug_title")
+    private String slugTitle;
     @NotNull
     @Column(name = "idx")
     private long index;

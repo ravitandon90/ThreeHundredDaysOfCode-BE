@@ -1,0 +1,8 @@
+3
+pattern = "abba", s = "dog cat cat dog"
+true
+pattern = "abba", s = "dog cat cat fish"
+false
+pattern = "aaaa", s = "dog cat cat dog"
+false
+

@@ -1,0 +1,16 @@
+3
+s = "3[a]2[bc]"
+"aaabcbc"
+s = "3[a2[c]]"
+"accaccacc"
+s = "2[abc]3[cd]ef"
+"abcabccdcdcdef"
+
+3
+s = "3[a]2[bc]"
+"aaabcbc"
+s = "3[a2[c]]"
+"accaccacc"
+s = "2[abc]3[cd]ef"
+"abcabccdcdcdef"
+

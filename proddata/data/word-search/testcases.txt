@@ -1,0 +1,8 @@
+3
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+true
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+true
+board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+false
+

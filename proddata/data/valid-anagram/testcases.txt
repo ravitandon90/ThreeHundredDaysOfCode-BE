@@ -1,0 +1,6 @@
+2
+s = "anagram", t = "nagaram"
+true
+s = "rat", t = "car"
+false
+

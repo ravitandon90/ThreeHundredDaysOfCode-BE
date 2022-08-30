@@ -1,0 +1,8 @@
+3
+s = "leetcode", wordDict = ["leet","code"]
+true
+s = "applepenapple", wordDict = ["apple","pen"]
+true
+s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+false
+

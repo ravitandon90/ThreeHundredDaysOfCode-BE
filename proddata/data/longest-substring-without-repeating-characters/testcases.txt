@@ -1,0 +1,8 @@
+3
+s = "abcabcbb"
+3
+s = "bbbbb"
+1
+s = "pwwkew"
+3
+

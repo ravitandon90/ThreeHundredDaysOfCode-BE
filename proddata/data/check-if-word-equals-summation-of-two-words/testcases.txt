@@ -1,0 +1,8 @@
+3
+firstWord = "acb", secondWord = "cba", targetWord = "cdb"
+true
+firstWord = "aaa", secondWord = "a", targetWord = "aab"
+false
+firstWord = "aaa", secondWord = "a", targetWord = "aaaa"
+true
+

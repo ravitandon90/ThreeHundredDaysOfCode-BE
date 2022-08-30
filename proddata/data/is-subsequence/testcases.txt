@@ -1,0 +1,6 @@
+2
+s = "abc", t = "ahbgdc"
+true
+s = "axc", t = "ahbgdc"
+false
+

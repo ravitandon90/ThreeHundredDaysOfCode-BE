@@ -1,0 +1,12 @@
+2
+root = [1,2,3,null,null,4,5]
+[1,2,3,null,null,4,5]
+root = []
+[]
+
+2
+root = [1,2,3,null,null,4,5]
+[1,2,3,null,null,4,5]
+root = []
+[]
+

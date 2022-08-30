@@ -1,0 +1,6 @@
+2
+haystack = "hello", needle = "ll"
+2
+haystack = "aaaaa", needle = "bba"
+-1
+

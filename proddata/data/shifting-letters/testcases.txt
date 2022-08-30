@@ -1,0 +1,6 @@
+2
+s = "abc", shifts = [3,5,9]
+"rpl"
+s = "aaa", shifts = [1,2,3]
+"gfd"
+

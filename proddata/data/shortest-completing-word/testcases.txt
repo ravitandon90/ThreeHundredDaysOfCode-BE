@@ -1,0 +1,6 @@
+2
+licensePlate = "1s3 PSt", words = ["step","steps","stripe","stepple"]
+"steps"
+licensePlate = "1s3 456", words = ["looks","pest","stew","show"]
+"pest"
+

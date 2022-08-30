@@ -103,12 +103,12 @@ public class MasterController {
     public String handleGoogleGetProblemById(@RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
 
     @GetMapping(path = "/problemBaseCode")
-    public String handleGetProblemBaseCode(@RequestParam(value = "problemId") String problemId, @RequestParam(value = "languageId") String languageId) {
+    public String handleGetProblemBaseCode(@RequestParam(value = "languageId") String languageId,@RequestParam(value = "problemId") String problemId) {
         return GetProblemBaseCode(problemId, languageId);
     }
 
     @GetMapping(path = "/google/problemBaseCode")
-    public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "problemId") String problemId, @RequestParam(value = "languageId") String languageId) {
+    public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
         return GetProblemBaseCode(problemId, languageId);
     }
 
@@ -306,6 +306,7 @@ public class MasterController {
     private String GetProblemBaseCode(String problemId, String languageId) {
         ProblemBaseCode problemBaseCode =
                 this.problemBaseCodeRepository.findByProblemIdAndLanguage(problemId, Utils.GetLanguageFromId(languageId));
+        System.out.printf("ProblemId, Language: {%s, %s}\n", problemId, Utils.GetLanguageFromId(languageId));
         return new JSONObject()
                 .put("message", "Success")
                 .put("base_code", problemBaseCode.getBaseCode())
@@ -413,6 +414,10 @@ public class MasterController {
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
             if (getRandom) diffInDays = ThreadLocalRandom.current().nextLong(Constants.MAX_NUM_PROBLEMS);
             ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+            while (problemDescription == null) {
+                ++diffInDays;
+                problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+            }
             if (problemDescription != null) {
                 String jsonString = new JSONObject()
                         .put("problemTitle", problemDescription.getTitle())
