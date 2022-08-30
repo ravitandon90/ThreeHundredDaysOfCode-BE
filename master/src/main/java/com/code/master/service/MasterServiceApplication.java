@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-//@EnableScheduling //disable this until the notification html is fixed and created
+@EnableScheduling //disable this until the notification html is fixed and created
 public class MasterServiceApplication {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(MasterServiceApplication.class);

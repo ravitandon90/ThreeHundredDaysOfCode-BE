@@ -49,7 +49,7 @@ public class NotificationSchedulerService {
     @Autowired
     private Environment env;
     // schedule at 10 am everyday . to-do : move this to prop file later,also try to disable the Scheduled in dev setups, else every dev env will push emails
-    @Scheduled(cron = "0 00 10 ? * *")
+    @Scheduled(cron = "1 * * * * *")
     public boolean sendDailyProblemAndLeaderBoardToAllUsers(){
 
         boolean sentNotificationsToAllUsers=true;
@@ -64,7 +64,7 @@ public class NotificationSchedulerService {
             Email email = new Email();
             email.setTo(user.getEmailId());
             email.setFrom(env.getProperty("spring.mail.username"));
-            email.setSubject("Daily Stats- 300 Coding Challange");
+            email.setSubject("Knock , knock - Problem of the Day ");
             email.setTemplate(env.getProperty("notification.daily.stats.template"));
             Map<String, Object> properties = new HashMap<>();
             // if the user has not provided the name sebd an empty string to the heml template
