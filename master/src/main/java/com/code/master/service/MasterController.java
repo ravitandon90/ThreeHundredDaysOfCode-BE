@@ -49,7 +49,7 @@ public class MasterController {
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
-    public String handlePing() {return "Master-Ok"; } 
+    public String handlePing() {return "Master-Ok"; }
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
@@ -63,12 +63,12 @@ public class MasterController {
 
     @GetMapping("/google/leaderBoard")
     public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId, @RequestParam(value = "timeFilter") String timeFilter) {
-        return GetLeaderBoard(timeFilter);
+        return getLeaderBoard(timeFilter);
     }
 
     @GetMapping(path = "/leaderBoard")
     public String handleGetLeaderBoard(@RequestParam(value = "timeFilter") String timeFilter) {
-        return GetLeaderBoard(timeFilter);
+        return getLeaderBoard(timeFilter);
     }
 
     @GetMapping(path = "/mySubmissions")
@@ -531,7 +531,7 @@ public class MasterController {
         return jsonString;
     }
 
-    private String GetLeaderBoard(String timeFilter) {
+    private String getLeaderBoard(String timeFilter) {
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
