@@ -4,6 +4,8 @@
 #include <stack>
 #include<string>
 #include<vector>
+#include<unordered_map>
+#include<unordered_set>
 #include <boost/tokenizer.hpp>
 
 using namespace std;
@@ -72,6 +74,18 @@ vector<vector<int> > ParseLineToVectorOfVectors(const string& input) {
   return output;
 }
 
+unordered_set<string> BuildSet(const vector<vector<int> >& v1) {
+  unordered_set<string> s;
+  for (auto vec : v1) {
+    vector<int> tmp = vec;
+    sort(tmp.begin(), tmp.end());
+    s.insert(Print(tmp));
+  }
+  return s;
+}
+
 bool Compare(const vector<vector<int> >& v1, const vector<vector<int> >& v2) {
-  return v1 == v2;
+  unordered_set<string> s1 = BuildSet(v1);
+  unordered_set<string> s2 = BuildSet(v2);
+  return s1 == s2;
 }
