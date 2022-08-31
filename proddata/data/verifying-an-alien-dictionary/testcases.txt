@@ -1,16 +1,7 @@
 3
-words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+["hello","leetcode"], "hlabcdefgijkmnopqrstuvwxyz"
 true
-words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+["word","world","row"], "worldabcefghijkmnpqstuvxyz"
 false
-words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
+["apple","app"], "abcdefghijklmnopqrstuvwxyz"
 false
-
-3
-words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
-true
-words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
-false
-words = ["apple","app"], order = "abcdefghijklmnopqrstuvwxyz"
-false
-

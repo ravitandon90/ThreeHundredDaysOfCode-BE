@@ -1,6 +1,5 @@
 2
-s = "abc"
+"abc"
 3
-s = "aaa"
+"aaa"
 6
-

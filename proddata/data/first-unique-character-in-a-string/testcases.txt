@@ -1,8 +1,7 @@
 3
-s = "leetcode"
+"leetcode"
 0
-s = "loveleetcode"
+"loveleetcode"
 2
-s = "aabb"
+"aabb"
 -1
-

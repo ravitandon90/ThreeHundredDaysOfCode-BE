@@ -1,6 +1,5 @@
 2
-s = "anagram", t = "nagaram"
+"anagram", "nagaram"
 true
-s = "rat", t = "car"
+"rat", "car"
 false
-

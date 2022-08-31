@@ -1,8 +1,7 @@
 3
-ransomNote = "a", magazine = "b"
+"a", "b"
 false
-ransomNote = "aa", magazine = "ab"
+"aa", "ab"
 false
-ransomNote = "aa", magazine = "aab"
+"aa", "aab"
 true
-

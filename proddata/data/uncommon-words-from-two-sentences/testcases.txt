@@ -1,6 +1,5 @@
 2
-s1 = "this apple is sweet", s2 = "this apple is sour"
+"this apple is sweet", "this apple is sour"
 ["sweet","sour"]
-s1 = "apple apple", s2 = "banana"
+"apple apple", "banana"
 ["banana"]
-

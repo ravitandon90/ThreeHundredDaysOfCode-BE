@@ -1,6 +1,5 @@
 2
-s = "aab"
+"aab"
 "aba"
-s = "aaab"
+"aaab"
 ""
-

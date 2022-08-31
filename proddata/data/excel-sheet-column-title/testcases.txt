@@ -1,8 +1,7 @@
 3
-columnNumber = 1
+1
 "A"
-columnNumber = 28
+28
 "AB"
-columnNumber = 701
+701
 "ZY"
-

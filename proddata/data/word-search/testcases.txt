@@ -1,8 +1,8 @@
 3
-board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCCED"
+[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCCED"
 true
-board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "SEE"
+[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "SEE"
 true
-board = [["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], word = "ABCB"
+[["A","B","C","E"],["S","F","C","S"],["A","D","E","E"]], "ABCB"
 false
 

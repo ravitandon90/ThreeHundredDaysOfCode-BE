@@ -1,8 +1,8 @@
 3
-s = "III"
+"III"
 3
-s = "LVIII"
-58
-s = "MCMXCIV"
+"LVIII"
+8
+"MCMXCIV"
 1994
 

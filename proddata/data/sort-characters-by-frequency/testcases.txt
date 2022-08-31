@@ -1,8 +1,7 @@
 3
-s = "tree"
+"tree"
 "eert"
-s = "cccaaa"
+"cccaaa"
 "aaaccc"
-s = "Aabb"
+"Aabb"
 "bbAa"
-

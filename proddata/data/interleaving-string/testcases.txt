@@ -1,8 +1,7 @@
 3
-s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+"aabcc", "dbbca", "aadbbcbcac"
 true
-s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+"aabcc", "dbbca", "aadbbbaccc"
 false
-s1 = "", s2 = "", s3 = ""
+"", "", ""
 true
-

@@ -1,8 +1,7 @@
 3
-s = "aba"
+"aba"
 true
-s = "abca"
+"abca"
 true
-s = "abc"
+"abc"
 false
-

@@ -1,6 +1,5 @@
 2
-words = ["i","love","leetcode","i","love","coding"], k = 2
+["i","love","leetcode","i","love","coding"], 2
 ["i","love"]
-words = ["the","day","is","sunny","the","the","the","sunny","is","is"], k = 4
+["the","day","is","sunny","the","the","the","sunny","is","is"], 4
 ["the","is","sunny","day"]
-

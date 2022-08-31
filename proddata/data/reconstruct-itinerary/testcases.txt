@@ -1,6 +1,5 @@
 2
-tickets = [["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
+[["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
 ["JFK","MUC","LHR","SFO","SJC"]
-tickets = [["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
+[["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
 ["JFK","ATL","JFK","SFO","ATL","SFO"]
-

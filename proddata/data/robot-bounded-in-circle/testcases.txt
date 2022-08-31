@@ -1,16 +1,7 @@
 3
-instructions = "GGLLGG"
+"GGLLGG"
 true
-instructions = "GG"
+"GG"
 false
-instructions = "GL"
+"GL"
 true
-
-3
-instructions = "GGLLGG"
-true
-instructions = "GG"
-false
-instructions = "GL"
-true
-

@@ -1,6 +1,5 @@
 2
-s = "abcde", words = ["a","bb","acd","ace"]
+"abcde", ["a","bb","acd","ace"]
 3
-s = "dsahjpjauf", words = ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+"dsahjpjauf", ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
 2
-
