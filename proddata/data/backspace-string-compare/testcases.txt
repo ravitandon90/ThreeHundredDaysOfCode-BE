@@ -1,8 +1,7 @@
 3
-s = "ab#c", t = "ad#c"
+"ab#c", "ad#c"
 true
-s = "ab##", t = "c#d#"
+"ab##", "c#d#"
 true
-s = "a#c", t = "b"
+"a#c", "b"
 false
-

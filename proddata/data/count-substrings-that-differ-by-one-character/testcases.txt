@@ -1,6 +1,5 @@
 2
-s = "aba", t = "baba"
+"aba", "baba"
 6
-s = "ab", t = "bb"
+"ab", "bb"
 3
-

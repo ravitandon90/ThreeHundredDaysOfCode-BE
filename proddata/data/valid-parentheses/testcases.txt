@@ -5,20 +5,3 @@ s = "()[]{}"
 true
 s = "(]"
 false
-
-3
-s = "()"
-true
-s = "()[]{}"
-true
-s = "(]"
-false
-
-3
-s = "()"
-true
-s = "()[]{}"
-true
-s = "(]"
-false
-

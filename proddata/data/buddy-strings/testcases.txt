@@ -1,8 +1,7 @@
 3
-s = "ab", goal = "ba"
+"ab", "ba"
 true
-s = "ab", goal = "ab"
+"ab", "ab"
 false
-s = "aa", goal = "aa"
+"aa", "aa"
 true
-

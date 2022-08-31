@@ -1,8 +1,7 @@
 3
-firstWord = "acb", secondWord = "cba", targetWord = "cdb"
+"acb", "cba", "cdb"
 true
-firstWord = "aaa", secondWord = "a", targetWord = "aab"
+"aaa", "a", "aab"
 false
-firstWord = "aaa", secondWord = "a", targetWord = "aaaa"
+"aaa", "a", "aaaa"
 true
-
