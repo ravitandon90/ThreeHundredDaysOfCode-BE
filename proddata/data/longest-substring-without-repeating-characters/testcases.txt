@@ -1,8 +1,7 @@
 3
-s = "abcabcbb"
+"abcabcbb"
 3
-s = "bbbbb"
+"bbbbb"
 1
-s = "pwwkew"
+"pwwkew"
 3
-

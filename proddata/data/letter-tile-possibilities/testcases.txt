@@ -1,8 +1,7 @@
 3
-tiles = "AAB"
+"AAB"
 8
-tiles = "AAABBC"
+"AAABBC"
 188
-tiles = "V"
+"V"
 1
-

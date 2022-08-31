@@ -1,6 +1,5 @@
 2
-s = "abc", t = "ahbgdc"
+"abc","ahbgdc"
 true
-s = "axc", t = "ahbgdc"
+"axc","ahbgdc"
 false
-

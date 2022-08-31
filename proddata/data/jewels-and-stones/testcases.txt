@@ -1,6 +1,5 @@
 2
-jewels = "aA", stones = "aAAbbbb"
+"aA","aAAbbbb"
 3
-jewels = "z", stones = "ZZ"
+"z","ZZ"
 0
-

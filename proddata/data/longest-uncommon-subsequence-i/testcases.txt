@@ -1,8 +1,7 @@
 3
-a = "aba", b = "cdc"
+"aba", "cdc"
 3
-a = "aaa", b = "bbb"
+"aaa", "bbb"
 3
-a = "aaa", b = "aaa"
+"aaa", "aaa"
 -1
-

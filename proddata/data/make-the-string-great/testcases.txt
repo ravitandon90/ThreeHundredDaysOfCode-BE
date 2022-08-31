@@ -1,8 +1,7 @@
 3
-s = "leEeetcode"
+"leEeetcode"
 "leetcode"
-s = "abBAcC"
+"abBAcC"
 ""
-s = "s"
 "s"
-
+"s"
