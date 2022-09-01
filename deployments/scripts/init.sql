@@ -66,8 +66,8 @@ create table if not exists code_submission (
     language varchar(500) not null,
     solution_code varchar not null,
     accepted boolean not null,
-    running_time_ms long not null,
-    memory_consumed long not null,
+    running_time_ms int not null,
+    memory_consumed int not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );

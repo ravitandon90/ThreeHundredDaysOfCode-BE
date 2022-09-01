@@ -1,10 +1,12 @@
 FROM openjdk:11.0.7
 
 ENV DEBIAN_FRONTEND noninteractive
+
+# Install C++
 RUN apt-get update && \
     apt-get -y install gcc mono-mcs && \
     rm -rf /var/lib/apt/lists/* && \
-    apt-get install g++
+    apt-get install -y g++
 
 
 # Install Go

@@ -89,3 +89,7 @@ bool Compare(const vector<vector<int> >& v1, const vector<vector<int> >& v2) {
   unordered_set<string> s2 = BuildSet(v2);
   return s1 == s2;
 }
+
+bool Compare(const vector<int> & v1, const vector<int> & v2) {
+  return v1 == v2;
+}

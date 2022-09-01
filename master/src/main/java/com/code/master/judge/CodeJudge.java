@@ -44,7 +44,7 @@ public class CodeJudge {
     }
 
     // Runs the code and sends the result to the client.
-    public JSONObject run(String sourceCode, String problemId, String mode, String userInput, int selectedLanguage) {
+    public JSONObject run(String sourceCode, String userInput, int selectedLanguage) {
         JSONObject result = new JSONObject();
         final String sourceCodeDecoded = Utils.Decode(sourceCode);
         // Step-I: Find the problem from the database.
@@ -52,9 +52,14 @@ public class CodeJudge {
         // Two cases: User-defined input, pre-defined input.
         final String inputDecoded = Utils.Decode(userInput);
         JSONObject response = compiler.run(sourceCodeDecoded, inputDecoded, selectedLanguage, "Main");
-        JSONObject status = new JSONObject();
-        status.put("id", 3).put("description", "Accepted");
         System.out.printf("Output: {%s}\n", response.getString("output"));
+        JSONObject status = new JSONObject();
+        status.put("id", 3);
+        if (Utils.IsSuccess(response)) {
+            status.put("description", "Accepted");
+        } else {
+            status.put("description", "Error");
+        }
         result.put("stdout", Utils.Encode(response.getString("output")))
                 .put("time", "0.007")
                 .put("memory", 2048)

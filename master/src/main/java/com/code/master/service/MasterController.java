@@ -277,7 +277,7 @@ public class MasterController {
 
     private String runCode(RunCodeHTTPRequest request) {
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
-        JSONObject response = judge.run(request.getSource_code(), request.getProblemId(), "evaluate",
+        JSONObject response = judge.run(request.getSource_code(),
                 request.getStdin(), request.getLanguage_id());
         return response.toString();
     }
@@ -424,6 +424,7 @@ public class MasterController {
                         .put("problemIndex", problemDescription.getIndex())
                         .put("problemLink", problemDescription.getUrl())
                         .put("description", problemDescription.getDescription())
+                        .put("problemId", problemDescription.getProblemId())
                         .toString();
                 return jsonString;
             }
