@@ -331,8 +331,10 @@ public class MasterController {
         // Step-I: Get the base code.
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
         JSONObject response = judge.evaluate(request.getSolutionCode(), request.getSolutionCode(), request.getLanguageId());
+
+        // Step-I: Save the code submission to the DB.
+        CodeSubmission codeSubmission = new CodeSubmission();
         if (Utils.IsSuccess(response)) {
-            CodeSubmission codeSubmission = new CodeSubmission();
             codeSubmission.setUserId(request.getUserId());
             codeSubmission.setAccepted(true);
             codeSubmission.setSolutionCode(request.getSolutionCode());
@@ -345,6 +347,24 @@ public class MasterController {
                 codeSubmission.setMemoryConsumption(response.getLong("memory"));
             }
             this.codeSubmissionRepository.save(codeSubmission);
+
+            // Step-II: Save to User Input Repository.
+            ProblemDescription problem = this.problemDescriptionRepository.getByProblemId(request.getProblemId());
+            UserSubmission userSubmission = new UserSubmission();
+            userSubmission.setUserId(request.getUserId());
+            userSubmission.setProblemName(problem.getTitle());
+            userSubmission.setProblemLink(problem.getUrl());
+            userSubmission.setSolutionLink(codeSubmission.getSubmissionId());
+            this.userSubmissionRepository.save(userSubmission);
+
+            // Step-III: Create a user post.
+            UserPost userPost = new UserPost();
+            userPost.setLanguage(Utils.GetLanguageFromId(request.getLanguageId()));
+            userPost.setProblemId(request.getProblemId());
+            userPost.setProblemName(problem.getTitle());
+            userPost.setPostType("CODE_REVIEW");
+            userPost.setText(request.getSolutionCode());
+            this.userPostRepository.save(userPost);
             return new JSONObject().put("message", "Success").toString();
         }
         return new JSONObject().put("message", "Error").toString();

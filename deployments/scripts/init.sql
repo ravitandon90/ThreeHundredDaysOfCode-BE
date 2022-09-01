@@ -80,6 +80,8 @@ create table if not exists user_post (
     text varchar,
     img_url varchar(500),
     video_url varchar(500),
+    problem_name varchar(500),
+    language_name varchar(500),
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );

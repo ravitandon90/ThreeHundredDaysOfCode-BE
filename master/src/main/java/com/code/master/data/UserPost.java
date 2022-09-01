@@ -30,6 +30,12 @@ public class UserPost {
     @Column(name = "problem_id")
     private String problemId;
 
+    @Column(name = "problem_name")
+    private String problemName;
+
+    @Column(name = "language_name")
+    private String language;
+
     @NotNull
     @Column(name = "post_type")
     private String postType;
