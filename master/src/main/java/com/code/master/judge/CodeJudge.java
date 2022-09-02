@@ -24,6 +24,7 @@ public class CodeJudge {
     public JSONObject evaluate(String sourceCode, String problemId, int selectedLanguage) {
         JSONObject response = new JSONObject();
         response.put("message", "Success");
+
         final String sourceCodeDecoded = Utils.Decode(sourceCode);
         List<ProblemInput> inputs = this.problemInputRepository.getByProblemId(problemId);
         for (ProblemInput input : inputs) {
@@ -40,6 +41,15 @@ public class CodeJudge {
                     }
                 }
             }
+
+        JSONObject status = new JSONObject();
+        status.put("id", 3);
+        if (Utils.IsSuccess(response)) {
+            status.put("description", "Solution Saved");
+        } else {
+            status.put("description", "Something went wrong.");
+        }
+        response.put("status", status);
         return response;
     }
 
@@ -56,9 +66,9 @@ public class CodeJudge {
         JSONObject status = new JSONObject();
         status.put("id", 3);
         if (Utils.IsSuccess(response)) {
-            status.put("description", "Accepted");
+            status.put("description", "Code Run Successfully");
         } else {
-            status.put("description", "Error");
+            status.put("description", "Compilation/Execution Error");
         }
         result.put("stdout", Utils.Encode(response.getString("output")))
                 .put("time", "0.007")

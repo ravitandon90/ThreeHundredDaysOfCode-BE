@@ -90,6 +90,7 @@ create table if not exists post_like (
     like_id varchar(500) not null constraint post_like_jpa_data_store_credential_pkey primary key,
     post_id varchar(500) not null,
     author_id varchar(500) not null,
+    is_like boolean default false,
     seen boolean default false not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null

@@ -27,6 +27,7 @@ public class PostLike {
      * Positive: User liked the post.
      * Negative: User had liked the post, and now doesn't like it anymore.
      */
+    @Column(name = "is_like")
     private boolean isLike;
 
     @Column(name = "seen")

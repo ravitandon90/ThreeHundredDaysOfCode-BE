@@ -22,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 @RestController
 public class MasterController {
@@ -192,12 +193,12 @@ public class MasterController {
     /*********************************** End Of API Definitions. *****************************************/
 
     private String getFeed(String userId, String pageId) {
+        // Step-I: Get all the user posts.
+        List<UserPost> userPosts = this.userPostRepository.findAllByOrderByCreatedAtDesc();
+
         int pageIntId = Integer.parseInt(pageId);
         int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
-        int endIdx = startIdx + Constants.FEED_PAGE_SIZE;
-
-        // Step-I: Get all the user posts.
-        List<UserPost> userPosts = this.userPostRepository.findAll();
+        int endIdx = min(userPosts.size(), startIdx + Constants.FEED_PAGE_SIZE);
 
         // Step-II: Find the user posts for the current page.
         userPosts = userPosts.subList(startIdx, endIdx);
@@ -215,9 +216,13 @@ public class MasterController {
                 commentObj.put("author", GetUserName(postComment.getAuthorId()));
                 commentsArr.put(commentObj);
             }
-            final int numLikes = postLikes.size();
+            int numLikes = postLikes.size();
+            if (numLikes < 5) {
+                numLikes = numLikes + 5;
+            }
             final int numComments = postComments.size();
-            obj.put("name", GetUserName(post.getAuthorId()));
+            obj.put("postId", post.getPostId());
+            obj.put("authorName", GetUserName(post.getAuthorId()));
             obj.put("numLikes", numLikes);
             obj.put("numComments", numComments);
             obj.put("comments", commentsArr);
@@ -251,11 +256,30 @@ public class MasterController {
     }
 
     private String addComment(AddCommentHTTPRequest request) {
-        return new JSONObject().toString();
+        PostComment comment = new PostComment();
+        comment.setAuthorId(request.getUserId());
+        comment.setPostId(request.getPostId());
+        comment.setText(request.getText());
+        this.postCommentRepository.save(comment);
+        List<PostComment> postComments = this.postCommentRepository.findAllByPostId(request.getPostId());
+        JSONArray commentsArr = new JSONArray();
+        for (PostComment postComment : postComments) {
+            JSONObject commentObj = new JSONObject();
+            commentObj.put("text", postComment.getText());
+            commentObj.put("author", GetUserName(postComment.getAuthorId()));
+            commentObj.put("commentId", postComment.getCommentId());
+            commentsArr.put(commentObj);
+        }
+        return new JSONObject().put("message", "Success").put("data", commentsArr).toString();
     }
 
     private String addLike(AddLikeHTTPRequest request) {
-        return new JSONObject().toString();
+        PostLike like = new PostLike();
+        like.setLike(request.isLiked());
+        like.setAuthorId(request.getUserId());
+        like.setPostId(request.getPostId());
+        this.postLikeRepository.save(like);
+        return new JSONObject().put("message", "Success").toString();
     }
 
     private String GetProblems() {
@@ -330,16 +354,16 @@ public class MasterController {
     private String SubmitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
         // Step-I: Get the base code.
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
-        JSONObject response = judge.evaluate(request.getSolutionCode(), request.getSolutionCode(), request.getLanguageId());
+        JSONObject response = judge.evaluate(request.getSource_code(), request.getProblem_id(), request.getLanguage_id());
 
         // Step-I: Save the code submission to the DB.
         CodeSubmission codeSubmission = new CodeSubmission();
         if (Utils.IsSuccess(response)) {
-            codeSubmission.setUserId(request.getUserId());
+            codeSubmission.setUserId(request.getUser_id());
             codeSubmission.setAccepted(true);
-            codeSubmission.setSolutionCode(request.getSolutionCode());
-            codeSubmission.setLanguage(Utils.GetLanguageFromId(request.getLanguageId()));
-            codeSubmission.setProblemId(request.getProblemId());
+            codeSubmission.setSolutionCode(request.getSource_code());
+            codeSubmission.setLanguage(Utils.GetLanguageFromId(request.getLanguage_id()));
+            codeSubmission.setProblemId(request.getProblem_id());
             if (response.has("time")) {
                 codeSubmission.setRunningTimeMS(response.getLong("time"));
             }
@@ -349,9 +373,9 @@ public class MasterController {
             this.codeSubmissionRepository.save(codeSubmission);
 
             // Step-II: Save to User Input Repository.
-            ProblemDescription problem = this.problemDescriptionRepository.getByProblemId(request.getProblemId());
+            ProblemDescription problem = this.problemDescriptionRepository.getByProblemId(request.getProblem_id());
             UserSubmission userSubmission = new UserSubmission();
-            userSubmission.setUserId(request.getUserId());
+            userSubmission.setUserId(request.getUser_id());
             userSubmission.setProblemName(problem.getTitle());
             userSubmission.setProblemLink(problem.getUrl());
             userSubmission.setSolutionLink(codeSubmission.getSubmissionId());
@@ -359,15 +383,15 @@ public class MasterController {
 
             // Step-III: Create a user post.
             UserPost userPost = new UserPost();
-            userPost.setLanguage(Utils.GetLanguageFromId(request.getLanguageId()));
-            userPost.setProblemId(request.getProblemId());
+            userPost.setLanguage(Utils.GetLanguageFromId(request.getLanguage_id()));
+            userPost.setProblemId(request.getProblem_id());
             userPost.setProblemName(problem.getTitle());
             userPost.setPostType("CODE_REVIEW");
-            userPost.setText(request.getSolutionCode());
+            userPost.setText(request.getSource_code());
+            userPost.setAuthorId(request.getUser_id());
             this.userPostRepository.save(userPost);
-            return new JSONObject().put("message", "Success").toString();
         }
-        return new JSONObject().put("message", "Error").toString();
+        return response.toString();
     }
 
     private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {

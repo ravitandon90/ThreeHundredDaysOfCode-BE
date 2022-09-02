@@ -11,6 +11,8 @@ services:
       - db
     networks:
       - 'es-network'
+    volumes:
+      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials
 
   db:
     image: postgres:14.1-alpine
@@ -30,6 +32,8 @@ services:
 
 volumes:
   db:
+    driver: local
+  master:
     driver: local
 
 networks:

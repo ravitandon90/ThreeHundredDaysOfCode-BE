@@ -3,21 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
   xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:th="http://www.w3.org/1999/xhtml">
 
-<head>
-  <!--[if gte mso 9]>
-  <xml>
-    <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-    </o:OfficeDocumentSettings>
-  </xml>
-  <![endif]-->
+<head>  
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="x-apple-disable-message-reformatting">
-  <!--[if !mso]><!-->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <!--<![endif]-->
+  <meta name="x-apple-disable-message-reformatting">  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">  
   <title></title>
 
   <style type="text/css">
@@ -52,7 +42,7 @@
 
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 700px) {
       .u-row-container {
         max-width: 100% !important;
         padding-left: 0px !important;
@@ -81,6 +71,7 @@
     body {
       margin: 0;
       padding: 0;
+      background-color: rgb(214, 212, 212)!important;
     }
 
     table,
@@ -88,6 +79,8 @@
     td {
       vertical-align: top;
       border-collapse: collapse;
+      
+      max-width: 700px;
     }
 
     p {
@@ -108,6 +101,10 @@
       text-decoration: none !important;
     }
 
+    a, u {
+      text-decoration: none !important;
+    }
+
     table,
     td {
       color: #000000;
@@ -115,7 +112,7 @@
 
     #u_body a {
       color: #0000ee;
-      text-decoration: underline;
+      text-decoration: underline;      
     }
 
     @media (max-width: 300px) {
@@ -139,10 +136,6 @@
         background-position: center top !important;
         background-repeat: no-repeat !important;
       }
-
-
-
-
 
       #u_column_2 .v-col-padding {
         padding: 50px 20px 150px !important;
@@ -216,16 +209,12 @@
         text-align: center !important;
       }
     }
-  </style>
-
-
-
-  <!--[if !mso]><!-->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet" type="text/css">
-  <!--<![endif]-->
-
+  </style>    
+  <link href="https://fonts.googleapis.com/css?family='Source Sans Pro':400,900&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Tahoma:400,900&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Verdana:400,900&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Constantia:400,900&display=swap" rel="stylesheet" type="text/css">
 </head>
-
 <body class="clean-body u_body"
   style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #ffffff;color: #000000">
   <!--[if IE]><div class="ie-container"><![endif]-->
@@ -237,8 +226,6 @@
       <tr style="vertical-align: top">
         <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
           <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #ffffff;"><![endif]-->
-
-
           <div class="u-row-container v-row-background-image--outer" style="padding: 0px;background-color: transparent">
             <div class="u-row"
               style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
@@ -255,162 +242,115 @@
                       style="height: 100%; padding: 35px 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
                       <!--<![endif]-->
 
-                      <table id="u_content_heading_3" style="font-family:'Montserrat',sans-serif;" role="presentation"
+                      <table id="u_content_heading_3" style="font-size:large;font-family:'Source Sans Pro',Tahoma,Verdana,Segoe,sans-serif;" role="presentation"
                         cellpadding="0" cellspacing="0" width="100%" border="0">
-                        <tbody>
+                        <tbody>                          
                           <tr>
-                            <td class="v-container-padding-padding"
-                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                              align="left">
-
-                              <h1 class="v-text-align v-line-height v-font-size"
-                                style="margin: 0px; color: #38b08c; line-height: 120%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Montserrat',sans-serif; font-size: 30px;">
-                                <p th:text="'Good Morning, ' + ${userNameToSendEmailTo} + '!'" />
-                              </h1>
-                            </td>
                           </tr>
                           <tr>
                             <td class="v-container-padding-padding"
-                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                              align="left">
-            
-                              <h1 class="v-text-align v-line-height v-font-size"
-                                style="margin: 0px; color: #38b08c; line-height: 100%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Montserrat',sans-serif; font-size: 15px;">
-                                <strong>Today's problem is - </strong>
-                              </h1>
-                               <br/>
-                              <div class="v-text-align v-line-height"
-                              style="color: #0c0ca3; line-height: 140%; text-align: center; word-wrap: break-word; font-size: 20px">
-                               
-                              <p th:text="${problemName}" />
-                            
-                            </div>
-            
-                            </td>
-                          </tr>
-                          <tr>
-                            <td class="v-container-padding-padding"
-                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
+                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-size:large;font-family:'Source Sans Pro',Tahoma,Verdana,Segoe,sans-serif;"
                               align="center">
-            
-                              <div class="v-text-align" align="center">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                                <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:'Montserrat',sans-serif;"><tr><td class="v-text-align" style="font-family:'Montserrat',sans-serif;" align="right"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.unlayer.com" style="height:37px; v-text-anchor:middle; width:217px;" arcsize="11%" stroke="f" fillcolor="#182955"><w:anchorlock/><center style="color:#FFFFFF;font-family:'Montserrat',sans-serif;"><![endif]-->
-                                <a th:href="${problemLink}" target="_blank"
-                                  style="box-sizing: border-box;display: inline-block;font-family:'Montserrat',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #182955; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:70%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
-                                  <span class="v-line-height" style="display:block;padding:10px 20px;line-height:120%;"><span
-                                      style="font-size: 14px; line-height: 16.8px;">Click here to review the problem
-                                    </span></span>
-                                </a>
-                                
+                              <div class="v-text-align" align="left">
+                                <img src="https://ik.imagekit.io/wfx6bvuzj/300Code/300_CODE__3__Rq66KHjfr.png"/>
+                                <br><br><br>
+                                <hr />
+                                <br>
+                                <span>
+                                  <p>We hope you are doing well. Thank you for participating in the Three Hundred Days Of Code Challenge. With your support and participation, we have grown to a strong community of 500+ participants.</p>
+                                  </span>                                
+                              </div>                              
+                              <br>
+                              <div class="v-text-align" align="left">
+                                <span>
+                                <strong> Today's Problem</strong>
+                                <a target="_blank" href="https://www.threehundreddaysofcode.com/submission">Click here </a> to get started.                                 
+                                <span th:text="'We are going to solve ' + ${problemTitle} + ' today.'"/>                                
+                              </span>
                               </div>
-            
+                              <br>
+                              <div class="v-text-align" align="left">
+                              <span>
+                                <strong>The mission behind the community.</strong>
+                                <span>
+                                  <ol>
+                                  <li>We believe that learning in isolation can be challenging and demotivating for many people.</li>
+                                  <li>We believe that most of us have that innate curiosity, and we fail to realize it due to a lack of good mentors.</li>
+                                  <li>The 300 Days Of Code Community is a step toward building a better world - by sharing knowledge across the community.</li>
+                                </ol>
+                                </span>
+                              </div>
+                              </span>
+
+                              <span>
+                                <div class="v-text-align" align="left">                              
+                                <strong>Where can you find the complete curriculum?</strong>
+                                <span><br>
+                                Use <a target="_blank" href="https://docs.google.com/spreadsheets/d/1Xg6h7VhSaYuXFGRkHfHnHbIpdtZJAlPRfTbbR3P-hmc/edit#gid=0">this link</a> to go through all the problems we will solve during the 300 days of code challenge.
+                              </span>
+                              </div>
+                            </span>
+
+                              <br>
+                              <div class="v-text-align" align="left">
+                              <strong>How can you contribute to the community?</strong>
+                              <span><br>
+                              As a part of our community, you can help us in the following:
+                              <ol>
+                              <li>Share awareness about the community on LinkedIn, Twitter, and Email.</li>
+                              <li>Contribute to the Daily Code Newsletter and help us grow to 100,000 Daily Subscribers. Each blog entry contribution counts.</li>
+                              <li>Invite friends and people you know onto our Discord server.</li>
+                              <li>Give us a shoutout on Twitter, LinkedIn, Substack, and Github.</li>
+                              </ol>
+                              </span>
+                              </div>
+
+                              <div class="v-text-align" align="left">
+                              <span>
+                              <strong>What are the prizes that you can compete for?</strong><br>
+                              Here are the prizes that you can compete for when solving problems with the Three Hundred Days Of Code community.
+                              <ol>
+                              <li><strong>Weekly Coding Streak Challenge:</strong> Every month, we will give out $50 to the person who submits a solution on the maximum number of days. You need a minimum of 5 unique days to qualify for the prize.</li>
+                              <li><strong>The Coding God:</strong> The first person to complete a 300-day-long streak will get a brand new iPhone. The solution should be your own and not copied from any other place.</li>
+                              </ol>
+                              </div>
+                              <div class="v-text-align" align="left">
+                              <strong>Where can you find us?</strong><br>
+                              Find us on the <a target="_blank" href="https://www.threehundreddaysofcode.com/" >Web</a>, 
+                              <a target="_blank" href="https://discord.gg/6duGefKtyv">Discord</a>, 
+                              <a target="_blank" href="https://twitter.com/300DaysOfCode">Twitter</a>  
+                              <a target="_blank" href="https://www.linkedin.com/in/ravi-tandon-b6534049/">LinkedIn</a>, 
+                              <a target="_blank" href="https://thedailycode.substack.com">Substack</a>, and
+                              <a target="_blank" href="https://github.com/ravitandon90/Code-Submissions">Github</a>.
+                              </span>
+                              </div>
+                              <br>
+                              <br>
+                              <div class="v-text-align" align="left">
+                              <span>
+                              Thank you,<br>
+                              The 300 Days Of Code Team.
+                              </span>
+                              </div>
+
                             </td>
                           </tr>
                           <tr>
                             <td class="v-container-padding-padding"
-                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                              align="left">
-
-                              <div class="v-text-align v-line-height"
-                                style="line-height: 140%; text-align: right; word-wrap: break-word;">
-                                <p
-                                  style="padding:0;margin:0;color:#000000;font-size:11pt;font-family:&quot;Lora&quot;;line-height:1.15;orphans:2;widows:2;text-align:left">
-                                  <span style="font-weight:400;font-family:&quot;Lora&quot;">To read the solution of
-                                    yesterday’s problem subscribe to our free newsletter </span><span
-                                    style="font-family:&quot;Lora&quot;;color:#1155cc;font-weight:400"><a
-                                      href="https://www.google.com/url?q=https://www.google.com/url?q%3Dhttps://thedailycode.substack.com/%26amp;sa%3DD%26amp;source%3Deditors%26amp;ust%3D1661398824674889%26amp;usg%3DAOvVaw2XeRs9ayEOO9UlpSXkpbgT&amp;sa=D&amp;source=docs&amp;ust=1661398824683274&amp;usg=AOvVaw10nRbp9gUh-5jfVbtVxgAW"
-                                      style="color:inherit;text-decoration:inherit">The Daily Code</a></span><span
-                                    style="font-weight:400;font-family:&quot;Lora&quot;">&nbsp;on </span><span
-                                    style="font-family:&quot;Lora&quot;;color:#1155cc;font-weight:400"><a
-                                      href="https://www.google.com/url?q=https://www.google.com/url?q%3Dhttp://substack.com%26amp;sa%3DD%26amp;source%3Deditors%26amp;ust%3D1661398824675416%26amp;usg%3DAOvVaw0PJ1cjXPGQE3WgWT8jZyOO&amp;sa=D&amp;source=docs&amp;ust=1661398824683468&amp;usg=AOvVaw0TD7x2MRSMC9RYa50C0BVa"
-                                      style="color:inherit;text-decoration:inherit">Substack</a></span><span
-                                    style="font-weight:400;font-family:&quot;Lora&quot;">.</span>
-                                </p>
-
-                                <!--<p style="font-size: 14px; line-height: 140%;">2261 Market Street #4667 San Francisco, CA 94114 All rights reserved.</p>-->
-                              </div>
-
+                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Source Sans Pro',Tahoma,Verdana,Segoe,sans-serif;" align="left">                              
                             </td>
                           </tr>
                         </tbody>
                       </table>
-
-                      <!--[if (!mso)&(!IE)]><!-->
                     </div>
-                    <!--<![endif]-->
                   </div>
                 </div>
-                <!--[if (mso)|(IE)]></td><![endif]-->
-                <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
               </div>
             </div>
           </div>
 
 
-          <!--<table id="u_content_heading_1" style="font-family:'Montserrat',sans-serif;" role="presentation"
-            cellpadding="0" cellspacing="0" width="100%" border="0">
-            <tbody>
-              <tr>
-                <td class="v-container-padding-padding"
-                  style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                  align="left">
-
-                  <h1 class="v-text-align v-line-height v-font-size"
-                    style="margin: 0px; color: #ffffff; line-height: 100%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Montserrat',sans-serif; font-size: 25px;">
-                    <strong>Today's problem is - </strong>
-                  </h1>
-                   <br/>
-                  <div class="v-text-align v-line-height"
-                  style="color: #ffffff; line-height: 140%; text-align: center; word-wrap: break-word;">
-                  <p th:text="${problemName}" />
-                </div>
-
-                </td>
-              </tr>
-            </tbody>
-          </table>-->
-
-        <!--  <table id="u_content_text_1" style="font-family:'Montserrat',sans-serif;" role="presentation" cellpadding="0"
-            cellspacing="0" width="100%" border="0">
-            <tbody>
-              <tr>
-                <td class="v-container-padding-padding"
-                  style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                  align="left">
-
-                  <div class="v-text-align v-line-height"
-                    style="color: #ffffff; line-height: 140%; text-align: center; word-wrap: break-word;">
-                    <p th:text="${problemName}" />
-                  </div>
-
-                </td>
-              </tr>
-            </tbody>
-          </table>-->
-
-          <!--<table id="u_content_button_1" style="font-family:'Montserrat',sans-serif;" role="presentation"
-            cellpadding="0" cellspacing="0" width="100%" border="0">
-            <tbody>
-              <tr>
-                <td class="v-container-padding-padding"
-                  style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                  align="left">
-
-                  <div class="v-text-align" align="right">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-                    
-                    <a th:href="${problemLink}" target="_blank"
-                      style="box-sizing: border-box;display: inline-block;font-family:'Montserrat',sans-serif;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #182955; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:70%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;">
-                      <span class="v-line-height" style="display:block;padding:10px 20px;line-height:120%;"><span
-                          style="font-size: 14px; line-height: 16.8px;">Click here to review the problem
-                        </span></span>
-                    </a>
-                    
-                  </div>
-
-                </td>
-              </tr>
-            </tbody>
-          </table>-->
+          
 
           <!--[if (!mso)&(!IE)]><!-->
           </div>
@@ -455,37 +395,7 @@
                       <div>
                       </div>
 
-                   <!--   <table id="u_content_text_8" style="font-family:'Montserrat',sans-serif;" role="presentation"
-                        cellpadding="0" cellspacing="0" width="100%" border="0">
-                        <tbody>
-                          <tr>
-                            <td class="v-container-padding-padding"
-                              style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Montserrat',sans-serif;"
-                              align="left">
-
-                              <div class="v-text-align v-line-height"
-                                style="line-height: 140%; text-align: right; word-wrap: break-word;">
-                                <p
-                                  style="padding:0;margin:0;color:#000000;font-size:11pt;font-family:&quot;Lora&quot;;line-height:1.15;orphans:2;widows:2;text-align:left">
-                                  <span style="font-weight:400;font-family:&quot;Lora&quot;">To read the solution of
-                                    yesterday’s problem subscribe to our free newsletter </span><span
-                                    style="font-family:&quot;Lora&quot;;color:#1155cc;font-weight:400"><a
-                                      href="https://www.google.com/url?q=https://www.google.com/url?q%3Dhttps://thedailycode.substack.com/%26amp;sa%3DD%26amp;source%3Deditors%26amp;ust%3D1661398824674889%26amp;usg%3DAOvVaw2XeRs9ayEOO9UlpSXkpbgT&amp;sa=D&amp;source=docs&amp;ust=1661398824683274&amp;usg=AOvVaw10nRbp9gUh-5jfVbtVxgAW"
-                                      style="color:inherit;text-decoration:inherit">The Daily Code</a></span><span
-                                    style="font-weight:400;font-family:&quot;Lora&quot;">&nbsp;on </span><span
-                                    style="font-family:&quot;Lora&quot;;color:#1155cc;font-weight:400"><a
-                                      href="https://www.google.com/url?q=https://www.google.com/url?q%3Dhttp://substack.com%26amp;sa%3DD%26amp;source%3Deditors%26amp;ust%3D1661398824675416%26amp;usg%3DAOvVaw0PJ1cjXPGQE3WgWT8jZyOO&amp;sa=D&amp;source=docs&amp;ust=1661398824683468&amp;usg=AOvVaw0TD7x2MRSMC9RYa50C0BVa"
-                                      style="color:inherit;text-decoration:inherit">Substack</a></span><span
-                                    style="font-weight:400;font-family:&quot;Lora&quot;">.</span>
-                                </p>
-
-                               
-                              </div>
-
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>-->
+           
 
                     
                     </div>
