@@ -11,12 +11,12 @@ IT_DELIM = "<pre>&nbsp;</pre>"
 SUPPORTED_LANGUAGES =  ['cpp', 'java', 'python3', 'golang', 'php', 'javascript']
 
 def get_lc_response(title_slug):
-    leetcode_request_url = f"https://leetcode.com/graphql?query=query {{ question(titleSlug: \"{title_slug}\") {{ difficulty content codeSnippets {{ lang langSlug code }} }} }} "
+    leetcode_request_url = f"https://leetcode.com/graphql?query=query {{ question(titleSlug: \"{title_slug}\") {{ difficulty content codeSnippets {{ lang langSlug code }} topicTags {{ name slug translatedName }} companyTags {{ name slug translatedName }} }} }} "
     leetcode_response = requests.get(leetcode_request_url)
     return leetcode_response.json()['data']['question']
 
 def get_problem_dict(title_slug):
-    problem_dict = dict.fromkeys(['difficulty', 'description', 'examples', 'constraints', 'rest'], "")
+    problem_dict = dict.fromkeys(['difficulty', 'description', 'examples', 'constraints', 'rest', 'topic_tags', 'company_tags'], "")
     lc_response = get_lc_response(title_slug)
     problem_dict['difficulty'] = lc_response['difficulty']
     problem_dict['description'] = lc_response['content']
@@ -24,6 +24,8 @@ def get_problem_dict(title_slug):
     problem_dict['base_code'] = [base_code for base_code in lc_response['codeSnippets'] if base_code['langSlug'] in SUPPORTED_LANGUAGES]
     #code_snippets = lc_response['codeSnippets']
     #extract_problem_definition(problem_def, problem_dict)
+    problem_dict['topic_tags'] = [topic_tag['name'] for topic_tag in lc_response['topicTags']]
+    problem_dict['company_tags'] = [company_tag['name'] for company_tag in lc_response['companyTags']]
     return problem_dict
 
 def extract_problem_definition(problem_def, problem_dict):
