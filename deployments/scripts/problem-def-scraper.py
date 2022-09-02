@@ -24,8 +24,8 @@ def get_problem_dict(title_slug):
     problem_dict['base_code'] = [base_code for base_code in lc_response['codeSnippets'] if base_code['langSlug'] in SUPPORTED_LANGUAGES]
     #code_snippets = lc_response['codeSnippets']
     #extract_problem_definition(problem_def, problem_dict)
-    problem_dict['topic_tags'] = [topic_tag['name'] for topic_tag in lc_response['topicTags']]
-    problem_dict['company_tags'] = [company_tag['name'] for company_tag in lc_response['companyTags']]
+    problem_dict['topic_tags'] = [topic_tag['name'] for topic_tag in lc_response['topicTags']] if lc_response['topicTags'] is not None else []
+    problem_dict['company_tags'] = [company_tag['name'] for company_tag in lc_response['companyTags']] if lc_response['companyTags'] is not None else []
     return problem_dict
 
 def extract_problem_definition(problem_def, problem_dict):
