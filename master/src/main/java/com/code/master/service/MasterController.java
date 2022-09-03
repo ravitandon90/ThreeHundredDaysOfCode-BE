@@ -493,6 +493,58 @@ public class MasterController {
         return submissionSet.size();
     }
 
+    private JSONObject getUserStatsFromSubmissions(String userId, String userName, Map<String, List<UserSubmission>> userSubmissionMap) {
+        List<UserSubmission> submissions = userSubmissionMap.get(userId);
+        int referralCount = 0;
+        int numberUniqueDays = 0;
+        int longestStreak = 0;
+        int numberOfSubmissions = 0;
+        if (submissions != null) {
+            HashSet<Long> datesSet = new HashSet<>();
+            ArrayList<Long> datesList = new ArrayList<>();
+            numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
+            try {
+                SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+                Date startDate = parser.parse(Constants.START_DATE);
+                // Step-I: Get the number of Unique Submission Days.
+                for (int idx = 0; idx < submissions.size(); ++idx) {
+                    Instant i = submissions.get(idx).getCreatedAt();
+                    Date endDate = Date.from(i);
+                    long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+                    long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+                    datesSet.add(diffInDays);
+                }
+            } catch (ParseException e) {
+                System.out.printf("Error parsing date: {%s}\n", e);
+            }
+            numberUniqueDays = datesSet.size();
+
+            // Step-III: Get The Longest Streak.
+            datesList.addAll(datesSet);
+            Collections.sort(datesList);
+
+            int currRun = 0;
+            for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
+                final long diff = datesList.get(idx + 1) - datesList.get(idx);
+                if (diff == 0) continue;
+                if (diff <= 2) {
+                    currRun++;
+                    longestStreak = max(longestStreak, currRun);
+                } else {
+                    currRun = 1;
+                }
+            }
+            if (datesList.size() > 0) longestStreak++;
+        }
+        return new JSONObject()
+                .put("name", userName)
+                .put ("numberOfSubmissions", numberOfSubmissions)
+                .put("numberUniqueDays", numberUniqueDays)
+                .put("referralCount", referralCount)
+                .put("longestStreak", longestStreak);
+
+    }
+
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
 
@@ -527,13 +579,6 @@ public class MasterController {
             System.out.printf("Error parsing date: {%s}\n", e);
         }
         numberUniqueDays = datesSet.size();
-
-        // Step-II: Get Number of Referrals.
-        List<UserProfile> userProfiles = this.userProfileRepository.findByReferrerId(userId);
-        for (int idx = 0; idx < userProfiles.size(); ++idx) {
-            UserProfile profile = userProfiles.get(idx);
-            if (!profile.getReferrerId().equalsIgnoreCase(profile.getUserId())) ++referralCount;
-        }
 
         // Step-III: Get The Longest Streak.
         datesList.addAll(datesSet);
@@ -582,7 +627,12 @@ public class MasterController {
     }
 
     private String getLeaderBoard(String timeFilter) {
+        // Step-I: Get all user profiles.
         List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+
+        // Step-II: Get all user submissions.
+        Map<String, List<UserSubmission>> userSubmissions = GetAllSubmissions(timeFilter);
+
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
         int idx = 0;
@@ -592,7 +642,7 @@ public class MasterController {
             if (profile.getName() == null || profile.getName().isEmpty()) {
                 profileName = userName + idx;
             }
-            JSONObject obj = getUserStats(profile.getUserId(), profileName, timeFilter);
+            JSONObject obj = getUserStatsFromSubmissions(profile.getUserId(), profileName, userSubmissions);
             if (obj.has("numberUniqueDays") && obj.getInt("numberUniqueDays") > 0) {
                   ar.put(obj);
                   idx++;
@@ -600,6 +650,29 @@ public class MasterController {
         }
         result.put("data", Sort(ar));
         return result.toString();
+    }
+
+    private Map<String, List<UserSubmission>> GetAllSubmissions(String timeFilter) {
+        List<UserSubmission> allSubmissions;
+        Map<String, List<UserSubmission>> userSubmissionMap = new HashMap<>();
+        if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
+            Instant nowUtc = Instant.now();
+            ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
+            ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
+            Instant currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
+            allSubmissions = this.userSubmissionRepository.findByCreatedAtGreaterThan(currentDate);
+        } else { // TimeFilter = ANY-Time
+            allSubmissions = this.userSubmissionRepository.findAll();
+        }
+        for (UserSubmission submission: allSubmissions) {
+            List<UserSubmission> userSubmissions = userSubmissionMap.get(submission.getUserId());
+            if (userSubmissions == null) {
+                userSubmissions = new ArrayList<>();
+            }
+            userSubmissions.add(submission);
+            userSubmissionMap.put(submission.getUserId(), userSubmissions);
+        }
+        return userSubmissionMap;
     }
 
     private JSONArray Sort(JSONArray jsonArr) {
