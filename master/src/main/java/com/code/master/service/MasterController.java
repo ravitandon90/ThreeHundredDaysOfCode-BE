@@ -5,6 +5,7 @@ import com.code.master.data.*;
 import com.code.master.judge.CodeJudge;
 import com.code.master.utils.Utils;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -480,6 +481,7 @@ public class MasterController {
 
     private static Date firstDayOfWeek(Date date) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
         calendar.setTime(date);
         calendar.set(Calendar.DAY_OF_WEEK, 1);
         return calendar.getTime();
@@ -655,7 +657,15 @@ public class MasterController {
     private Map<String, List<UserSubmission>> GetAllSubmissions(String timeFilter) {
         List<UserSubmission> allSubmissions;
         Map<String, List<UserSubmission>> userSubmissionMap = new HashMap<>();
-        if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
+        if (timeFilter.equalsIgnoreCase("LAST_WEEK")) {
+            Instant nowUtc = Instant.now();
+            ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
+            ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
+            Date currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia)));
+            Date lastWeekDate = DateUtils.addDays(currentDate, -7);
+            Instant currentDateInstant = lastWeekDate.toInstant();
+            allSubmissions = this.userSubmissionRepository.findByCreatedAtGreaterThan(currentDateInstant);
+        } else if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
             ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);

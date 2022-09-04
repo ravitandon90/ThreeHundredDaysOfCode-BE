@@ -12,7 +12,7 @@ services:
     networks:
       - 'es-network'
     volumes:
-      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials
+      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials/
 
   db:
     image: postgres:14.1-alpine

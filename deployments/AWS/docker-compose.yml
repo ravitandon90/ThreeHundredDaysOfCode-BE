@@ -13,7 +13,9 @@ services:
         awslogs-stream-prefix: master-300
     links:
       - db
-
+    volumes:
+      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials/
+      
   db:
     image: postgres:14.1-alpine
     environment:
