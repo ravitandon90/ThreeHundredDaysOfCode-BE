@@ -1,0 +1,6 @@
+ab#c ad#c
+true
+ab## c#d#
+true
+a#c b
+false
