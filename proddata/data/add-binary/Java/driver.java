@@ -59,6 +59,7 @@ public class driver
 
     static String user_code(String s1,String s2)
     {
-        //write user code here
+        solution_add_binary solution = new solution_add_binary(s1, s2);
+        return solution.solution_add_binary(s1, s2);
     }
 }
