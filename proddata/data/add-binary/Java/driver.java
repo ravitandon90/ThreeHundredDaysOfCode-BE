@@ -28,7 +28,7 @@ public class driver
     }
 
     static boolean drivercode() {
-        String filePath = "test cases.txt";
+        String filePath = "Java\\test cases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
