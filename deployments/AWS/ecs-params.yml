@@ -5,3 +5,6 @@ task_definition:
     - name: db-data
       filesystem_id: fs-0c7b87b1a47276115
       transit_encryption: ENABLED
+    - name: master-data
+      filesystem_id: fs-0a97eda87a33c8284
+      transit_encryption: ENABLED

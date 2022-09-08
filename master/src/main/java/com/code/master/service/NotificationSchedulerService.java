@@ -59,7 +59,7 @@ public class NotificationSchedulerService {
     private Environment env;
     // schedule at 10 am everyday . to-do : move this to prop file later,also try to disable the Scheduled in dev setups,
     // else every dev env will push emails.
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "0 0 10 * * *", zone = "Asia/Kolkata")
     public boolean sendDailyProblemAndLeaderBoardToAllUsers(){
         System.out.println("Sending an Email");
 
@@ -71,7 +71,7 @@ public class NotificationSchedulerService {
         // Also,there is no track of which users were processed to receive the email and thus we cannot re-try the ones who are skipped due to planned or unplanned outages/crashes dueing sending notifications
         List<UserProfile> users = userProfileRepository.findAll();
         // send the notification to all users, if you choose to send to only active users write a new FindBy in userProfileRepository
-        for(UserProfile user : users){
+        for(UserProfile user : users) {
             Email email = new Email();
             email.setTo(user.getEmailId());
             email.setSubject("Problem of the Day! Solve 1 problem a day. Win an IPhone.");
@@ -108,7 +108,7 @@ public class NotificationSchedulerService {
         final Context context = new Context();
         context.setVariables(email.getProperties());
         //TO-DO :: Change Email class to hold userprofile and print user id here than email in the logs
-        System.out.printf("Sending notification to : {} ", email.getTo());
+        System.out.printf("Sending notification to : {%s} ", email.getTo());
         final String senderName = "300 Days Of Code";
         // This address must be verified with Amazon SES.
         final String senderEmail = "admin@threehundreddaysofcode.com";

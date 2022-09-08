@@ -480,11 +480,15 @@ public class MasterController {
     }
 
     private static Date firstDayOfWeek(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_WEEK, 1);
-        return calendar.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        System.out.println("Start of this week: " + cal.getTime());
+        return cal.getTime();
     }
 
     private int GetNumberOfProblemSubmissions(List<UserSubmission> submissions) {
