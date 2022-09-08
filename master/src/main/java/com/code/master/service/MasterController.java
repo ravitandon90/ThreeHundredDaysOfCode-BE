@@ -48,6 +48,10 @@ public class MasterController {
     private PostLikeRepository postLikeRepository;
     @Autowired
     private PostCommentRepository postCommentRepository;
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
+    @Autowired
+    private UserFollowerRepository userFollowerRepository;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -161,8 +165,18 @@ public class MasterController {
 
     @GetMapping(path = "/google/feed")
     public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId,
-                                      @RequestParam(value = "pageId") String pageId) {
-        return getFeed(userId, pageId);
+                                      @RequestParam(value = "pageId") String pageId) {  return getFeed(userId, pageId); }
+    @GetMapping(path = "/google/notifications")
+    public String handleGoogleGetNotifications(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "pageId") String pageId) {
+        return getNotifications(userId, pageId);
+    }
+
+    @GetMapping(path = "/notifications")
+    public String handleGoogleGetNotifications(
+            @RequestParam(value = "pageId") String pageId, Principal user) {
+        return getNotifications(user.getName(), pageId);
     }
 
     @GetMapping(path = "/feed")
@@ -218,9 +232,6 @@ public class MasterController {
                 commentsArr.put(commentObj);
             }
             int numLikes = postLikes.size();
-            if (numLikes < 5) {
-                numLikes = numLikes + 5;
-            }
             final int numComments = postComments.size();
             obj.put("postId", post.getPostId());
             obj.put("authorName", GetUserName(post.getAuthorId()));
@@ -231,6 +242,29 @@ public class MasterController {
             obj.put("language", "cpp");
             obj.put("problemName", GetProblemName(post.getProblemId()));
             obj.put("problemLink", GetProblemLink(post.getProblemId()));
+            jsonArray.put(obj);
+        }
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", jsonArray).toString();
+    }
+
+    private String getNotifications(String userId, String pageId) {
+        int pageNumber = Integer.parseInt(pageId);
+        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdAndByOrderByCreatedAtDesc(userId);
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.NOTIFICATIONS_PAGE_SIZE;
+        int endIdx = min(userNotifications.size(), startIdx + Constants.NOTIFICATIONS_PAGE_SIZE);
+        userNotifications = userNotifications.subList(startIdx, endIdx);
+        JSONArray jsonArray = new JSONArray();
+        for (UserNotification userNotification : userNotifications) {
+            JSONObject obj = new JSONObject();
+            obj.put("notificationType", userNotification.getType());
+            obj.put("sourceAuthorName", GetUserName(userNotification.getFrom_user_id()));
+            obj.put("sourceAuthorId", userNotification.getFrom_user_id());
+            obj.put("createdAt", userNotification.getCreatedAt());
+            obj.put("postId", userNotification.getPost_id());
+            obj.put("postText", "");
             jsonArray.put(obj);
         }
         return new JSONObject()
