@@ -102,7 +102,7 @@ create table if not exists user_notification (
     seen boolean default false not null,
     post_id varchar(500) not null,
     to_user_id varchar(500) not null,
-    from_user_id varchcar(500) not null,
+    from_user_id varchar(500) not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );

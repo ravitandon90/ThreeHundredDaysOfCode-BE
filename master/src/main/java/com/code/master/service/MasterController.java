@@ -162,11 +162,11 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
-    @GetMapping
+    @GetMapping(path = "/google/post")
     public String handleGoogleGetPost(@RequestParam(value = "postId") String postId) {
         return getPost(postId);
     }
-    @GetMapping
+    @GetMapping(path = "/post")
     public String handleGetPost(@RequestParam(value = "postId") String postId) { return getPost(postId); }
 
     @GetMapping(path = "/google/feed")
@@ -292,7 +292,7 @@ public class MasterController {
 
     private String getNotifications(String userId, String pageId) {
         int pageNumber = Integer.parseInt(pageId);
-        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdAndByOrderByCreatedAtDesc(userId);
+        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdOrderByCreatedAtDesc(userId);
         int pageIntId = Integer.parseInt(pageId);
         int startIdx = (pageIntId - 1) * Constants.NOTIFICATIONS_PAGE_SIZE;
         int endIdx = min(userNotifications.size(), startIdx + Constants.NOTIFICATIONS_PAGE_SIZE);
@@ -302,10 +302,10 @@ public class MasterController {
             JSONObject obj = new JSONObject();
             obj.put("notificationType", userNotification.getType());
             // TODO(Ravi): This needs to be optimized.
-            obj.put("sourceAuthorName", GetUserName(userNotification.getFrom_user_id()));
-            obj.put("sourceAuthorId", userNotification.getFrom_user_id());
+            obj.put("sourceAuthorName", GetUserName(userNotification.getFromUserId()));
+            obj.put("sourceAuthorId", userNotification.getFromUserId());
             obj.put("createdAt", userNotification.getCreatedAt());
-            obj.put("postId", userNotification.getPost_id());
+            obj.put("postId", userNotification.getPostId());
             obj.put("postText", "");
             jsonArray.put(obj);
         }
