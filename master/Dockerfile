@@ -23,6 +23,10 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y nodejs
 
+# Install VIM
+RUN apt-get update && \
+    apt-get install -y vim
+
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} master.jar
 ENTRYPOINT ["java","-jar","/master.jar"]
