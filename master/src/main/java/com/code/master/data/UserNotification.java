@@ -32,6 +32,8 @@ public class UserNotification {
     private String fromUserId;
     @NotNull @Column(name = "post_id")
     private String postId;
+    @Column(name = "comment_text")
+    private String commentText;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
@@ -41,6 +43,7 @@ public class UserNotification {
 
     public UserNotification() {
         this.id = UUID.randomUUID().toString();
+        this.seen = false;
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
     }

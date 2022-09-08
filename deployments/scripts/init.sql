@@ -103,6 +103,7 @@ create table if not exists user_notification (
     post_id varchar(500) not null,
     to_user_id varchar(500) not null,
     from_user_id varchar(500) not null,
+    comment_text varchar,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
