@@ -12,4 +12,5 @@ public class Constants {
     public static final int LANGUAGE_JS_CODE = 63;
     public static final int LANGUAGE_PHP_CODE = 68;
     public static final int FEED_PAGE_SIZE = 10;
+    public static final int NOTIFICATIONS_PAGE_SIZE = 10;
 }
