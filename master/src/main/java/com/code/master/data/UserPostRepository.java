@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface UserPostRepository extends JpaRepository<UserPost, String> {
     List<UserPost> findAllByOrderByCreatedAtDesc();
+    UserPost getByPostId(String postId);
 }

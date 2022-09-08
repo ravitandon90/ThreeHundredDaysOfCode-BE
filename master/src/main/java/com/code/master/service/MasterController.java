@@ -162,10 +162,18 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
+    @GetMapping
+    public String handleGoogleGetPost(@RequestParam(value = "postId") String postId) {
+        return getPost(postId);
+    }
+    @GetMapping
+    public String handleGetPost(@RequestParam(value = "postId") String postId) { return getPost(postId); }
 
     @GetMapping(path = "/google/feed")
     public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId,
-                                      @RequestParam(value = "pageId") String pageId) {  return getFeed(userId, pageId); }
+                                      @RequestParam(value = "pageId") String pageId) {
+        return getFeed(userId, pageId);
+    }
     @GetMapping(path = "/google/notifications")
     public String handleGoogleGetNotifications(
             @RequestParam(value = "userId") String userId,
@@ -174,7 +182,7 @@ public class MasterController {
     }
 
     @GetMapping(path = "/notifications")
-    public String handleGoogleGetNotifications(
+    public String handleGetNotifications(
             @RequestParam(value = "pageId") String pageId, Principal user) {
         return getNotifications(user.getName(), pageId);
     }
@@ -206,6 +214,39 @@ public class MasterController {
     }
 
     /*********************************** End Of API Definitions. *****************************************/
+
+    private String getPost(String postId) {
+        UserPost post = this.userPostRepository.getByPostId(postId);
+        if (post == null) {
+            return new JSONObject()
+                    .put("message", "Error") // Move "message" to "status".
+                    .put("data", "{}").toString();
+        }
+        JSONObject obj = new JSONObject();
+        List<PostLike> postLikes = this.postLikeRepository.findAllByPostId(post.getPostId());
+        List<PostComment> postComments = this.postCommentRepository.findAllByPostId(post.getPostId());
+        JSONArray commentsArr = new JSONArray();
+        for (PostComment postComment : postComments) {
+            JSONObject commentObj = new JSONObject();
+            commentObj.put("text", postComment.getText());
+            commentObj.put("author", GetUserName(postComment.getAuthorId()));
+            commentsArr.put(commentObj);
+        }
+        int numLikes = postLikes.size();
+        final int numComments = postComments.size();
+        obj.put("postId", post.getPostId());
+        obj.put("authorName", GetUserName(post.getAuthorId()));
+        obj.put("numLikes", numLikes);
+        obj.put("numComments", numComments);
+        obj.put("comments", commentsArr);
+        obj.put("codeBlock", post.getText());
+        obj.put("language", "cpp");
+        obj.put("problemName", GetProblemName(post.getProblemId()));
+        obj.put("problemLink", GetProblemLink(post.getProblemId()));
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", obj).toString();
+    }
 
     private String getFeed(String userId, String pageId) {
         // Step-I: Get all the user posts.
@@ -260,6 +301,7 @@ public class MasterController {
         for (UserNotification userNotification : userNotifications) {
             JSONObject obj = new JSONObject();
             obj.put("notificationType", userNotification.getType());
+            // TODO(Ravi): This needs to be optimized.
             obj.put("sourceAuthorName", GetUserName(userNotification.getFrom_user_id()));
             obj.put("sourceAuthorId", userNotification.getFrom_user_id());
             obj.put("createdAt", userNotification.getCreatedAt());
