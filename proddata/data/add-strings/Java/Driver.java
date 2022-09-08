@@ -29,7 +29,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "D:\\java\\driver_codes\\src\\add_strings\\test cases.txt";
+        String filePath = "add-strings\\test cases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
