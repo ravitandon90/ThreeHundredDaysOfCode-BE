@@ -27,11 +27,11 @@ public class UserNotification {
     @NotNull @Column(name = "seen")
     private boolean seen;
     @NotNull @Column(name = "to_user_id")
-    private String to_user_id;
+    private String toUserId;
     @NotNull @Column(name = "from_user_id")
-    private String from_user_id;
+    private String fromUserId;
     @NotNull @Column(name = "post_id")
-    private String post_id;
+    private String postId;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
