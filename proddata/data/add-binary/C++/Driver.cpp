@@ -40,6 +40,7 @@ int main()
             expected_output = line;
             if (expected_output != actual_output)
             {
+                cout << "Result: Failed" << endl;
                 cout << "Actual Output:" << actual_output << endl;
                 cout << "Expected Output:" << expected_output << endl;
                 return 0;
@@ -47,6 +48,6 @@ int main()
         }
         lineNo += 1;
     }
-    cout << "Accepted";
+    cout << "Result: Success" << endl;
     return 0;
 }

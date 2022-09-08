@@ -18,10 +18,11 @@ for line in Lines:
         expected_output = list(map(int, line.split()))
         actual_output = obj.addToArrayForm(num, k)
         if (expected_output != actual_output):
+            print('Result: Failed')
             print("Actual Output:", actual_output)
             print("Expected Outuput:", expected_output)
             status = 1
             break
         Count = 0
 if (status == 0):
-    print('Accepted')
+    print('Result: Success')

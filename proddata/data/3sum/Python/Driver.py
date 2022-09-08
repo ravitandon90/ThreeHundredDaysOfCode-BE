@@ -14,10 +14,11 @@ for line in Lines:
     else:
         expected_output = line.strip()
         if (str(expected_output) != str(actual_output)):
+            print('Result: Failed')
             print('Actual Output:', actual_output)
             print('Expected Output:', expected_output)
             status = 1
             break
     Count += 1
 if status == 0:
-    print('Accepted')
+    print('Result: Success')

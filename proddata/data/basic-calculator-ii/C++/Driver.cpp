@@ -34,18 +34,18 @@ int main()
         }
         else
         {
-            // cout << actual_output << endl;
             lineNo = 1;
             stringstream x(line);
             x >> expected_output;
             if (expected_output != actual_output)
             {
+                cout << "Result: Success" << endl;
                 cout << "Actual Output:" << actual_output << endl;
                 cout << "Expected Output:" << expected_output << endl;
                 return 0;
             }
         }
     }
-    cout << "Accepted";
+    cout << "Result: Failed" << endl;
     return 0;
 }

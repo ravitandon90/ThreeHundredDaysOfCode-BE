@@ -21,6 +21,7 @@ for line in Lines:
         actual_output.sort()
         expected_output.sort()
         if (expected_output != actual_output):
+            print('Result: Failed')
             print('Actual Output:', actual_output)
             print()
             print('Expected Output:', expected_output)
@@ -38,4 +39,4 @@ for line in Lines:
 
 
 if status == 0:
-    print('Accepted')
+    print('Result: Success')

@@ -15,6 +15,7 @@ using namespace std;
 
 void Print(vector<vector<string>> actual_output, vector<vector<string>> expected_output)
 {
+    cout << "Result: Failed" << endl;
     cout << "Actual Output:" << endl;
     for (int i = 0; i < actual_output.size(); i++)
     {
@@ -119,6 +120,6 @@ int main()
             new_vec.clear();
         }
     }
-    cout << "Accepted" << endl;
+    cout << "Result: Success" << endl;
     return 0;
 }

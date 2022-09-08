@@ -15,9 +15,10 @@ for line in Lines:
         expected_output = line.strip()
         lineNo = 1
         if (expected_output != str(actual_output)):
+            print('Result: Failed')
             print('Actual Output:', actual_output)
             print('Expected Output:', expected_output)
             status = 1
             break
 if status == 0:
-    print('Accepted')
+    print('Result: Success')
