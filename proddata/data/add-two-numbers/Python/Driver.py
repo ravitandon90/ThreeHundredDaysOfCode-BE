@@ -90,26 +90,5 @@ for line in Lines:
     c = 0
     lineNo += 1
 
-# curr = head1
-# while(curr != None):
-#     print(curr.val)
-#     curr = curr.next
-# print()
-# curr = head2
-# while(curr != None):
-#     print(curr.val)
-#     curr = curr.next
-# print()
-# curr = expected_output
-# while(curr != None):
-#     print(curr.val)
-#     curr = curr.next
-# print()
-
-# curr = actual_output
-# while(curr != None):
-#     print(curr.val)
-#     curr = curr.next
-# print()
 if status == 0:
     print('Result: Success')
