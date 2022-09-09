@@ -20,7 +20,7 @@ int main()
     vector<int> input;
     string expected_output;
     string actual_output;
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
     int lineNo = 0;

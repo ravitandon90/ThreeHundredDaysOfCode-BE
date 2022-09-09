@@ -20,7 +20,7 @@ int main()
     vector<int> input;
     int expected_output;
     int actual_output;
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
     int lineNo = 1;
@@ -39,13 +39,13 @@ int main()
             x >> expected_output;
             if (expected_output != actual_output)
             {
-                cout << "Result: Success" << endl;
+                cout << "Result: Failed" << endl;
                 cout << "Actual Output:" << actual_output << endl;
                 cout << "Expected Output:" << expected_output << endl;
                 return 0;
             }
         }
     }
-    cout << "Result: Failed" << endl;
+    cout << "Result: Success" << endl;
     return 0;
 }

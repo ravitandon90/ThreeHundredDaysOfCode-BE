@@ -2,12 +2,16 @@ from Solution import Solution
 import sys
 import os
 
-file1 = open(os.path.join(sys.path[0], 'testcases.txt'), 'r')
+file1 = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 Lines = file1.readlines()
 Count = 0
 status = 0
 obj = Solution()
 for line in Lines:
+    if line.strip() == 'true':
+        line = "True"
+    if line.strip() == 'false':
+        line = 'False'
     if (Count % 2 == 0):
         a, b = line.split()
         actual_output = obj.backspaceCompare(a, b)

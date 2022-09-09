@@ -25,7 +25,7 @@ def Print(actual_output, expected_output):
         curr = curr.next
 
 
-file1 = open(os.path.join(sys.path[0], 'testcases.txt'), 'r')
+file1 = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 Lines = file1.readlines()
 curr = ListNode()
 head1 = ListNode()

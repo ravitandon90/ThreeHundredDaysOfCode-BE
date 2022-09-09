@@ -21,7 +21,7 @@ int main()
     int k = 0;
     vector<int> expected_output;
     vector<int> actual_output;
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
     int lineNo = 0;
@@ -55,7 +55,7 @@ int main()
 
             actual_output = obj->addToArrayForm(num, k);
 
-            if (actual_output.size() != expected_output.size())
+            if (actual_output != expected_output)
             {
                 cout << "Result: Failed" << endl;
                 cout << "Actual Output: ";

@@ -44,7 +44,7 @@ int main()
     vector<vector<string>> input;
     vector<vector<string>> expected_output;
     vector<vector<string>> actual_output;
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
     int status = 0;
