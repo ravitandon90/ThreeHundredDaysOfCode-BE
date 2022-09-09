@@ -1,19 +1,16 @@
-public class solution_add_binary {
-    String a;
-    String b;
-
-    solution_add_binary(String s1, String s2) {
+package add_binary.Java;
+public class solution_addBinary {
+    solution_addBinary(String s1, String s2) {
     }
-    String solution_add_binary(String s1 , String s2) {
-        a=s1;
-        b=s2;
-        String ans = add_binary(a, b);
+    String solution_adBinary(String s1 , String s2) {
+
+        String ans = add_binary(s1, s2);
         return ans;
     }
     public static String add_binary(String a,String b)
     {
         //write your code here
-      StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         int i = a.length() - 1;
         int j = b.length() - 1;
         int carry = 0;
@@ -22,11 +19,12 @@ public class solution_add_binary {
             int sum = carry;
             if (i >= 0) sum += a.charAt(i) - '0';
             if (j >= 0) sum += b.charAt(j) - '0';
-            stringBuilder.append(sum % 2); 
+            stringBuilder.append(sum % 2);
             carry = sum / 2; //formulate carry
-			i--;  j--; // decrement both pointers
+            i--;  j--; // decrement both pointers
         }
         if (carry != 0) stringBuilder.append(carry);
         return stringBuilder.reverse().toString();
     }
 }
+
