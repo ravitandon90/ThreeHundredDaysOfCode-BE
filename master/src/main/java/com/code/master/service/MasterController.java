@@ -312,11 +312,12 @@ public class MasterController {
             JSONObject obj = new JSONObject();
             obj.put("notificationType", userNotification.getType());
             // TODO(Ravi): This needs to be optimized.
-            obj.put("sourceAuthorName", GetUserName(userNotification.getFromUserId()));
-            obj.put("sourceAuthorId", userNotification.getFromUserId());
+            obj.put("authorName", GetUserName(userNotification.getFromUserId()));
+            obj.put("authorId", userNotification.getFromUserId());
             obj.put("createdAt", userNotification.getCreatedAt());
             obj.put("postId", userNotification.getPostId());
-            obj.put("postText", "");
+            obj.put("postText", userNotification.getCommentText());
+            obj.put("problemName", GetProblemNameFromPostId(userNotification.getPostId()));
             jsonArray.put(obj);
         }
         UpdateNotificationsAsSeen(userNotifications);
@@ -338,6 +339,12 @@ public class MasterController {
         return new JSONObject()
                 .put("message", "Success") // Move "message" to "status".
                 .put("numberNotifications", numberNotifications).toString();
+    }
+
+    private String GetProblemNameFromPostId(String postId) {
+        UserPost userPost = this.userPostRepository.getByPostId(postId);
+        if (userPost == null) return "";
+        return GetProblemName(userPost.getProblemId());
     }
 
     private String GetProblemName(String problemId) {
@@ -393,7 +400,7 @@ public class MasterController {
         userNotification.setFromUserId(userId);
         userNotification.setCommentText(text);
         userNotification.setType("USER_COMMENT");
-        this.userNotificationRepository.save(new UserNotification());
+        this.userNotificationRepository.save(userNotification);
     }
 
     @Async
@@ -404,7 +411,7 @@ public class MasterController {
         userNotification.setPostId(postId);
         userNotification.setFromUserId(userId);
         userNotification.setType("USER_LIKE");
-        this.userNotificationRepository.save(new UserNotification());
+        this.userNotificationRepository.save(userNotification);
     }
 
     private String addLike(AddLikeHTTPRequest request) {
