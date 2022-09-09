@@ -39,7 +39,7 @@ void Print(ListNode *actual_output, ListNode *expected_output)
 
 int main()
 {
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     ListNode *curr;
     ListNode *head1;
     ListNode *head2;
