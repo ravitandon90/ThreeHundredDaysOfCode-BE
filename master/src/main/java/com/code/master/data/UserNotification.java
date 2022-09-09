@@ -27,11 +27,13 @@ public class UserNotification {
     @NotNull @Column(name = "seen")
     private boolean seen;
     @NotNull @Column(name = "to_user_id")
-    private String to_user_id;
+    private String toUserId;
     @NotNull @Column(name = "from_user_id")
-    private String from_user_id;
+    private String fromUserId;
     @NotNull @Column(name = "post_id")
-    private String post_id;
+    private String postId;
+    @Column(name = "comment_text")
+    private String commentText;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
@@ -41,6 +43,7 @@ public class UserNotification {
 
     public UserNotification() {
         this.id = UUID.randomUUID().toString();
+        this.seen = false;
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
     }

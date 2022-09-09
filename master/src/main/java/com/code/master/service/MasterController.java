@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -162,11 +163,11 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
-    @GetMapping
+    @GetMapping(path = "/google/post")
     public String handleGoogleGetPost(@RequestParam(value = "postId") String postId) {
         return getPost(postId);
     }
-    @GetMapping
+    @GetMapping(path = "/post")
     public String handleGetPost(@RequestParam(value = "postId") String postId) { return getPost(postId); }
 
     @GetMapping(path = "/google/feed")
@@ -185,6 +186,16 @@ public class MasterController {
     public String handleGetNotifications(
             @RequestParam(value = "pageId") String pageId, Principal user) {
         return getNotifications(user.getName(), pageId);
+    }
+
+    @GetMapping(path = "/google/numberOfNotifications")
+    public String handleGoogleGetTotalNotifications(@RequestParam(value = "userId") String userId) {
+        return GetTotalNotifications(userId);
+    }
+
+    @GetMapping(path = "/numberOfNotifications")
+    public String handleGetTotalNotifications(Principal user) {
+        return GetTotalNotifications(user.getName());
     }
 
     @GetMapping(path = "/feed")
@@ -291,8 +302,7 @@ public class MasterController {
     }
 
     private String getNotifications(String userId, String pageId) {
-        int pageNumber = Integer.parseInt(pageId);
-        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdAndByOrderByCreatedAtDesc(userId);
+        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdOrderByCreatedAtDesc(userId);
         int pageIntId = Integer.parseInt(pageId);
         int startIdx = (pageIntId - 1) * Constants.NOTIFICATIONS_PAGE_SIZE;
         int endIdx = min(userNotifications.size(), startIdx + Constants.NOTIFICATIONS_PAGE_SIZE);
@@ -302,16 +312,32 @@ public class MasterController {
             JSONObject obj = new JSONObject();
             obj.put("notificationType", userNotification.getType());
             // TODO(Ravi): This needs to be optimized.
-            obj.put("sourceAuthorName", GetUserName(userNotification.getFrom_user_id()));
-            obj.put("sourceAuthorId", userNotification.getFrom_user_id());
+            obj.put("sourceAuthorName", GetUserName(userNotification.getFromUserId()));
+            obj.put("sourceAuthorId", userNotification.getFromUserId());
             obj.put("createdAt", userNotification.getCreatedAt());
-            obj.put("postId", userNotification.getPost_id());
+            obj.put("postId", userNotification.getPostId());
             obj.put("postText", "");
             jsonArray.put(obj);
         }
+        UpdateNotificationsAsSeen(userNotifications);
         return new JSONObject()
                 .put("message", "Success") // Move "message" to "status".
                 .put("data", jsonArray).toString();
+    }
+
+    @Async
+    private void UpdateNotificationsAsSeen(List<UserNotification> userNotifications) {
+        for (UserNotification userNotification : userNotifications) {
+          userNotification.setSeen(true);
+           this.userNotificationRepository.save(userNotification);
+        }
+    }
+
+    private String GetTotalNotifications(String userId) {
+        int numberNotifications = this.userNotificationRepository.getCountNotifications(userId);
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("numberNotifications", numberNotifications).toString();
     }
 
     private String GetProblemName(String problemId) {
@@ -347,7 +373,38 @@ public class MasterController {
             commentObj.put("commentId", postComment.getCommentId());
             commentsArr.put(commentObj);
         }
+        CreateCommentNotification(request.getUserId(), request.getText(), request.getPostId());
+        // Create a notification.
         return new JSONObject().put("message", "Success").put("data", commentsArr).toString();
+    }
+
+    private String GetUserId(String postId) {
+        UserPost userPost =   this.userPostRepository.getByPostId(postId);
+        String userId = userPost == null ? "" : userPost.getAuthorId();
+        return userId;
+    }
+
+    @Async
+    private void CreateCommentNotification(String userId, String text, String postId) {
+        String toUserId = GetUserId(postId);
+        UserNotification userNotification = new UserNotification();
+        userNotification.setToUserId(toUserId);
+        userNotification.setPostId(postId);
+        userNotification.setFromUserId(userId);
+        userNotification.setCommentText(text);
+        userNotification.setType("USER_COMMENT");
+        this.userNotificationRepository.save(new UserNotification());
+    }
+
+    @Async
+    private void CreateLikeNotification(String userId, String postId) {
+        String toUserId = GetUserId(postId);
+        UserNotification userNotification = new UserNotification();
+        userNotification.setToUserId(toUserId);
+        userNotification.setPostId(postId);
+        userNotification.setFromUserId(userId);
+        userNotification.setType("USER_LIKE");
+        this.userNotificationRepository.save(new UserNotification());
     }
 
     private String addLike(AddLikeHTTPRequest request) {
@@ -356,6 +413,7 @@ public class MasterController {
         like.setAuthorId(request.getUserId());
         like.setPostId(request.getPostId());
         this.postLikeRepository.save(like);
+        CreateLikeNotification(request.getUserId(), request.getPostId());
         return new JSONObject().put("message", "Success").toString();
     }
 
