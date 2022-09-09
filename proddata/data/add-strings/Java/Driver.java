@@ -62,7 +62,7 @@ public class Driver
 
     static String user_code(String s1,String s2)
     {
-        solution_addString solution = new solution_addString(s1, s2);
-        return solution.solution_addString(s1, s2);
+        Solution solution = new Solution(s1, s2);
+        return solution.Solution(s1, s2);
     }
 }

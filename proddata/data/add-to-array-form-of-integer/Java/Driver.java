@@ -73,7 +73,7 @@ public class Driver {
 
     public static List<Integer> addToArrayForm(int[] num, int k)
     {
-        solution_add_array solution = new solution_add_array(num , k);
+        Solution solution = new Solution(num , k);
         return solution.solution_addString(num,k);
 
     }

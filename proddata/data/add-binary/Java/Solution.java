@@ -1,6 +1,6 @@
 package add_binary.Java;
-public class solution_addBinary {
-    solution_addBinary(String s1, String s2) {
+public class Solution {
+    Solution(String s1, String s2) {
     }
     String solution_adBinary(String s1 , String s2) {
 

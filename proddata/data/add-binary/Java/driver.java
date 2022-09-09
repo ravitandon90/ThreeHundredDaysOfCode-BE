@@ -63,7 +63,7 @@ public class Driver {
 
     static String user_code(String s1,String s2)
     {
-        solution_addBinary solution = new solution_addBinary(s1, s2);
+        Solution solution = new Solution(s1, s2);
         return solution.solution_adBinary(s1, s2);
     }
 }

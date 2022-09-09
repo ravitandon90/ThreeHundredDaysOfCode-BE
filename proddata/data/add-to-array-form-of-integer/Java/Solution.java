@@ -2,9 +2,9 @@ package add_to_array_form_of_Integer.Java;
 
 import java.util.*;
 
-public class solution_add_array {
+public class Solution {
 
-    public solution_add_array(int num[] , int k) {
+    public Solution(int num[] , int k) {
 
     }
     List<Integer> solution_addString(int num[] , int k) {

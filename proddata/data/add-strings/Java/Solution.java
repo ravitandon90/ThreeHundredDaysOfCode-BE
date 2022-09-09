@@ -1,8 +1,8 @@
 package add_string.Java;
 
-public class solution_addString
+public class Solution
 {
-    solution_addString(String s1, String s2) {
+    Solution(String s1, String s2) {
     }
     String solution_addString(String s1 , String s2) {
         String ans = add_binary(s1, s2);
