@@ -57,6 +57,7 @@ int main()
 
             if (actual_output.size() != expected_output.size())
             {
+                cout << "Result: Failed" << endl;
                 cout << "Actual Output: ";
                 for (int i = 0; i < actual_output.size(); i++)
                 {
@@ -79,6 +80,6 @@ int main()
             lineNo = 0;
         }
     }
-    cout << "Accepted" << endl;
+    cout << "Result: Success" << endl;
     return 0;
 }

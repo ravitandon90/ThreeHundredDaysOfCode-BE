@@ -8,13 +8,10 @@
 #include <iterator>
 #include <unordered_map>
 #include <unordered_set>
-// #include <boost/tokenizer.hpp>
 
 #include "Solution.hpp"
-// #include "helper.hpp"
 
 using namespace std;
-// using namespace boost;
 
 int main()
 {
@@ -36,7 +33,15 @@ int main()
             istream_iterator<string> begin(ss);
             istream_iterator<string> end;
             vector<string> input(begin, end);
-            actual_output = obj->addStrings(input[0], input[1]);
+            bool res = obj->backspaceCompare(input[0], input[1]);
+            if (res)
+            {
+                actual_output = "true";
+            }
+            else
+            {
+                actual_output = "false";
+            }
         }
         else
         {

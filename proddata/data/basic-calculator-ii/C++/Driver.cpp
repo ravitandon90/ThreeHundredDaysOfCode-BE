@@ -8,49 +8,44 @@
 #include <iterator>
 #include <unordered_map>
 #include <unordered_set>
-// #include <boost/tokenizer.hpp>
 
 #include "Solution.hpp"
-// #include "helper.hpp"
 
 using namespace std;
-// using namespace boost;
 
 int main()
 {
     int numInputs = 0;
     int target = 0;
     vector<int> input;
-    string expected_output;
-    string actual_output;
+    int expected_output;
+    int actual_output;
     ifstream infile("testcases.txt");
     Solution *obj = new Solution();
     string line;
-    int lineNo = 0;
+    int lineNo = 1;
     while (getline(infile, line))
     {
-        if ((lineNo % 2) == 0)
+        if (lineNo == 1)
         {
-            string s = line;
-            stringstream ss(s);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            actual_output = obj->addStrings(input[0], input[1]);
+            actual_output = obj->calculate(line);
+
+            lineNo = 0;
         }
         else
         {
-            expected_output = line;
+            lineNo = 1;
+            stringstream x(line);
+            x >> expected_output;
             if (expected_output != actual_output)
             {
-                cout << "Result: Failed" << endl;
+                cout << "Result: Success" << endl;
                 cout << "Actual Output:" << actual_output << endl;
                 cout << "Expected Output:" << expected_output << endl;
                 return 0;
             }
         }
-        lineNo += 1;
     }
-    cout << "Result: Success" << endl;
+    cout << "Result: Failed" << endl;
     return 0;
 }

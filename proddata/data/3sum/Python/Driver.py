@@ -9,11 +9,11 @@ status = 0
 obj = Solution()
 for line in Lines:
     if (Count % 2 == 0):
-        a, b = line.split()
-        actual_output = obj.addBinary(a, b)
+        a = list(map(int, line.split()))
+        actual_output = obj.threeSum(a)
     else:
         expected_output = line.strip()
-        if (expected_output != actual_output):
+        if (str(expected_output) != str(actual_output)):
             print('Result: Failed')
             print('Actual Output:', actual_output)
             print('Expected Output:', expected_output)
