@@ -95,3 +95,24 @@ create table if not exists post_like (
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
+
+create table if not exists user_notification (
+    notification_id varchar(500) not null constraint user_notification_jpa_data_store_credential_pkey primary key,
+    notification_type varchar(500) not null,
+    seen boolean default false not null,
+    post_id varchar(500) not null,
+    to_user_id varchar(500) not null,
+    from_user_id varchar(500) not null,
+    comment_text varchar,
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);
+
+create table if not exists user_follower (
+    user_follower_id varchar(500) not null constraint user_follower_jpa_data_store_credential_pkey primary key,
+    follower_id varchar(500) not null,
+    followee_id varchar(500) not null,
+    follower_type varchar(500),
+    created_at timestamp default now() not null,
+    updated_at timestamp default now() not null
+);

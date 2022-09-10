@@ -10,7 +10,7 @@ Note:
 The following are the pre-requisites for setting up the backend cluster:
 * Docker
 * Git
-* Java 
+* Java
 * MVN
 
 # Instructions to setup the backend
@@ -22,8 +22,12 @@ The following are the pre-requisites for setting up the backend cluster:
    * `cd ThreeHundredDaysOfCode-BE`
 5. Build the backend using the following command.<br /> 
    * `mvn clean`
+   * `mvn package`
 6. Deploy the backend on local using the following commands:<br />
    * `cd deployments/local` 
+   * set the following environment variables
+      1. `export USER=ravi`  # update with your username
+      2. `export DOCKER_TAG=ravitandon2/master-300-prod:0.3` # update with custom docker image
    * `docker-compose up`
 7. Verify that the `Master Service` is up using the ping command as follows:
    * `curl localhost:80` <br />

@@ -1,5 +1,11 @@
-2
-"aab"
-[["a","a","b"],["aa","b"]]
-"a"
-[["a"]]
+input
+aab
+output
+a a b
+aa b
+check
+input
+a
+output
+a
+check

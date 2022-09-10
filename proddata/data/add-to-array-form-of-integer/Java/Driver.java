@@ -1,10 +1,8 @@
 package add_to_array_form_of_Integer.Java;
-
 import java.io.*;
 import java.util.*;
 
 public class Driver {
-
     private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
@@ -20,7 +18,7 @@ public class Driver {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
+
         // Returning a string arraylist
         return al;
     }
@@ -28,6 +26,7 @@ public class Driver {
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
     }
+
 
     static boolean drivercode()     {
         String filePath = "src/add_to_array_form_of_integer/test cases";
@@ -66,10 +65,12 @@ public class Driver {
                 System.out.println("Expected output  " + out);
                 System.out.println("Your output  " + user_output);
                 return b;
+
             }
         }
         return b;
     }
+
 
     public static List<Integer> addToArrayForm(int[] num, int k)
     {

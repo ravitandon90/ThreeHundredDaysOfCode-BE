@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   master:
-    image: ravitandon2/master-300-prod:0.3
+    image: ${DOCKER_TAG}
     container_name: master
     restart: on-failure
     ports:
@@ -12,7 +12,7 @@ services:
     networks:
       - 'es-network'
     volumes:
-      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials/
+      - /Users/${USER}/.aws/credentials:/Users/root/.aws/credentials/
 
   db:
     image: postgres:14.1-alpine
@@ -29,7 +29,7 @@ services:
       - db:/var/lib/postgresql/data
       - ../scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ../scripts/data.sql:/home/data.sql
-      - /Users/ravi/Desktop/Decover/DBDumps:/home/
+      - /Users/${USER}/Desktop/Decover/DBDumps:/home/
 
 volumes:
   db:

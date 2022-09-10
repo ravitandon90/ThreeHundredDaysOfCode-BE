@@ -1,10 +1,10 @@
 package add_string.Java;
-
 import java.io.*;
 import java.util.*;
 
-public class Driver
-{
+public class Driver {
+    
+
     private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
@@ -30,7 +30,9 @@ public class Driver
     }
 
     static boolean drivercode() {
+
         String filePath = "src/add_string/test cases";
+
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -59,6 +61,7 @@ public class Driver
         }
         return b;
     }
+
 
     static String user_code(String s1,String s2)
     {

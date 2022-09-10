@@ -1,7 +1,6 @@
-3
-"ab#c", "ad#c"
+ab#c ad#c
 true
-"ab##", "c#d#"
+ab## c#d#
 true
-"a#c", "b"
+a#c b
 false
