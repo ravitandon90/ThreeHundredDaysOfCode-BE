@@ -1,9 +1,11 @@
+
+package add_binary.Java;
+
 import java.io.*;
 import java.util.*;
 
-public class driver
-{
-    private static List<String> method(String filePath) {
+public class Driver {
+private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
@@ -28,7 +30,9 @@ public class driver
     }
 
     static boolean drivercode() {
-        String filePath = "Java\\test cases.txt";
+
+        String filePath = "src/add_binary/test cases";
+
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -51,6 +55,9 @@ public class driver
                 if (b == false) {
                     System.out.println("Expected answer " + s);
                     System.out.println("Your answer " + output);
+
+                    break;
+
                 }
             }
         }
@@ -59,7 +66,8 @@ public class driver
 
     static String user_code(String s1,String s2)
     {
-        solution_add_binary solution = new solution_add_binary(s1, s2);
-        return solution.solution_add_binary(s1, s2);
+        Solution solution = new Solution(s1, s2);
+        return solution.solution_adBinary(s1, s2);
     }
 }
+
