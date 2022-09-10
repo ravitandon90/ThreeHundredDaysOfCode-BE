@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -48,6 +49,10 @@ public class MasterController {
     private PostLikeRepository postLikeRepository;
     @Autowired
     private PostCommentRepository postCommentRepository;
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
+    @Autowired
+    private UserFollowerRepository userFollowerRepository;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -158,11 +163,39 @@ public class MasterController {
     public String handleGoogleRunCode(@RequestBody RunCodeHTTPRequest request) {
         return runCode(request);
     }
+    @GetMapping(path = "/google/post")
+    public String handleGoogleGetPost(@RequestParam(value = "postId") String postId) {
+        return getPost(postId);
+    }
+    @GetMapping(path = "/post")
+    public String handleGetPost(@RequestParam(value = "postId") String postId) { return getPost(postId); }
 
     @GetMapping(path = "/google/feed")
     public String handleGoogleGetFeed(@RequestParam(value = "userId") String userId,
                                       @RequestParam(value = "pageId") String pageId) {
         return getFeed(userId, pageId);
+    }
+    @GetMapping(path = "/google/notifications")
+    public String handleGoogleGetNotifications(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "pageId") String pageId) {
+        return getNotifications(userId, pageId);
+    }
+
+    @GetMapping(path = "/notifications")
+    public String handleGetNotifications(
+            @RequestParam(value = "pageId") String pageId, Principal user) {
+        return getNotifications(user.getName(), pageId);
+    }
+
+    @GetMapping(path = "/google/numberOfNotifications")
+    public String handleGoogleGetTotalNotifications(@RequestParam(value = "userId") String userId) {
+        return GetTotalNotifications(userId);
+    }
+
+    @GetMapping(path = "/numberOfNotifications")
+    public String handleGetTotalNotifications(Principal user) {
+        return GetTotalNotifications(user.getName());
     }
 
     @GetMapping(path = "/feed")
@@ -193,6 +226,39 @@ public class MasterController {
 
     /*********************************** End Of API Definitions. *****************************************/
 
+    private String getPost(String postId) {
+        UserPost post = this.userPostRepository.getByPostId(postId);
+        if (post == null) {
+            return new JSONObject()
+                    .put("message", "Error") // Move "message" to "status".
+                    .put("data", "{}").toString();
+        }
+        JSONObject obj = new JSONObject();
+        List<PostLike> postLikes = this.postLikeRepository.findAllByPostId(post.getPostId());
+        List<PostComment> postComments = this.postCommentRepository.findAllByPostId(post.getPostId());
+        JSONArray commentsArr = new JSONArray();
+        for (PostComment postComment : postComments) {
+            JSONObject commentObj = new JSONObject();
+            commentObj.put("text", postComment.getText());
+            commentObj.put("author", GetUserName(postComment.getAuthorId()));
+            commentsArr.put(commentObj);
+        }
+        int numLikes = postLikes.size();
+        final int numComments = postComments.size();
+        obj.put("postId", post.getPostId());
+        obj.put("authorName", GetUserName(post.getAuthorId()));
+        obj.put("numLikes", numLikes);
+        obj.put("numComments", numComments);
+        obj.put("comments", commentsArr);
+        obj.put("codeBlock", post.getText());
+        obj.put("language", "cpp");
+        obj.put("problemName", GetProblemName(post.getProblemId()));
+        obj.put("problemLink", GetProblemLink(post.getProblemId()));
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", obj).toString();
+    }
+
     private String getFeed(String userId, String pageId) {
         // Step-I: Get all the user posts.
         List<UserPost> userPosts = this.userPostRepository.findAllByOrderByCreatedAtDesc();
@@ -218,9 +284,6 @@ public class MasterController {
                 commentsArr.put(commentObj);
             }
             int numLikes = postLikes.size();
-            if (numLikes < 5) {
-                numLikes = numLikes + 5;
-            }
             final int numComments = postComments.size();
             obj.put("postId", post.getPostId());
             obj.put("authorName", GetUserName(post.getAuthorId()));
@@ -236,6 +299,52 @@ public class MasterController {
         return new JSONObject()
                 .put("message", "Success") // Move "message" to "status".
                 .put("data", jsonArray).toString();
+    }
+
+    private String getNotifications(String userId, String pageId) {
+        List<UserNotification> userNotifications = this.userNotificationRepository.findAllByToUserIdOrderByCreatedAtDesc(userId);
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.NOTIFICATIONS_PAGE_SIZE;
+        int endIdx = min(userNotifications.size(), startIdx + Constants.NOTIFICATIONS_PAGE_SIZE);
+        userNotifications = userNotifications.subList(startIdx, endIdx);
+        JSONArray jsonArray = new JSONArray();
+        for (UserNotification userNotification : userNotifications) {
+            JSONObject obj = new JSONObject();
+            obj.put("notificationType", userNotification.getType());
+            // TODO(Ravi): This needs to be optimized.
+            obj.put("authorName", GetUserName(userNotification.getFromUserId()));
+            obj.put("authorId", userNotification.getFromUserId());
+            obj.put("createdAt", userNotification.getCreatedAt());
+            obj.put("postId", userNotification.getPostId());
+            obj.put("postText", userNotification.getCommentText());
+            obj.put("problemName", GetProblemNameFromPostId(userNotification.getPostId()));
+            jsonArray.put(obj);
+        }
+        UpdateNotificationsAsSeen(userNotifications);
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", jsonArray).toString();
+    }
+
+    @Async
+    private void UpdateNotificationsAsSeen(List<UserNotification> userNotifications) {
+        for (UserNotification userNotification : userNotifications) {
+          userNotification.setSeen(true);
+           this.userNotificationRepository.save(userNotification);
+        }
+    }
+
+    private String GetTotalNotifications(String userId) {
+        int numberNotifications = this.userNotificationRepository.getCountNotifications(userId);
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("numberNotifications", numberNotifications).toString();
+    }
+
+    private String GetProblemNameFromPostId(String postId) {
+        UserPost userPost = this.userPostRepository.getByPostId(postId);
+        if (userPost == null) return "";
+        return GetProblemName(userPost.getProblemId());
     }
 
     private String GetProblemName(String problemId) {
@@ -271,7 +380,38 @@ public class MasterController {
             commentObj.put("commentId", postComment.getCommentId());
             commentsArr.put(commentObj);
         }
+        CreateCommentNotification(request.getUserId(), request.getText(), request.getPostId());
+        // Create a notification.
         return new JSONObject().put("message", "Success").put("data", commentsArr).toString();
+    }
+
+    private String GetUserId(String postId) {
+        UserPost userPost =   this.userPostRepository.getByPostId(postId);
+        String userId = userPost == null ? "" : userPost.getAuthorId();
+        return userId;
+    }
+
+    @Async
+    private void CreateCommentNotification(String userId, String text, String postId) {
+        String toUserId = GetUserId(postId);
+        UserNotification userNotification = new UserNotification();
+        userNotification.setToUserId(toUserId);
+        userNotification.setPostId(postId);
+        userNotification.setFromUserId(userId);
+        userNotification.setCommentText(text);
+        userNotification.setType("USER_COMMENT");
+        this.userNotificationRepository.save(userNotification);
+    }
+
+    @Async
+    private void CreateLikeNotification(String userId, String postId) {
+        String toUserId = GetUserId(postId);
+        UserNotification userNotification = new UserNotification();
+        userNotification.setToUserId(toUserId);
+        userNotification.setPostId(postId);
+        userNotification.setFromUserId(userId);
+        userNotification.setType("USER_LIKE");
+        this.userNotificationRepository.save(userNotification);
     }
 
     private String addLike(AddLikeHTTPRequest request) {
@@ -280,6 +420,7 @@ public class MasterController {
         like.setAuthorId(request.getUserId());
         like.setPostId(request.getPostId());
         this.postLikeRepository.save(like);
+        CreateLikeNotification(request.getUserId(), request.getPostId());
         return new JSONObject().put("message", "Success").toString();
     }
 
@@ -480,11 +621,15 @@ public class MasterController {
     }
 
     private static Date firstDayOfWeek(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.setTime(date);
-        calendar.set(Calendar.DAY_OF_WEEK, 1);
-        return calendar.getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        System.out.println("Start of this week: " + cal.getTime());
+        return cal.getTime();
     }
 
     private int GetNumberOfProblemSubmissions(List<UserSubmission> submissions) {

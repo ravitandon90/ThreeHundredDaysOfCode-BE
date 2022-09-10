@@ -14,7 +14,8 @@ services:
     links:
       - db
     volumes:
-      - /Users/ravi/.aws/credentials:/Users/root/.aws/credentials/
+      - master-data:/root/.aws
+      - /Users/ravi/.aws/credentials:/Users/root/.aws/
       
   db:
     image: postgres:14.1-alpine
@@ -30,3 +31,4 @@ services:
 
 volumes:
   db-data:
+  master-data:
