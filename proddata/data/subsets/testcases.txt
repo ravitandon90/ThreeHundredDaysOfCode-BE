@@ -16,4 +16,3 @@ output
 
 0
 check
-
