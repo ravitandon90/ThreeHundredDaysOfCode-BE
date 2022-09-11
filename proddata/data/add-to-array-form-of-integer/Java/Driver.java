@@ -1,11 +1,8 @@
-
-package add_array_to_form_an_integer;
-
+package add_to_array_form_of_Integer.Java;
 import java.io.*;
 import java.util.*;
 
 public class Driver {
-    
     private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
@@ -21,7 +18,7 @@ public class Driver {
 
             e.printStackTrace();
         }
-        System.out.println(al);
+
         // Returning a string arraylist
         return al;
     }
@@ -30,36 +27,55 @@ public class Driver {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
     }
 
-    static boolean drivercode() {
-        String filePath = "D:\\java\\driver_codes\\src\\add_array_to_form_an_integer\\test cases.txt";
-        List<String> al = method(filePath);
-        String input1=null;
-        String input2=null;
-        String output;
-        boolean b = true;
-        for (int i = 0; i <=al.size()/2; i++) {
-            if (i % 2 == 0) {
-                System.out.println(" "+al.get(i));
 
-            } else {
-                String s = al.get(i);
-                s.trim();
-//                output = user_code(input1,input2);
-//                System.out.println("expected output---"+output);
-//                System.out.println("user output---"+user_ouput);
-//                b = b & output.equals(s) ? true : false;
-                if (b == false) {
-                    System.out.println("Expected answer " + s);
-                    System.out.println("Your answer " + "empty");
-                }
+    static boolean drivercode()     {
+        String filePath = "src/add_to_array_form_of_integer/test cases";
+        List<String> al = method(filePath);
+
+        int input2;
+        boolean b = true;
+        int i = 0;
+        while(!al.isEmpty())
+        {
+            String[] in1 = al.get(i).split(" ");
+            int input1[] = new int[in1.length];
+            for (int j = 0; j<input1.length;j++)
+            {
+                input1[j] = Integer.parseInt(in1[j]);
+            }
+
+            al.remove(i);
+
+
+            input2=Integer.parseInt(al.get(i));
+            al.remove(i);
+
+            String out_Array[] = al.get(i).split(" ");
+            al.remove(i);
+            List<Integer> out = new ArrayList<>();
+            for (int j = 0; j<out_Array.length;j++)
+            {
+                out.add(Integer.parseInt(out_Array[j]));
+            }
+            List<Integer> user_output = addToArrayForm(input1,input2);
+
+            b = b & out.equals(user_output) ? true : false;
+
+            if(b==false) {
+                System.out.println("Expected output  " + out);
+                System.out.println("Your output  " + user_output);
+                return b;
+
             }
         }
         return b;
     }
-    
-//    static String user_code(String s1,String s2)
-//    {
-//        solution_addString solution = new solution_addString(s1, s2);
-//        return solution.solution_addString(s1, s2);
-//    }
+
+
+    public static List<Integer> addToArrayForm(int[] num, int k)
+    {
+        Solution solution = new Solution(num , k);
+        return solution.solution_addString(num,k);
+
+    }
 }
