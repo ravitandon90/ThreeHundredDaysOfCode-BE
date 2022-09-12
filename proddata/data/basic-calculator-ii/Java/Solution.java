@@ -2,7 +2,9 @@ package basic_calculator_ii.Java;
 
 public class Solution
 {
-    public int calculate(String s) {
-        return 0;
+    public int calculate(String s)
+    {
+        //write your code here
+        
     }
 }

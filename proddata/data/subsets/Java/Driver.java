@@ -23,9 +23,6 @@ public class Driver
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -49,22 +46,15 @@ public class Driver
             {
                 String s[] = al.get(i+1).split(" ");
                 input1 = Arrays.stream(s).mapToInt(Integer::parseInt).toArray();
-//                System.out.println("input array is--"+Arrays.toString(input1));
                 i++;
 
             }
             else if(al.get(i).equals("output") || !al.get(i).equals("check"))
             {
                 List<Integer> al2 = new ArrayList<>();
-                if(al.get(i+1).equals(""))
-                {
-//                    out.add(al2);
-
-                }
-                else
+                if(!al.get(i+1).equals(""))
                 {
                     String s= al.get(i);
-//                    System.out.println("String is--"+s);
                     StringTokenizer st = new StringTokenizer(s);
                     int n = st.countTokens();
                     for(int j = 0;j<n;j++)
@@ -72,13 +62,10 @@ public class Driver
                         al2.add(Integer.parseInt(st.nextElement().toString()));
                     }
                     out.add(al2);
-
                 }
             }
             else if(al.get(i).equals("check"))
             {
-//                System.out.println("input is--" + Arrays.toString(input1));
-//                System.out.println("output is---"+out);
                 List<List<Integer>> user_out = subsets(input1);
 
                 boolean chec = true;

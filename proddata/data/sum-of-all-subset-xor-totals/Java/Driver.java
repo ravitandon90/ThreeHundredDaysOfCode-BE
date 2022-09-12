@@ -19,9 +19,6 @@ public class Driver {
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -45,12 +42,10 @@ public class Driver {
             {
                 String in[] = al.get(i).split(" ");
                 input = Arrays.stream(in).mapToInt(Integer::parseInt).toArray();
-//                System.out.println("Input is-->"+Arrays.toString(input));
             }
             else
             {
                 out = Integer.parseInt(al.get(i));
-//                System.out.println("output is-->"+out);
                 int user_out = user_out(input);
 
                 b = b & user_out == (out);

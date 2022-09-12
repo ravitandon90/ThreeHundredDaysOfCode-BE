@@ -20,8 +20,6 @@ public class Driver {
             e.printStackTrace();
         }
 
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -44,18 +42,13 @@ public class Driver {
             if(i%2==0)
             {
                 input = Integer.parseInt((al.get(i)));
-//                System.out.println("Input is-->"+input);
             }
             else
             {
                 String o[] = al.get(i).split(" ");
                 out = Arrays.stream(o).mapToInt(Integer::parseInt).toArray();
-//                System.out.println("Expected output is--->"+Arrays.toString(out));
                 int[] user_out = user_out(input);
-//                Collections.sort(out);
-//                Collections.sort(user_out);
                 b = b & Arrays.equals(out,user_out);
-
                 if (b == false) {
                     System.out.println("Expected output  " + out);
                     System.out.println("Your output  " + user_out);

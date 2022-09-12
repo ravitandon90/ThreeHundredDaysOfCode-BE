@@ -20,9 +20,6 @@ public class Driver
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -45,16 +42,12 @@ public class Driver
             if(i%2==0)
             {
                 input = Integer.parseUnsignedInt(al.get(i),2);
-//                System.out.println("Input is-->"+input);
             }
             else
             {
                 out = Integer.parseInt(al.get(i));
-//                System.out.println("output is-->"+out);
                 int user_out = user_out(input);
-
                 b = b & user_out == (out);
-
                 if (b == false) {
                     System.out.println("Expected output  " + out);
                     System.out.println("Your output  " + user_out);
