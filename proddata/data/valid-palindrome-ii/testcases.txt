@@ -1,7 +1,7 @@
 3
-"aba"
+aba
 true
-"abca"
+abca
 true
-"abc"
+abc
 false
