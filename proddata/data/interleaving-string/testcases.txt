@@ -1,7 +1,5 @@
 3
-"aabcc", "dbbca", "aadbbcbcac"
+aabcc dbbca aadbbcbcac
 true
-"aabcc", "dbbca", "aadbbbaccc"
+aabcc dbbca aadbbbaccc
 false
-"", "", ""
-true

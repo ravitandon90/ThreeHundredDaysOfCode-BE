@@ -1,5 +1,5 @@
 2
-"aba", "baba"
+aba baba
 6
-"ab", "bb"
+ab bb
 3
