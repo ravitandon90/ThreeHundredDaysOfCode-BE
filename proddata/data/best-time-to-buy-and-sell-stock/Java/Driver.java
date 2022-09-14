@@ -1,4 +1,4 @@
-package best_time_to_buy_and_sell_stocks.Java;
+package best-time-to-buy-and-sell-stocks.Java;
 
 import java.io.*;
 import java.util.*;
@@ -22,18 +22,15 @@ public class Driver {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/best_time_to_buy_and_sell_stocks/testcases.txt";
+        String filePath = "proddata/data/best-time-to-buy-and-sell-stocks/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

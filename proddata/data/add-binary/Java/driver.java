@@ -1,11 +1,11 @@
-
-package add_binary.Java;
+package add-binary.Java;
 
 import java.io.*;
 import java.util.*;
 
-public class Driver {
-private static List<String> method(String filePath) {
+public class driver {
+private static List<String> method(String filePath)
+        {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
@@ -20,8 +20,7 @@ private static List<String> method(String filePath) {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
-        // Returning a string arraylist
+
         return al;
     }
 
@@ -31,8 +30,7 @@ private static List<String> method(String filePath) {
 
     static boolean drivercode() {
 
-        String filePath = "src/add_binary/test cases";
-
+        String filePath = "proddata/data/add-binary/testcases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -49,15 +47,11 @@ private static List<String> method(String filePath) {
                 String s = al.get(i);
                 s.trim();
                 output = user_code(input1,input2);
-//                System.out.println("expected output---"+output);
-//                System.out.println("user output---"+user_ouput);
                 b = b & output.equals(s) ? true : false;
                 if (b == false) {
                     System.out.println("Expected answer " + s);
                     System.out.println("Your answer " + output);
-
-                    break;
-
+                    return b;
                 }
             }
         }
@@ -66,8 +60,7 @@ private static List<String> method(String filePath) {
 
     static String user_code(String s1,String s2)
     {
-        Solution solution = new Solution(s1, s2);
-        return solution.solution_adBinary(s1, s2);
+        Solution sol = new Solution();
+        return sol.add_binary(s1, s2);
     }
 }
-

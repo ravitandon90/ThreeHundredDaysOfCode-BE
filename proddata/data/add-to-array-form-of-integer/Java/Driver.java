@@ -1,4 +1,4 @@
-package add_to_array_form_of_Integer.Java;
+package add-to-array-form-of-integer.Java;
 import java.io.*;
 import java.util.*;
 
@@ -18,8 +18,6 @@ public class Driver {
 
             e.printStackTrace();
         }
-
-        // Returning a string arraylist
         return al;
     }
 
@@ -27,11 +25,9 @@ public class Driver {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
     }
 
-
     static boolean drivercode()     {
-        String filePath = "src/add_to_array_form_of_integer/test cases";
+        String filePath = "proddata/data/add-to-array-form-of-integer/test cases";
         List<String> al = method(filePath);
-
         int input2;
         boolean b = true;
         int i = 0;
@@ -45,8 +41,6 @@ public class Driver {
             }
 
             al.remove(i);
-
-
             input2=Integer.parseInt(al.get(i));
             al.remove(i);
 
@@ -65,17 +59,15 @@ public class Driver {
                 System.out.println("Expected output  " + out);
                 System.out.println("Your output  " + user_output);
                 return b;
-
             }
         }
         return b;
     }
 
-
     public static List<Integer> addToArrayForm(int[] num, int k)
     {
-        Solution solution = new Solution(num , k);
-        return solution.solution_addString(num,k);
+        Solution solution = new Solution();
+        return solution.addToArrayForm(num,k);
 
     }
 }

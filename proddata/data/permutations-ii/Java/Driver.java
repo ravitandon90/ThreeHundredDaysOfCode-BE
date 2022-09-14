@@ -1,4 +1,4 @@
-package permutations_ii.Java;
+package permutations-ii.Java;
 
 import java.io.*;
 import java.util.*;
@@ -28,18 +28,15 @@ public class Driver {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/permutations_ii/testcases.txt";
+        String filePath = "proddata/data/permutations-ii/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

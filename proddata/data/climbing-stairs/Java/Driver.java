@@ -1,4 +1,4 @@
-package climbing_stairs.Java;
+package climbing-stairs.Java;
 
 import java.io.*;
 import java.util.*;
@@ -20,18 +20,15 @@ public class Driver {
             e.printStackTrace();
         }
 
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/climbing_stairs/testcases.txt";
+        String filePath = "proddata/data/climbing-stairs/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;
@@ -44,12 +41,10 @@ public class Driver {
             if(i%2==0)
             {
                 input = Integer.parseInt(al.get(i));
-//                System.out.println("Input is-->"+input);
             }
             else
             {
                 out = Integer.parseInt(al.get(i));
-//                System.out.println("output is-->"+out);
                 int user_out = climbstair(input);
 
                 b = b & user_out == (out);

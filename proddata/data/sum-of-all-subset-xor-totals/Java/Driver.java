@@ -1,4 +1,4 @@
-package sum_of_all_subset_xor_totals.Java;
+package sum-of-all-subset-xor-totals.Java;
 
 import java.io.*;
 import java.util.*;
@@ -19,19 +19,16 @@ public class Driver {
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
+
     }
 
     static boolean drivercode() {
-        String filePath = "src/sum_of_all_subset_xor_totals/testcases.txt";
+        String filePath = "proddata/data/sum-of-all-subset-xor-totals/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -45,12 +42,11 @@ public class Driver {
             {
                 String in[] = al.get(i).split(" ");
                 input = Arrays.stream(in).mapToInt(Integer::parseInt).toArray();
-//                System.out.println("Input is-->"+Arrays.toString(input));
             }
             else
             {
                 out = Integer.parseInt(al.get(i));
-//                System.out.println("output is-->"+out);
+
                 int user_out = user_out(input);
 
                 b = b & user_out == (out);

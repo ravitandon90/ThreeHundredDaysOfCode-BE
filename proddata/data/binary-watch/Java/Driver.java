@@ -1,4 +1,4 @@
-package binary_watch.Java;
+package binary-watch.Java;
 
 import java.io.*;
 import java.util.*;
@@ -22,18 +22,15 @@ public class Driver {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/binary_watch/testcases.txt";
+        String filePath = "proddata/data/binary-watch/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

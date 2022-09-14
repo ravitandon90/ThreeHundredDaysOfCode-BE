@@ -1,10 +1,9 @@
-package add_string.Java;
+package add-strings.Java;
 import java.io.*;
 import java.util.*;
 
-public class Driver {
-    
-
+public class Driver
+{
     private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
@@ -20,8 +19,6 @@ public class Driver {
 
             e.printStackTrace();
         }
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -30,9 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-
-        String filePath = "src/add_string/test cases";
-
+        String filePath = "proddata/data/add-strings/testcases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -49,8 +44,6 @@ public class Driver {
                 String s = al.get(i);
                 s.trim();
                 output = user_code(input1,input2);
-//                System.out.println("expected output---"+output);
-//                System.out.println("user output---"+user_ouput);
                 b = b & output.equals(s) ? true : false;
                 if (b == false) {
                     System.out.println("Expected answer " + s);
@@ -62,10 +55,9 @@ public class Driver {
         return b;
     }
 
-
     static String user_code(String s1,String s2)
     {
-        Solution solution = new Solution(s1, s2);
+        Solution solution = new Solution();
         return solution.Solution(s1, s2);
     }
 }

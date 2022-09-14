@@ -1,4 +1,4 @@
-package palindrome_partitioning.Java;
+package palindrome-partitioning.Java;
 
 import java.io.*;
 import java.util.*;
@@ -20,19 +20,15 @@ public class Driver {
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/palindrome_partitioning/testcases.txt";
+        String filePath = "proddata/data/palindrome-partitioning/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<String>> out = new ArrayList<>();
@@ -45,21 +41,18 @@ public class Driver {
             if(al.get(i).equals("input"))
             {
                 input1 = al.get(i+1);
-//                System.out.println("input array is--"+input1);
                 i++;
 
             }
             else if(!al.get(i).equals("output") && !al.get(i).equals("check"))
             {
                 List<String> al2 = new ArrayList<>();
-                if(al.get(i+1).equals(""))
-                {
-//                    out.add(al2);
-                }
-                else
+                if(!al.get(i+1).equals(""))
                 {
                     String s= al.get(i);
-//                    System.out.println("String is--"+s);
+                if(!al.get(i+1).equals(""))
+                {
+                    String s= al.get(i);
                     StringTokenizer st = new StringTokenizer(s);
                     int n = st.countTokens();
                     for(int j = 0;j<n;j++)
@@ -67,13 +60,11 @@ public class Driver {
                         al2.add(st.nextElement().toString());
                     }
                     out.add(al2);
-
                 }
+
             }
             else if(al.get(i).equals("check"))
             {
-//                System.out.println("input is--" + Arrays.toString(input1));
-//                System.out.println("output is---"+out);
                 List<List<String>> user_out = user_out(input1);
 
                 boolean chec = true;

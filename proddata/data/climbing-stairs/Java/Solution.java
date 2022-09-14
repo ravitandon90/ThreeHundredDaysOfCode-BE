@@ -1,4 +1,4 @@
-package climbing_stairs.Java;
+package climbing-stairs.Java;
 
 public class Solution {
 

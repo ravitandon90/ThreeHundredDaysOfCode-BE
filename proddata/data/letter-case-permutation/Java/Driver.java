@@ -1,4 +1,4 @@
-package letter_case_permutation.Java;
+package letter-case-permutation.Java;
 
 import java.io.*;
 import java.util.*;
@@ -19,9 +19,6 @@ public class Driver {
 
             e.printStackTrace();
         }
-
-//        System.out.println(al);
-        // Returning a string arraylist
         return al;
     }
 
@@ -31,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/letter_case_permutation/testcases.txt";
+        String filePath = "proddata/data/letter-case-permutation/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out = new ArrayList<>();

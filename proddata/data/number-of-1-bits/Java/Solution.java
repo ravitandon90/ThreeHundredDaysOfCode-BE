@@ -1,4 +1,4 @@
-package number_of_1_bits.Java;
+package number-of-1-bits.Java;
 
 public class Solution
 {
