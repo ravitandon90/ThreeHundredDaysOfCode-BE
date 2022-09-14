@@ -1,4 +1,4 @@
-package can_place_flowers.Java;
+package can-place-flowers.Java;
 
 public class Solution
 {

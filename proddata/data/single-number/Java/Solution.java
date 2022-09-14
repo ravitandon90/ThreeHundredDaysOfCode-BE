@@ -1,4 +1,4 @@
-package single_number.Java;
+package single-number.Java;
 
 import java.util.*;
 

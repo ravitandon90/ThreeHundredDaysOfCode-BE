@@ -1,4 +1,4 @@
-package remove_invalid_parentheses.Java;
+package remove-invalid-brackets.Java;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,11 +27,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/remove_invalid_parentheses/testcases.txt";
+        String filePath = "proddata/data/remove-invalid-parentheses/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out;

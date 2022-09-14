@@ -1,4 +1,4 @@
-package number_of_1_bits.Java;
+package number-of-1-bits.Java;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +25,10 @@ public class Driver
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/number_of_1_bits/testcases.txt";
+        String filePath = "proddata/data/number-of-1-bits/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -47,6 +46,9 @@ public class Driver
             {
                 out = Integer.parseInt(al.get(i));
                 int user_out = user_out(input);
+                b = b & user_out == (out);
+                int user_out = user_out(input);
+
                 b = b & user_out == (out);
                 if (b == false) {
                     System.out.println("Expected output  " + out);

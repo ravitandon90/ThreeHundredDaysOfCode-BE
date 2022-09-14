@@ -1,7 +1,9 @@
 package com.code.master.common;
 
+import java.util.Date;
+
 public class Constants {
-    public static String START_DATE = "Thu Aug 15 12:00:00 IST 2022";
+    public static String START_DATE = "2022-08-15T12:00:00Z";
     public static long MAX_NUM_PROBLEMS = 250;
 
     public static final int LANGUAGE_CPP_CODE = 54;

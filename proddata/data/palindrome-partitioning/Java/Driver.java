@@ -1,4 +1,4 @@
-package palindrome_partitioning.Java;
+package palindrome-partitioning.Java;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +25,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/palindrome_partitioning/testcases.txt";
+        String filePath = "proddata/data/palindrome-partitioning/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<String>> out = new ArrayList<>();
@@ -51,6 +50,9 @@ public class Driver {
                 if(!al.get(i+1).equals(""))
                 {
                     String s= al.get(i);
+                if(!al.get(i+1).equals(""))
+                {
+                    String s= al.get(i);
                     StringTokenizer st = new StringTokenizer(s);
                     int n = st.countTokens();
                     for(int j = 0;j<n;j++)
@@ -59,6 +61,7 @@ public class Driver {
                     }
                     out.add(al2);
                 }
+
             }
             else if(al.get(i).equals("check"))
             {

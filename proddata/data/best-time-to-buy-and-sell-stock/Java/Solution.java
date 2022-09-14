@@ -1,4 +1,4 @@
-package best_time_to_buy_and_sell_stocks.Java;
+package best-time-to-buy-and-sell-stocks.Java;
 
 class Solution {
     public int maxProfit(int[] prices) {

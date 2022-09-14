@@ -1,4 +1,4 @@
-package can_place_flowers.Java;
+package can-place-flowers.Java;
 
 import java.io.*;
 import java.util.*;
@@ -32,7 +32,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/can_place_flowers/testcases.txt";
+        String filePath = "proddata/data/can-place-flowers/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

@@ -1,4 +1,4 @@
-package buddy_strings.Java;
+package buddy-strings.Java;
 
 import java.io.*;
 import java.util.*;
@@ -28,11 +28,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/buddy_strings/testcases.txt";
+        String filePath = "proddata/data/buddy-strings/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

@@ -1,4 +1,4 @@
-package remove_invalid_parentheses.Java;
+package remove-invalid-parentheses.Java;
 
 import java.util.*;
 

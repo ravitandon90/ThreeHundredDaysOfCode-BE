@@ -1,4 +1,4 @@
-package binary_watch.Java;
+package binary-watch.Java;
 
 import java.util.*;
 

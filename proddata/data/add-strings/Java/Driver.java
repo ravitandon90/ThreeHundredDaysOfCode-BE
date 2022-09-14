@@ -1,5 +1,4 @@
-package add_string.Java;
-
+package add-strings.Java;
 import java.io.*;
 import java.util.*;
 
@@ -28,7 +27,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/add_string/test cases";
+        String filePath = "proddata/data/add-strings/testcases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;

@@ -1,4 +1,4 @@
-package generate_parentheses.Java;
+package generate-parentheses.Java;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +25,11 @@ public class Driver
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
+
     }
 
     static boolean drivercode() {
-        String filePath = "src/generate_parentheses/testcases.txt";
+        String filePath = "proddata/data/generate-parentheses/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out = new ArrayList<>();

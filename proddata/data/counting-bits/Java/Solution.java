@@ -1,4 +1,4 @@
-package counting_bits.Java;
+package counting-bits.Java;
 
 public class Solution {
     public int[] countBits(int n) {

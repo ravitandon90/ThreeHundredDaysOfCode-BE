@@ -1,4 +1,4 @@
-package letter_case_permutation.Java;
+package letter-case-permutation.Java;
 
 import java.util.*;
 

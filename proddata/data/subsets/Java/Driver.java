@@ -28,11 +28,10 @@ public class Driver
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/subsets/testcases.txt";
+        String filePath = "proddata/data/subsets/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<Integer>> out = new ArrayList<>();

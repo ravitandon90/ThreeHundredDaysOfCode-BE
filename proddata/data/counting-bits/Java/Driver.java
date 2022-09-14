@@ -1,4 +1,4 @@
-package counting_bits.Java;
+package counting-bits.Java;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +25,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/counting_bits/testcases.txt";
+        String filePath = "proddata/data/counting-bits/testcases.txt";
         List<String> al = method(filePath);
 
         int[] out;

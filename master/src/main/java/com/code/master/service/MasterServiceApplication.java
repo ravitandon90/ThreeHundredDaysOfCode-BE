@@ -31,7 +31,8 @@ public class MasterServiceApplication {
                 "/me", "/leaderBoard", "/problem", "/",
                 "/createProfile", "/updateProfile", "/submitCode", "/mySubmissions",
                 "/submissions", "/problems", "/problemById", "/submitCodeSolution",
-                "/problemBaseCode", "/feed", "/comment", "/like", "/notifications", "/follow", "/post", "/numberOfNotifications"
+                "/problemBaseCode", "/feed", "/comment", "/like", "/notifications",
+                "/follow", "/post", "/numberOfNotifications", "/timeRemaining"
         };
 
         return new WebMvcConfigurer() {

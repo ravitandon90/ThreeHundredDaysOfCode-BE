@@ -1,4 +1,4 @@
-package palindrome_partitioning.Java;
+package palindrome-partitioning.Java;
 
 import java.util.*;
 

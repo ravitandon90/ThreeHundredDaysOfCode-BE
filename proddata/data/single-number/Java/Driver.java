@@ -1,4 +1,4 @@
-package single_number.Java;
+package single-number.Java;
 
 import java.io.*;
 import java.util.*;
@@ -24,11 +24,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/single_number/testcases.txt";
+        String filePath = "proddata/data/single-number/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -59,8 +58,6 @@ public class Driver {
         }
         return b;
     }
-
-
     public static int user_out(int nums[])
     {
         Solution sol = new Solution();

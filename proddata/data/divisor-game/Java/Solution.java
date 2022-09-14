@@ -1,4 +1,4 @@
-package divisor_game.Java;
+package divisor-game.Java;
 
 public class Solution {
     public boolean divisorGame(int n) {

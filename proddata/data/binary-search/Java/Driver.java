@@ -1,4 +1,4 @@
-package binary_search.Java;
+package binary-search.Java;
 
 
 import java.io.*;
@@ -28,11 +28,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/binary_search/testcases.txt";
+        String filePath = "proddata/data/binary-search/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

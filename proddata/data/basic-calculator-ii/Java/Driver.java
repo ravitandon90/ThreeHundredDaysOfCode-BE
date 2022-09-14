@@ -1,4 +1,4 @@
-package basic_calculator_ii.Java;
+package basic-calculator-ii.Java;
 
 import java.io.*;
 import java.util.*;
@@ -24,11 +24,11 @@ public class Driver
     }
 
     public static void main(String[] args) {
-        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
+        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
     }
 
     static boolean drivercode() {
-        String filePath = "src/basic_calculator_ii/testcases.txt";
+        String filePath = "proddata/data/basic-calculator-ii/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));

@@ -1,4 +1,4 @@
-package climbing_stairs.Java;
+package climbing-stairs.Java;
 
 import java.io.*;
 import java.util.*;
@@ -25,11 +25,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/climbing_stairs/testcases.txt";
+        String filePath = "proddata/data/climbing-stairs/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;

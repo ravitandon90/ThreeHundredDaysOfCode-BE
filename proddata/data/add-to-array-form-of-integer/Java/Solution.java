@@ -1,4 +1,4 @@
-package add_to_array_form_of_Integer.Java;
+package add-to-array-form-of-integer.Java;
 
 import java.util.*;
 
