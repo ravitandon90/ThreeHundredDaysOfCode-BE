@@ -1,4 +1,4 @@
-package add-binary.Java;
+package add_binary.Java;
 
 import java.io.*;
 import java.util.*;
@@ -30,7 +30,7 @@ private static List<String> method(String filePath)
 
     static boolean drivercode() {
 
-        String filePath = "proddata/data/add-binary/testcases.txt";
+        String filePath = "proddata/data/add_binary/testcases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
