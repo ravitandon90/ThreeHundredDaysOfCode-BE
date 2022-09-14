@@ -224,6 +224,11 @@ public class MasterController {
         return addLike(request);
     }
 
+    @GetMapping(path = "/google/timeRemaining")
+    public String handleGetTimeRemaining() {
+        return GetTimeRemainingMilliseconds();
+    }
+
     /*********************************** End Of API Definitions. *****************************************/
 
     private String getPost(String postId) {
@@ -583,6 +588,21 @@ public class MasterController {
         return "{}";
     }
 
+    private String GetTimeRemainingMilliseconds() {
+        long diffInMillis;
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        TimeZone tz = TimeZone.getTimeZone("EST");
+        c.setTimeZone(tz);
+        c.add(Calendar.DATE, 1);
+        c.set(Calendar.HOUR_OF_DAY, 1);
+        c.set(Calendar.MINUTE, 30);
+        Date nextDate = c.getTime();
+        diffInMillis = Math.abs(nextDate.getTime() - currentDate.getTime()) % (24 * 60 * 60 * 1000);
+        return new JSONObject().put("message", "Success").put("diffInMillis", diffInMillis).toString();
+    }
+
     private String GetProblemOfTheDay(String logic) {
         boolean getRandom = false;
         if (logic.equalsIgnoreCase("random")) {
@@ -590,12 +610,12 @@ public class MasterController {
         }
 
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            parser.setTimeZone(TimeZone.getTimeZone("IST"));
             Date startDate = parser.parse(Constants.START_DATE);
-            Instant nowUtc = Instant.now();
-            ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
-            ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
-            Date currentDate = Date.from(Instant.from(nowAsiaIndia));
+            Date currentDate = new Date();
+            System.out.println(startDate);
+            System.out.println(currentDate);
             long diffInMillis = Math.abs(currentDate.getTime() - startDate.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
             if (getRandom) diffInDays = ThreadLocalRandom.current().nextLong(Constants.MAX_NUM_PROBLEMS);
