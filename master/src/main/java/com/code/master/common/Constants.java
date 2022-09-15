@@ -17,4 +17,9 @@ public class Constants {
     public static final int LANGUAGE_PHP_CODE = 68;
     public static final int FEED_PAGE_SIZE = 10;
     public static final int NOTIFICATIONS_PAGE_SIZE = 10;
+
+    public static final String USER_DOCUMENT_INDEX = "userdoc";
+    public static final String PROBLEM_DOCUMENT_INDEX = "problemdoc";
+
+    public static final int NUM_MAX_WORDS_COMPLETION = 3;
 }

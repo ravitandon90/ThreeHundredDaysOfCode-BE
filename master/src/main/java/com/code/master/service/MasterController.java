@@ -507,9 +507,9 @@ public class MasterController {
         return userNameIdMap;
     }
 
-    private List<SubmissionWrapper> getMerged(List<UserSubmission> userSubmissions, List<CodeSubmission> codeSubmissions) {
+    private List<SubmissionWrapper> getMerged(List<UserSubmission> userSubmissions,
+                                              List<CodeSubmission> codeSubmissions) {
         List<SubmissionWrapper> submissionWrappers = new ArrayList<>();
-
         for (UserSubmission userSubmission: userSubmissions) {
             SubmissionWrapper submissionWrapper = new SubmissionWrapper();
             submissionWrapper.setUserSubmission(userSubmission);
@@ -520,7 +520,6 @@ public class MasterController {
             submissionWrapper.setCodeSubmission(codeSubmission);
             submissionWrappers.add(submissionWrapper);
         }
-
         return submissionWrappers;
     }
 
