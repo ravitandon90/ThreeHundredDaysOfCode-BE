@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,6 +86,29 @@ public class MasterController {
     @GetMapping(path = "/google/mySubmissions")
     public String handleGetMySubmissions(@RequestParam(value = "userId") String userId) {
         return GetMySubmissions(userId);
+    }
+    @GetMapping(path = "/submissions")
+    public String handleGetAllSubmissions(Principal user, @RequestParam(value = "pageId") String pageId) {
+        return GetAllSubmissions(user.getName(), pageId);
+    }
+
+    @GetMapping(path = "/google/submissions")
+    public String handleGetAllSubmissions(@RequestParam(value = "userId") String userId, @RequestParam(value = "pageId") String pageId) {
+        return GetAllSubmissions(userId, pageId);
+    }
+
+    @GetMapping(path = "/submissionsProblem")
+    public String handleGetSubmissionsForAProblem(Principal user,
+                                          @RequestParam(value = "problemId") String problemId,
+                                          @RequestParam(value = "pageId") String pageId) {
+        return GetSubmissionsForAProblem(user.getName(), pageId, problemId);
+    }
+
+    @GetMapping(path = "/google/submissionsProblem")
+    public String handleGoogleGetSubmissionsForAProblem(@RequestParam(value = "userId") String userId,
+                                          @RequestParam(value = "problemId") String problemId,
+                                          @RequestParam(value = "pageId") String pageId) {
+        return GetSubmissionsForAProblem(userId, pageId, problemId);
     }
 
     @GetMapping(path = "/problems")
@@ -229,7 +253,22 @@ public class MasterController {
         return GetTimeRemainingMilliseconds();
     }
 
+    @GetMapping(path = "/google/submission")
+    public String handleGetSubmission(@RequestParam(value = "submissionId") String submissionId) {
+        return GetCodeSubmission(submissionId);
+    }
+
     /*********************************** End Of API Definitions. *****************************************/
+
+    private String GetCodeSubmission(String submissionId) {
+        CodeSubmission codeSubmission = this.codeSubmissionRepository.getBySubmissionId(submissionId);
+        JSONObject obj = new JSONObject();
+        obj.put("submissionCode", codeSubmission.getSolutionCode());
+        obj.put("language", codeSubmission.getLanguage());
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", obj).toString();
+    }
 
     private String getPost(String postId) {
         UserPost post = this.userPostRepository.getByPostId(postId);
@@ -453,24 +492,118 @@ public class MasterController {
         return response.toString();
     }
 
-    private String GetMySubmissions(String userId) {
-        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+    Map<String, String> getUserNameIdMap() {
+        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+        Map<String, String> userNameIdMap = new HashMap<>();
+        int idx = 1;
+        for (UserProfile userProfile : userProfiles) {
+            String userName = userProfile.getName();
+            if (userName == null || userName.isEmpty()) {
+                userName = "Coding Ninja " + idx;
+                ++idx;
+            }
+            userNameIdMap.put(userProfile.getUserId(), userName);
+        }
+        return userNameIdMap;
+    }
+
+    private List<SubmissionWrapper> getMerged(List<UserSubmission> userSubmissions, List<CodeSubmission> codeSubmissions) {
+        List<SubmissionWrapper> submissionWrappers = new ArrayList<>();
+
+        for (UserSubmission userSubmission: userSubmissions) {
+            SubmissionWrapper submissionWrapper = new SubmissionWrapper();
+            submissionWrapper.setUserSubmission(userSubmission);
+            submissionWrappers.add(submissionWrapper);
+        }
+        for (CodeSubmission codeSubmission: codeSubmissions) {
+            SubmissionWrapper submissionWrapper = new SubmissionWrapper();
+            submissionWrapper.setCodeSubmission(codeSubmission);
+            submissionWrappers.add(submissionWrapper);
+        }
+
+        return submissionWrappers;
+    }
+
+
+    private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
+        ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
+        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
+        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+        Map<String, String> userNameIdMap = getUserNameIdMap();
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
         JSONArray arr = new JSONArray();
-        for (UserSubmission submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission);
+        for (SubmissionWrapper submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
             arr.put(submissionJSONObject);
         }
         object.put("data", arr);
         return object.toString();
     }
 
-    private JSONObject ToJSONObject(UserSubmission submission) {
+    private String GetAllSubmissions(String userId, String pageId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findAll();
+        Map<String, String> userNameIdMap = getUserNameIdMap();
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userNameIdMap);
+            arr.put(submissionJSONObject);
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private String GetMySubmissions(String userId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+        Map<String, String> userIdNameMap = getUserNameIdMap();
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userIdNameMap);
+            arr.put(submissionJSONObject);
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private JSONObject ToJSONObject(UserSubmission submission, Map<String, String> userIdNameMap) {
+        JSONObject object = new JSONObject();
+        String authorName = "";
+        if (userIdNameMap.containsKey(submission.getUserId())) {
+            authorName = userIdNameMap.get(submission.getUserId());
+        }
         object.put("problemName", submission.getProblemName())
                 .put("problemLink", submission.getProblemLink())
                 .put("solutionLink", submission.getSolutionLink())
-                .put("submissionDate", submission.getCreatedAt());
+                .put("submissionDate", submission.getCreatedAt())
+                .put("authorName", authorName);
+        return object;
+    }
+
+    private JSONObject ToJSONObject(SubmissionWrapper submission,
+                                    ProblemDescription problemDescription,
+                                    Map<String, String> userIdNameMap) {
+        JSONObject object = new JSONObject();
+        String authorName = "";
+        if (userIdNameMap.containsKey(submission.getUserId())) {
+            authorName = userIdNameMap.get(submission.getUserId());
+        }
+        object.put("problemName", problemDescription.getTitle());
+        object.put("problemLink", problemDescription.getUrl());
+        object.put("problemId", problemDescription.getProblemId());
+        object.put("submissionDate", submission.getCreatedAt());
+        object.put("submissionId", submission.getSubmissionId());
+        object.put("solutionLink", submission.getSolutionLink());
+        object.put("authorName", authorName);
         return object;
     }
 
@@ -707,7 +840,6 @@ public class MasterController {
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
                 .put("longestStreak", longestStreak);
-
     }
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {

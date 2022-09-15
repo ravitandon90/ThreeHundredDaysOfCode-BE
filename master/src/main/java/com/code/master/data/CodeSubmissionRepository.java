@@ -2,4 +2,9 @@ package com.code.master.data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CodeSubmissionRepository extends JpaRepository<CodeSubmission, String> {}
+import java.util.List;
+
+public interface CodeSubmissionRepository extends JpaRepository<CodeSubmission, String> {
+    CodeSubmission getBySubmissionId(String submissionId);
+    List<CodeSubmission> getByProblemId(String problemId);
+}
