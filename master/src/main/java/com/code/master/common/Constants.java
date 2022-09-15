@@ -1,9 +1,11 @@
 package com.code.master.common;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Constants {
     public static String START_DATE = "2022-08-15T12:00:00Z";
+    public static String START_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static long MAX_NUM_PROBLEMS = 250;
 
     public static final int LANGUAGE_CPP_CODE = 54;

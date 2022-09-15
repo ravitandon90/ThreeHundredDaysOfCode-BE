@@ -1,9 +1,9 @@
-package subsets.Java;
+package single-number.Java;
 
 import java.util.*;
 
 public class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
+    public int singleNumber(int[] a) {
         //write your code here
     }
 }

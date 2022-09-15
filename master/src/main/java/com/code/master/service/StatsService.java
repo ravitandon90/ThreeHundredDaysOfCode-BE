@@ -82,7 +82,7 @@ public class StatsService {
         int longestStreak = 0;
         int numberOfSubmissions = submissions.size();
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
             Date startDate = parser.parse(Constants.START_DATE);
             // Step-I: Get the number of Unique Submission Days.
             for (int idx = 0; idx < submissions.size(); ++idx) {

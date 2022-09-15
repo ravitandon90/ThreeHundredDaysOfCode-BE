@@ -1,13 +1,10 @@
-package subsets.Java;
+package palindrome-partitioning.Java;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Driver
-{
+public class Driver {
     private static List<String> method(String filePath) {
         StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
@@ -31,11 +28,11 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/subsets/testcases.txt";
+        String filePath = "proddata/data/palindrome-partitioning/testcases.txt";
         List<String> al = method(filePath);
 
-        List<List<Integer>> out = new ArrayList<>();
-        int input1[] = new int[0];
+        List<List<String>> out = new ArrayList<>();
+        String input1 = null;
 
         boolean b = true;
 
@@ -43,14 +40,16 @@ public class Driver
         {
             if(al.get(i).equals("input"))
             {
-                String s[] = al.get(i+1).split(" ");
-                input1 = Arrays.stream(s).mapToInt(Integer::parseInt).toArray();
+                input1 = al.get(i+1);
                 i++;
 
             }
-            else if(al.get(i).equals("output") || !al.get(i).equals("check"))
+            else if(!al.get(i).equals("output") && !al.get(i).equals("check"))
             {
-                List<Integer> al2 = new ArrayList<>();
+                List<String> al2 = new ArrayList<>();
+                if(!al.get(i+1).equals(""))
+                {
+                    String s= al.get(i);
                 if(!al.get(i+1).equals(""))
                 {
                     String s= al.get(i);
@@ -58,28 +57,21 @@ public class Driver
                     int n = st.countTokens();
                     for(int j = 0;j<n;j++)
                     {
-                        al2.add(Integer.parseInt(st.nextElement().toString()));
+                        al2.add(st.nextElement().toString());
                     }
                     out.add(al2);
                 }
+
             }
             else if(al.get(i).equals("check"))
             {
-                List<List<Integer>> user_out = subsets(input1);
+                List<List<String>> user_out = user_out(input1);
 
                 boolean chec = true;
                 chec = chec & out.size()==user_out.size();
 
-                out.sort(comparator);
-                out.stream().map(l -> {
-                    Collections.sort(l, Comparator.naturalOrder()); return l;
-                }).collect(Collectors.toList());
-
-                user_out.sort(comparator);
-                user_out.stream().map(l -> {
-                    Collections.sort(l, Comparator.naturalOrder()); return l;
-                }).collect(Collectors.toList());
-
+                Collections.sort(out, new CustomComparator());
+                Collections.sort(user_out, new CustomComparator());
                 for (int k=0;k<user_out.size();k++)
                 {
                     chec = chec & out.get(k).equals(user_out.get(k));
@@ -97,17 +89,21 @@ public class Driver
         return b;
     }
 
-    public static Comparator<List<Integer>> comparator = (x, y) -> {
-        for (int i = 0; i < Math.min(x.size(), y.size()); i++) {
-            if (x.get(i) != y.get(i)) {
-                return x.get(i) - y.get(i);
-            }
+    static class CustomComparator implements Comparator<List<String>>
+    {
+        @Override
+        public int compare(List<String> o1,
+                           List<String> o2)
+        {
+            String firstString_o1 = o1.get(0);
+            String firstString_o2 = o2.get(0);
+            return firstString_o1.compareTo(firstString_o2);
         }
-        return Integer.compare(x.size(), y.size());
-    };
-
-    public static List<List<Integer>> subsets(int[] nums) {
-        Solution sol = new Solution();
-        return sol.subsets(nums);
     }
+
+    public static List<List<String>> user_out(String s) {
+        Solution sol = new Solution();
+        return sol.partition(s);
+    }
+
 }

@@ -610,12 +610,10 @@ public class MasterController {
         }
 
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
             parser.setTimeZone(TimeZone.getTimeZone("IST"));
             Date startDate = parser.parse(Constants.START_DATE);
             Date currentDate = new Date();
-            System.out.println(startDate);
-            System.out.println(currentDate);
             long diffInMillis = Math.abs(currentDate.getTime() - startDate.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
             if (getRandom) diffInDays = ThreadLocalRandom.current().nextLong(Constants.MAX_NUM_PROBLEMS);
@@ -671,7 +669,7 @@ public class MasterController {
             ArrayList<Long> datesList = new ArrayList<>();
             numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
             try {
-                SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+                SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
                 Date startDate = parser.parse(Constants.START_DATE);
                 // Step-I: Get the number of Unique Submission Days.
                 for (int idx = 0; idx < submissions.size(); ++idx) {
@@ -732,7 +730,7 @@ public class MasterController {
         int longestStreak = 0;
         int numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
             Date startDate = parser.parse(Constants.START_DATE);
             // Step-I: Get the number of Unique Submission Days.
             for (int idx = 0; idx < submissions.size(); ++idx) {

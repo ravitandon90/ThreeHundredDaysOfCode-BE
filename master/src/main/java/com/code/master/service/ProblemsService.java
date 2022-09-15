@@ -33,9 +33,8 @@ public class ProblemsService {
         if (logic.equalsIgnoreCase("random")) {
             getRandom = true;
         }
-
         try {
-            SimpleDateFormat parser = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
             Date startDate = parser.parse(Constants.START_DATE);
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
