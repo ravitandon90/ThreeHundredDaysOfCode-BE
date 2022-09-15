@@ -791,7 +791,17 @@ public class MasterController {
         return submissionSet.size();
     }
 
-    private JSONObject getUserStatsFromSubmissions(String userId, String userName, Map<String, List<UserSubmission>> userSubmissionMap) {
+    private Date resetHours(Date in) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(in);
+        now.set(Calendar.HOUR_OF_DAY, 12);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        return now.getTime();
+    }
+
+    private JSONObject getUserStatsFromSubmissions(String userId, String userName,
+                                                   Map<String, List<UserSubmission>> userSubmissionMap) {
         List<UserSubmission> submissions = userSubmissionMap.get(userId);
         int referralCount = 0;
         int numberUniqueDays = 0;
@@ -803,12 +813,12 @@ public class MasterController {
             numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
             try {
                 SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
-                Date startDate = parser.parse(Constants.START_DATE);
+                Date startDate = resetHours(parser.parse(Constants.START_DATE));
                 // Step-I: Get the number of Unique Submission Days.
                 for (int idx = 0; idx < submissions.size(); ++idx) {
                     Instant i = submissions.get(idx).getCreatedAt();
-                    Date endDate = Date.from(i);
-                    long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+                    Date endDate = resetHours(Date.from(i));
+                    long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime()) * 2;
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
                     datesSet.add(diffInDays);
                 }
@@ -844,6 +854,7 @@ public class MasterController {
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
+        System.out.printf("UserId: %s\n", userId);
 
         // Step-I: Calculate start of the start this week.
         if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
@@ -868,8 +879,10 @@ public class MasterController {
             for (int idx = 0; idx < submissions.size(); ++idx) {
                 Instant i = submissions.get(idx).getCreatedAt();
                 Date endDate = Date.from(i);
+                System.out.printf("Date :%s\n", endDate);
                 long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+                System.out.printf("diffInDays :%s\n", diffInDays);
                 datesSet.add(diffInDays);
             }
         } catch (ParseException e) {
