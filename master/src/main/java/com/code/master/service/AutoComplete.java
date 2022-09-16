@@ -57,7 +57,7 @@ public class AutoComplete {
     private List<QueryCompletion> getCompletionsUsers(String searchText, String userId, String orgId) {
         List<QueryCompletion> completions = new ArrayList<>();
         if(!elasticsearchRestTemplate.indexOps(IndexCoordinates.of(Constants.USER_DOCUMENT_INDEX)).exists()) {
-            System.out.println("The index on jira doesn't exist. Therefore, not searching.");
+            System.out.println("The index on user document index doesn't exist. Therefore, not searching.");
             return completions;
         }
         final String titleField = "userName";
@@ -70,7 +70,7 @@ public class AutoComplete {
                 elasticsearchRestTemplate.search(searchQuery, UserDocument.class, IndexCoordinates.of(Constants.USER_DOCUMENT_INDEX));
         long numberOfHits = userDocumentSearchHits.getTotalHits();
         if (numberOfHits == 0) {
-            System.out.println("No search results found in Jira. Search-Text = " + searchText);
+            System.out.println("No search results found in User Document Index. Search-Text = " + searchText);
             return completions;
         }
         userDocumentSearchHits.forEach(userDocumentSearchHit -> {
@@ -87,10 +87,10 @@ public class AutoComplete {
     private List<QueryCompletion> getCompletionsProblems(String searchText, String userId, String orgId) {
         List<QueryCompletion> completions = new ArrayList<>();
         if(!elasticsearchRestTemplate.indexOps(IndexCoordinates.of(Constants.PROBLEM_DOCUMENT_INDEX)).exists()) {
-            System.out.println("The index on jira doesn't exist. Therefore, not searching.");
+            System.out.println("The index on problem document index doesn't exist. Therefore, not searching.");
             return completions;
         }
-        final String titleField = "userName";
+        final String titleField = "problemName";
         MatchPhrasePrefixQueryBuilder prefixQueryBuilder = QueryBuilders.matchPhrasePrefixQuery(titleField, searchText);
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.must(prefixQueryBuilder);
@@ -101,7 +101,7 @@ public class AutoComplete {
                         IndexCoordinates.of(Constants.PROBLEM_DOCUMENT_INDEX));
         long numberOfHits = problemDocumentSearchHits.getTotalHits();
         if (numberOfHits == 0) {
-            System.out.println("No search results found in Jira. Search-Text = " + searchText);
+            System.out.println("No search results found in Problem Document Index. Search-Text = " + searchText);
             return completions;
         }
         problemDocumentSearchHits.forEach(problemDocumentSearchHit -> {
@@ -119,7 +119,7 @@ public class AutoComplete {
     private List<SearchResultWrapper> searchUsers(String searchText, String userId, String orgId) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
         if (!elasticsearchRestTemplate.indexOps(IndexCoordinates.of(Constants.USER_DOCUMENT_INDEX)).exists()) {
-            System.out.println("The index on jira doesn't exist. Therefore, not searching.");
+            System.out.println("The index on user document doesn't exist. Therefore, not searching.");
             return searchResults;
         }
         searchResults.addAll(searchUsersByField(searchText, userId, orgId, "userName"));
@@ -128,7 +128,7 @@ public class AutoComplete {
 
     private List<SearchResultWrapper> searchUsersByField(String searchText, String userId, String orgId, String fieldName) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
-        System.out.printf("Searching Jira Tickets. SearchText: {%s}, FieldName: {%s}.\n", searchText, fieldName);
+        System.out.printf("Searching User Profiles. SearchText: {%s}, FieldName: {%s}.\n", searchText, fieldName);
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.must(matchQuery(fieldName, searchText));
         org.springframework.data.elasticsearch.core.query.Query searchQuery =
@@ -137,7 +137,7 @@ public class AutoComplete {
                 search(searchQuery, UserDocument.class, IndexCoordinates.of(Constants.USER_DOCUMENT_INDEX));
         long numberOfHits = ticketSearchHits.getTotalHits();
         if (numberOfHits == 0) {
-            System.out.println("No search results found in Jira. Search-Text = " + searchText);
+            System.out.println("No search results found in User Documents. Search-Text = " + searchText);
             return searchResults;
         }
         ticketSearchHits.forEach(userDocumentSearchHit -> {
@@ -154,7 +154,7 @@ public class AutoComplete {
     private List<SearchResultWrapper> searchProblems(String searchText, String userId, String orgId) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
         if (!elasticsearchRestTemplate.indexOps(IndexCoordinates.of("problemdoc")).exists()) {
-            System.out.println("The index on jira doesn't exist. Therefore, not searching.");
+            System.out.println("The index on problems doesn't exist. Therefore, not searching.");
             return searchResults;
         }
         searchResults.addAll(searchProblemsByField(searchText, userId, orgId, "problemName"));
@@ -163,7 +163,7 @@ public class AutoComplete {
 
     private List<SearchResultWrapper> searchProblemsByField(String searchText, String userId, String orgId, String fieldName) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
-        System.out.printf("Searching Jira Tickets. SearchText: {%s}, FieldName: {%s}.\n", searchText, fieldName);
+        System.out.printf("Searching Problems. SearchText: {%s}, FieldName: {%s}.\n", searchText, fieldName);
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.must(matchQuery(fieldName, searchText));
         org.springframework.data.elasticsearch.core.query.Query searchQuery =
@@ -172,7 +172,7 @@ public class AutoComplete {
                 search(searchQuery, ProblemDocument.class, IndexCoordinates.of(Constants.PROBLEM_DOCUMENT_INDEX));
         long numberOfHits = problemDocumentSearchHits.getTotalHits();
         if (numberOfHits == 0) {
-            System.out.println("No search results found in Jira. Search-Text = " + searchText);
+            System.out.println("No search results found in problem document index. Search-Text = " + searchText);
             return searchResults;
         }
         problemDocumentSearchHits.forEach(problemDocumentSearchHit -> {
@@ -180,6 +180,7 @@ public class AutoComplete {
             SearchResultWrapper searchResultWrapper = new SearchResultWrapper();
             searchResultWrapper.setId(problemDocument.getProblemId());
             searchResultWrapper.setTitle(problemDocument.getProblemName());
+            searchResultWrapper.setDescription(problemDocument.getProblemDescription());
             searchResultWrapper.setType("DOCUMENT");
             searchResults.add(searchResultWrapper);
         });
