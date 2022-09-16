@@ -299,11 +299,24 @@ public class MasterController {
     @GetMapping(path = "/search")
     public String handleSearch(
             Principal user,
-            @RequestParam(value = "searchText") String searchText
-
-    ){
+            @RequestParam(value = "searchText") String searchText){
         return GetSearchResults(searchText, user.getName());
     }
+
+    @PostMapping(path = "/google/buildIndex")
+    public String handleTriggerIndexBuild() {
+        Runnable indexChangeMonitorThread =
+                new IndexChangeMonitor(
+                        this.problemDocumentRepository,
+                        this.userDocumentRepository,
+                        this.problemDescriptionRepository,
+                        this.userProfileRepository,
+                        1,
+                        0);
+        new Thread(indexChangeMonitorThread).start();
+        return "Index-Build-Triggered";
+    }
+
 
     /*********************************** End Of API Definitions. *****************************************/
 
@@ -325,17 +338,46 @@ public class MasterController {
     }
 
     private String getOutputFromCompletions(List<QueryCompletion> completions) {
-        return "";
+        JSONArray jsonArray = new JSONArray();
+        for (QueryCompletion queryCompletion : completions) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("display_text", queryCompletion.getDisplayText());
+            jsonObject.put("query_completion_type", queryCompletion.getQueryCompletionType());
+            jsonArray.put(jsonObject);
+        }
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("completions", jsonArray).toString();
     }
 
     private String getOutputFromSearchResults(List<SearchResultWrapper> searchResults) {
-        return "";
+        JSONArray jsonArray = new JSONArray();
+        for (SearchResultWrapper searchResultWrapper : searchResults) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("title", searchResultWrapper.getTitle());
+            jsonObject.put("id", searchResultWrapper.getId());
+            jsonObject.put("type", searchResultWrapper.getType());
+            jsonObject.put("source", "");
+            jsonObject.put("display_source_text", "");
+            jsonObject.put("url", "");
+            jsonObject.put("display_url", "");
+            jsonObject.put("createdAt", "");
+            if (searchResultWrapper.getDescription() != null) {
+                jsonObject.put("description", searchResultWrapper.getDescription());
+            }
+            jsonObject.put("reporter", "");
+            jsonArray.put(jsonObject);
+        }
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("docs", jsonArray).toString();
 
     }
 
     @PostConstruct
     private void BuildIndex() {
         if (!Constants.RUN_CHANGE_MONITORS) return;
+        System.out.println("In BuildIndex");
 
         Runnable indexChangeMonitorThread =
                 new IndexChangeMonitor(
@@ -676,19 +718,6 @@ public class MasterController {
         return object.toString();
     }
 
-    private String GetMySubmissions(String userId) {
-        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
-        Map<String, String> userIdNameMap = getUserNameIdMap();
-        JSONObject object = new JSONObject();
-        JSONArray arr = new JSONArray();
-        for (UserSubmission submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission, userIdNameMap);
-            arr.put(submissionJSONObject);
-        }
-        object.put("data", arr);
-        return object.toString();
-    }
-
     private JSONObject ToJSONObject(UserSubmission submission, Map<String, String> userIdNameMap) {
         JSONObject object = new JSONObject();
         String authorName = "";
@@ -1013,10 +1042,8 @@ public class MasterController {
             for (int idx = 0; idx < submissions.size(); ++idx) {
                 Instant i = submissions.get(idx).getCreatedAt();
                 Date endDate = Date.from(i);
-                System.out.printf("Date :%s\n", endDate);
                 long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
-                System.out.printf("diffInDays :%s\n", diffInDays);
                 datesSet.add(diffInDays);
             }
         } catch (ParseException e) {

@@ -15,6 +15,7 @@ public class ProblemDocument {
     @Id @Getter @Setter private String problemId;
     @Getter @Setter private String problemName;
     @Getter @Setter private String orgId;
+    @Getter @Setter private String problemDescription;
 
     @Field(type = FieldType.Date)
     @Getter @Setter private Date createdAt;
