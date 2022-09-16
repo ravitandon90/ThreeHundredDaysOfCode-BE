@@ -38,25 +38,29 @@ public class IndexChangeMonitor implements Runnable {
     @Override
     public void run() {
         while (numRuns < maxRuns) {
+            System.out.println("In run");
             TriggerMonitor();
             ++numRuns;
             try {
                 Thread.sleep(this.sleepIntervalMS);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
 
     private void TriggerMonitor() {
+        System.out.println("Triggering the Index Change Monitor.");
         // Step-I: Search all the users and update the index.
         List<ProblemDescription> problems =  this.problemDescriptionRepository.findAll();
         for (ProblemDescription problem : problems) {
             ProblemDocument problemDocument = new ProblemDocument();
             problemDocument.setProblemId(problem.getProblemId());
             problemDocument.setProblemName(problem.getTitle());
+            problemDocument.setProblemDescription(problem.getDescription());
             this.problemDocumentRepository.save(problemDocument);
         }
+        System.out.printf("Number of problems indexed: {%s}\n", problems.size());
 
         // Step-II: Search for all the code problems and update the index.
         List<UserProfile> users =  this.userProfileRepository.findAll();
@@ -65,13 +69,15 @@ public class IndexChangeMonitor implements Runnable {
             UserDocument userDocument = new UserDocument();
             userDocument.setUserId(user.getUserId());
             if (user.getName() != null) {
-                userDocument.setUserId(user.getName());
+                userDocument.setUserName(user.getName());
             } else {
-                userDocument.setUserId("Coding Ninja " + idx);
+                userDocument.setUserName("Coding Ninja " + idx);
                 idx++;
             }
             this.userDocumentRepository.save(userDocument);
         }
+
+        System.out.printf("Number of user profiles indexed: {%s}\n", users.size());
     }
 }
 

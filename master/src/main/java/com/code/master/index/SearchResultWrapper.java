@@ -8,4 +8,5 @@ public class SearchResultWrapper {
     private String id; // Could be user-id or problem-id.
     private String title; // Name of the user or name of the problem
     private String type; // Could be "USER" or "PROBLEM".
+    private String description;
 }
