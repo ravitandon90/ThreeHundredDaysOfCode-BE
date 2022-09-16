@@ -1,8 +1,5 @@
 package com.code.master.common;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Constants {
     public static String START_DATE = "2022-08-15T12:00:00Z";
     public static String START_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -17,4 +14,12 @@ public class Constants {
     public static final int LANGUAGE_PHP_CODE = 68;
     public static final int FEED_PAGE_SIZE = 10;
     public static final int NOTIFICATIONS_PAGE_SIZE = 10;
+
+    public static final String USER_DOCUMENT_INDEX = "userdoc";
+    public static final String PROBLEM_DOCUMENT_INDEX = "problemdoc";
+
+    public static final int NUM_MAX_WORDS_COMPLETION = 3;
+
+    public static final boolean RUN_CHANGE_MONITORS = true;
+    public static final int DOCUMENT_POLL_INTERVAL_MINUTES = 24 * 60;
 }

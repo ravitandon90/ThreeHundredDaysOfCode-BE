@@ -27,6 +27,11 @@ public class SubmissionWrapper {
         this.setType(SubmissionWrapperType.CODE_SUBMISSION);
     }
 
+    public String getProblemId() {
+        if (this.type == SubmissionWrapperType.GITHUB_SUBMISSION) return userSubmission.getProblemName();
+        return codeSubmission.getProblemId();
+    }
+
    public String getSolutionLink() {
         if (this.type == SubmissionWrapperType.GITHUB_SUBMISSION) return userSubmission.getSolutionLink();
         return "";
