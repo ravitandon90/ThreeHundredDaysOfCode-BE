@@ -22,4 +22,7 @@ public class Constants {
     public static final String PROBLEM_DOCUMENT_INDEX = "problemdoc";
 
     public static final int NUM_MAX_WORDS_COMPLETION = 3;
+
+    public static final boolean RUN_CHANGE_MONITORS = true;
+    public static final int GSUITE_POLL_INTERVAL_MINUTES = 24 * 60;
 }

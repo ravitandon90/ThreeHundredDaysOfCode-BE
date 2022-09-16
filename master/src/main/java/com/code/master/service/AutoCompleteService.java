@@ -109,6 +109,7 @@ public class AutoCompleteService {
         });
         return completions;
     }
+
     private List<SearchResultWrapper> searchUsers(String searchText, String userId, String orgId) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
         if (!elasticsearchRestTemplate.indexOps(IndexCoordinates.of(Constants.USER_DOCUMENT_INDEX)).exists()) {
@@ -118,6 +119,7 @@ public class AutoCompleteService {
         searchResults.addAll(searchUsersByField(searchText, userId, orgId, "userName"));
         return searchResults;
     }
+
     private List<SearchResultWrapper> searchUsersByField(String searchText, String userId, String orgId, String fieldName) {
         List<SearchResultWrapper> searchResults = new ArrayList<>();
         System.out.printf("Searching Jira Tickets. SearchText: {%s}, FieldName: {%s}.\n", searchText, fieldName);
