@@ -2,6 +2,8 @@ package com.code.master.service;
 
 import com.code.master.common.*;
 import com.code.master.data.*;
+import com.code.master.index.QueryCompletion;
+import com.code.master.index.SearchResultWrapper;
 import com.code.master.index.monitor.IndexChangeMonitor;
 import com.code.master.index.repository.ProblemDocumentRepository;
 import com.code.master.index.repository.UserDocumentRepository;
@@ -13,7 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
@@ -91,20 +92,23 @@ public class MasterController {
     }
 
     @GetMapping(path = "/mySubmissions")
-    public String handleGetMySubmissions(Principal user) {
+    public String handleGetMySubmissions(Principal user, @RequestParam(value = "userId") String userId) {
         return GetSubmissionsForAUser(user.getName());
     }
+
     @GetMapping(path = "/google/mySubmissions")
     public String handleGetMySubmissions(@RequestParam(value = "userId") String userId) {
         return GetSubmissionsForAUser(userId);
     }
+
     @GetMapping(path = "/submissions")
     public String handleGetAllSubmissions(Principal user, @RequestParam(value = "pageId") String pageId) {
         return GetAllSubmissions(user.getName(), pageId);
     }
 
     @GetMapping(path = "/google/submissions")
-    public String handleGetAllSubmissions(@RequestParam(value = "userId") String userId, @RequestParam(value = "pageId") String pageId) {
+    public String handleGetAllSubmissions(@RequestParam(value = "userId") String userId,
+                                          @RequestParam(value = "pageId") String pageId) {
         return GetAllSubmissions(userId, pageId);
     }
 
@@ -269,7 +273,65 @@ public class MasterController {
         return GetCodeSubmission(submissionId);
     }
 
+    @GetMapping(path = "/google/autoComplete")
+    public String handleGoogleAutoComplete(
+            @RequestParam(value = "searchText") String searchText,
+            @RequestParam(value = "userId") String userId) {
+        return GetCompletions(searchText, userId);
+    }
+
+    @GetMapping(path = "/autoComplete")
+    public String handleAutoComplete(
+            Principal user,
+            @RequestParam(value = "searchText") String searchText) {
+        return GetCompletions(searchText, user.getName());
+    }
+
+    @GetMapping(path = "/google/search")
+    public String handleGoogleSearch(
+            @RequestParam(value = "searchText") String searchText,
+            @RequestParam(value = "userId") String userId
+
+    ) {
+        return GetSearchResults(searchText, userId);
+    }
+
+    @GetMapping(path = "/search")
+    public String handleSearch(
+            Principal user,
+            @RequestParam(value = "searchText") String searchText
+
+    ){
+        return GetSearchResults(searchText, user.getName());
+    }
+
     /*********************************** End Of API Definitions. *****************************************/
+
+    private String GetCompletions(String searchText, String userId) {
+        AutoComplete autoComplete = new AutoComplete(
+                this.elasticsearchRestTemplate,
+                this.problemDocumentRepository,
+                this.userDocumentRepository);
+        List<QueryCompletion> completions = autoComplete.complete(searchText, userId, "");
+        return getOutputFromCompletions(completions);
+    }
+    private String GetSearchResults(String searchText, String userId) {
+        AutoComplete autoComplete = new AutoComplete(
+                this.elasticsearchRestTemplate,
+                this.problemDocumentRepository,
+                this.userDocumentRepository);
+        List<SearchResultWrapper> searchResults = autoComplete.search(searchText, userId, "");
+        return getOutputFromSearchResults(searchResults);
+    }
+
+    private String getOutputFromCompletions(List<QueryCompletion> completions) {
+        return "";
+    }
+
+    private String getOutputFromSearchResults(List<SearchResultWrapper> searchResults) {
+        return "";
+
+    }
 
     @PostConstruct
     private void BuildIndex() {
