@@ -9,7 +9,7 @@ status = 0
 obj = Solution()
 for line in Lines:
     if (Count % 2 == 0):
-        a, b = list(map(int, line.split()[:-1])), int(line.strip()[-1])
+        a, b = list(map(int, line.split()[:-1])), int(line.split()[-1])
         actual_output = obj.fourSum(a, b)
     else:
         expected_output = line.strip()

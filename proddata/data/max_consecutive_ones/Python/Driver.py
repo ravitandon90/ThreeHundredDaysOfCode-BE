@@ -2,6 +2,14 @@ from Solution import Solution
 import sys
 import os
 
+
+def createListFromString(line):
+    array = [s.strip()
+             for s in line.strip()[1:-1].split(",")]
+    return [] if array[0] == "" else list(
+        map(int, array))
+
+
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
 
@@ -10,8 +18,7 @@ lineNumber = 1
 solution = Solution()
 for line in lines[1:]:
     if lineNumber % 2 == 1:
-        input = list(map(int, [num.strip()
-                     for num in line.strip()[1:-1].split(",")]))
+        input = createListFromString(line)
         actualOutput = solution.findMaxConsecutiveOnes(input)
     else:
         expectedOutput = int(line.strip())
