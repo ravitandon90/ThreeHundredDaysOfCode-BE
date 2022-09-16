@@ -37,7 +37,7 @@ public class IndexerService {
                         this.problemDescriptionRepository,
                         this.userProfileRepository,
                         Integer.MAX_VALUE,
-                        Constants.GSUITE_POLL_INTERVAL_MINUTES * 60 * 1000);
+                        Constants.DOCUMENT_POLL_INTERVAL_MINUTES * 60 * 1000);
         new Thread(indexChangeMonitorThread).start();
     }
 }

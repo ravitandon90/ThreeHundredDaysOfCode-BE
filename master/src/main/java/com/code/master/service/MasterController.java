@@ -2,6 +2,9 @@ package com.code.master.service;
 
 import com.code.master.common.*;
 import com.code.master.data.*;
+import com.code.master.index.monitor.IndexChangeMonitor;
+import com.code.master.index.repository.ProblemDocumentRepository;
+import com.code.master.index.repository.UserDocumentRepository;
 import com.code.master.judge.CodeJudge;
 import com.code.master.utils.Utils;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
@@ -11,9 +14,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.parsing.Problem;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +59,12 @@ public class MasterController {
     private UserNotificationRepository userNotificationRepository;
     @Autowired
     private UserFollowerRepository userFollowerRepository;
+    @Autowired
+    private UserDocumentRepository userDocumentRepository;
+    @Autowired
+    private ProblemDocumentRepository problemDocumentRepository;
+    @Autowired
+    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -81,11 +92,11 @@ public class MasterController {
 
     @GetMapping(path = "/mySubmissions")
     public String handleGetMySubmissions(Principal user) {
-        return GetMySubmissions(user.getName());
+        return GetSubmissionsForAUser(user.getName());
     }
     @GetMapping(path = "/google/mySubmissions")
     public String handleGetMySubmissions(@RequestParam(value = "userId") String userId) {
-        return GetMySubmissions(userId);
+        return GetSubmissionsForAUser(userId);
     }
     @GetMapping(path = "/submissions")
     public String handleGetAllSubmissions(Principal user, @RequestParam(value = "pageId") String pageId) {
@@ -259,6 +270,21 @@ public class MasterController {
     }
 
     /*********************************** End Of API Definitions. *****************************************/
+
+    @PostConstruct
+    private void BuildIndex() {
+        if (!Constants.RUN_CHANGE_MONITORS) return;
+
+        Runnable indexChangeMonitorThread =
+                new IndexChangeMonitor(
+                        this.problemDocumentRepository,
+                        this.userDocumentRepository,
+                        this.problemDescriptionRepository,
+                        this.userProfileRepository,
+                        Integer.MAX_VALUE,
+                        Constants.DOCUMENT_POLL_INTERVAL_MINUTES * 60 * 1000);
+        new Thread(indexChangeMonitorThread).start();
+    }
 
     private String GetCodeSubmission(String submissionId) {
         CodeSubmission codeSubmission = this.codeSubmissionRepository.getBySubmissionId(submissionId);
@@ -523,6 +549,33 @@ public class MasterController {
         return submissionWrappers;
     }
 
+    private String GetSubmissionsForAUser(String userId) {
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByUserId(userId);
+        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.findByUserId(userId);
+        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+        Map<String, ProblemDescription> problemIdNameMap = getProblemIdNameMap();
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (SubmissionWrapper submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdNameMap);
+            if (submissionJSONObject != null) {
+                arr.put(submissionJSONObject);
+            }
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private Map<String, ProblemDescription> getProblemIdNameMap() {
+        Map<String, ProblemDescription> map = new HashMap<>();
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        for (ProblemDescription problem : problems) {
+            map.put(problem.getProblemId(), problem);
+        }
+        return map;
+    }
+
 
     private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
@@ -603,6 +656,26 @@ public class MasterController {
         object.put("submissionId", submission.getSubmissionId());
         object.put("solutionLink", submission.getSolutionLink());
         object.put("authorName", authorName);
+        return object;
+    }
+
+    private JSONObject ToJSONObject(SubmissionWrapper submission,
+                                    UserProfile userProfile,
+                                    Map<String, ProblemDescription> problemDescriptionMap) {
+        JSONObject object = null;
+        final String problemId = submission.getProblemId();
+        if (problemDescriptionMap.containsKey(problemId)) {
+            object = new JSONObject();
+            String authorName = userProfile.getName();
+            ProblemDescription problemDescription = problemDescriptionMap.get(problemId);
+            object.put("problemName", problemDescription.getTitle());
+            object.put("problemLink", problemDescription.getUrl());
+            object.put("problemId", problemDescription.getProblemId());
+            object.put("submissionDate", submission.getCreatedAt());
+            object.put("submissionId", submission.getSubmissionId());
+            object.put("solutionLink", submission.getSolutionLink());
+            object.put("authorName", authorName);
+        }
         return object;
     }
 

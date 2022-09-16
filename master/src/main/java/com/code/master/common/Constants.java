@@ -1,8 +1,5 @@
 package com.code.master.common;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class Constants {
     public static String START_DATE = "2022-08-15T12:00:00Z";
     public static String START_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
@@ -24,5 +21,5 @@ public class Constants {
     public static final int NUM_MAX_WORDS_COMPLETION = 3;
 
     public static final boolean RUN_CHANGE_MONITORS = true;
-    public static final int GSUITE_POLL_INTERVAL_MINUTES = 24 * 60;
+    public static final int DOCUMENT_POLL_INTERVAL_MINUTES = 24 * 60;
 }

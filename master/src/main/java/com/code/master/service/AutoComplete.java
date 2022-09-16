@@ -22,15 +22,21 @@ import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
 
-public class AutoCompleteService {
-    @Autowired
+public class AutoComplete {
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    @Autowired
     private ProblemDocumentRepository problemDocumentRepository;
 
-    @Autowired
     private UserDocumentRepository userDocumentRepository;
+
+    public AutoComplete(
+    ElasticsearchRestTemplate elasticsearchRestTemplate,
+    ProblemDocumentRepository problemDocumentRepository,
+    UserDocumentRepository userDocumentRepository) {
+        this.elasticsearchRestTemplate = elasticsearchRestTemplate;
+        this.problemDocumentRepository = problemDocumentRepository;
+        this.userDocumentRepository = userDocumentRepository;
+    }
 
     public List<SearchResultWrapper> search(String inputSearchText, String userId, String orgId) {
         List<SearchResultWrapper> mergedList = new ArrayList<>();
