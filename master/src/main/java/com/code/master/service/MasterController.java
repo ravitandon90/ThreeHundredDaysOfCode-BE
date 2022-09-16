@@ -2,6 +2,11 @@ package com.code.master.service;
 
 import com.code.master.common.*;
 import com.code.master.data.*;
+import com.code.master.index.QueryCompletion;
+import com.code.master.index.SearchResultWrapper;
+import com.code.master.index.monitor.IndexChangeMonitor;
+import com.code.master.index.repository.ProblemDocumentRepository;
+import com.code.master.index.repository.UserDocumentRepository;
 import com.code.master.judge.CodeJudge;
 import com.code.master.utils.Utils;
 import com.googlecode.protobuf.format.JsonJacksonFormat;
@@ -10,9 +15,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,6 +60,12 @@ public class MasterController {
     private UserNotificationRepository userNotificationRepository;
     @Autowired
     private UserFollowerRepository userFollowerRepository;
+    @Autowired
+    private UserDocumentRepository userDocumentRepository;
+    @Autowired
+    private ProblemDocumentRepository problemDocumentRepository;
+    @Autowired
+    private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -79,12 +92,38 @@ public class MasterController {
     }
 
     @GetMapping(path = "/mySubmissions")
-    public String handleGetMySubmissions(Principal user) {
-        return GetMySubmissions(user.getName());
+    public String handleGetMySubmissions(Principal user, @RequestParam(value = "userId") String userId) {
+        return GetSubmissionsForAUser(user.getName());
     }
+
     @GetMapping(path = "/google/mySubmissions")
     public String handleGetMySubmissions(@RequestParam(value = "userId") String userId) {
-        return GetMySubmissions(userId);
+        return GetSubmissionsForAUser(userId);
+    }
+
+    @GetMapping(path = "/submissions")
+    public String handleGetAllSubmissions(Principal user, @RequestParam(value = "pageId") String pageId) {
+        return GetAllSubmissions(user.getName(), pageId);
+    }
+
+    @GetMapping(path = "/google/submissions")
+    public String handleGetAllSubmissions(@RequestParam(value = "userId") String userId,
+                                          @RequestParam(value = "pageId") String pageId) {
+        return GetAllSubmissions(userId, pageId);
+    }
+
+    @GetMapping(path = "/submissionsProblem")
+    public String handleGetSubmissionsForAProblem(Principal user,
+                                          @RequestParam(value = "problemId") String problemId,
+                                          @RequestParam(value = "pageId") String pageId) {
+        return GetSubmissionsForAProblem(user.getName(), pageId, problemId);
+    }
+
+    @GetMapping(path = "/google/submissionsProblem")
+    public String handleGoogleGetSubmissionsForAProblem(@RequestParam(value = "userId") String userId,
+                                          @RequestParam(value = "problemId") String problemId,
+                                          @RequestParam(value = "pageId") String pageId) {
+        return GetSubmissionsForAProblem(userId, pageId, problemId);
     }
 
     @GetMapping(path = "/problems")
@@ -229,7 +268,95 @@ public class MasterController {
         return GetTimeRemainingMilliseconds();
     }
 
+    @GetMapping(path = "/google/submission")
+    public String handleGetSubmission(@RequestParam(value = "submissionId") String submissionId) {
+        return GetCodeSubmission(submissionId);
+    }
+
+    @GetMapping(path = "/google/autoComplete")
+    public String handleGoogleAutoComplete(
+            @RequestParam(value = "searchText") String searchText,
+            @RequestParam(value = "userId") String userId) {
+        return GetCompletions(searchText, userId);
+    }
+
+    @GetMapping(path = "/autoComplete")
+    public String handleAutoComplete(
+            Principal user,
+            @RequestParam(value = "searchText") String searchText) {
+        return GetCompletions(searchText, user.getName());
+    }
+
+    @GetMapping(path = "/google/search")
+    public String handleGoogleSearch(
+            @RequestParam(value = "searchText") String searchText,
+            @RequestParam(value = "userId") String userId
+
+    ) {
+        return GetSearchResults(searchText, userId);
+    }
+
+    @GetMapping(path = "/search")
+    public String handleSearch(
+            Principal user,
+            @RequestParam(value = "searchText") String searchText
+
+    ){
+        return GetSearchResults(searchText, user.getName());
+    }
+
     /*********************************** End Of API Definitions. *****************************************/
+
+    private String GetCompletions(String searchText, String userId) {
+        AutoComplete autoComplete = new AutoComplete(
+                this.elasticsearchRestTemplate,
+                this.problemDocumentRepository,
+                this.userDocumentRepository);
+        List<QueryCompletion> completions = autoComplete.complete(searchText, userId, "");
+        return getOutputFromCompletions(completions);
+    }
+    private String GetSearchResults(String searchText, String userId) {
+        AutoComplete autoComplete = new AutoComplete(
+                this.elasticsearchRestTemplate,
+                this.problemDocumentRepository,
+                this.userDocumentRepository);
+        List<SearchResultWrapper> searchResults = autoComplete.search(searchText, userId, "");
+        return getOutputFromSearchResults(searchResults);
+    }
+
+    private String getOutputFromCompletions(List<QueryCompletion> completions) {
+        return "";
+    }
+
+    private String getOutputFromSearchResults(List<SearchResultWrapper> searchResults) {
+        return "";
+
+    }
+
+    @PostConstruct
+    private void BuildIndex() {
+        if (!Constants.RUN_CHANGE_MONITORS) return;
+
+        Runnable indexChangeMonitorThread =
+                new IndexChangeMonitor(
+                        this.problemDocumentRepository,
+                        this.userDocumentRepository,
+                        this.problemDescriptionRepository,
+                        this.userProfileRepository,
+                        Integer.MAX_VALUE,
+                        Constants.DOCUMENT_POLL_INTERVAL_MINUTES * 60 * 1000);
+        new Thread(indexChangeMonitorThread).start();
+    }
+
+    private String GetCodeSubmission(String submissionId) {
+        CodeSubmission codeSubmission = this.codeSubmissionRepository.getBySubmissionId(submissionId);
+        JSONObject obj = new JSONObject();
+        obj.put("submissionCode", codeSubmission.getSolutionCode());
+        obj.put("language", codeSubmission.getLanguage());
+        return new JSONObject()
+                .put("message", "Success") // Move "message" to "status".
+                .put("data", obj).toString();
+    }
 
     private String getPost(String postId) {
         UserPost post = this.userPostRepository.getByPostId(postId);
@@ -453,24 +580,164 @@ public class MasterController {
         return response.toString();
     }
 
-    private String GetMySubmissions(String userId) {
-        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+    Map<String, String> getUserNameIdMap() {
+        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+        Map<String, String> userNameIdMap = new HashMap<>();
+        int idx = 1;
+        for (UserProfile userProfile : userProfiles) {
+            String userName = userProfile.getName();
+            if (userName == null || userName.isEmpty()) {
+                userName = "Coding Ninja " + idx;
+                ++idx;
+            }
+            userNameIdMap.put(userProfile.getUserId(), userName);
+        }
+        return userNameIdMap;
+    }
+
+    private List<SubmissionWrapper> getMerged(List<UserSubmission> userSubmissions,
+                                              List<CodeSubmission> codeSubmissions) {
+        List<SubmissionWrapper> submissionWrappers = new ArrayList<>();
+        for (UserSubmission userSubmission: userSubmissions) {
+            SubmissionWrapper submissionWrapper = new SubmissionWrapper();
+            submissionWrapper.setUserSubmission(userSubmission);
+            submissionWrappers.add(submissionWrapper);
+        }
+        for (CodeSubmission codeSubmission: codeSubmissions) {
+            SubmissionWrapper submissionWrapper = new SubmissionWrapper();
+            submissionWrapper.setCodeSubmission(codeSubmission);
+            submissionWrappers.add(submissionWrapper);
+        }
+        return submissionWrappers;
+    }
+
+    private String GetSubmissionsForAUser(String userId) {
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByUserId(userId);
+        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.findByUserId(userId);
+        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+        Map<String, ProblemDescription> problemIdNameMap = getProblemIdNameMap();
         JSONObject object = new JSONObject();
         JSONArray arr = new JSONArray();
-        for (UserSubmission submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission);
+        for (SubmissionWrapper submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdNameMap);
+            if (submissionJSONObject != null) {
+                arr.put(submissionJSONObject);
+            }
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private Map<String, ProblemDescription> getProblemIdNameMap() {
+        Map<String, ProblemDescription> map = new HashMap<>();
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        for (ProblemDescription problem : problems) {
+            map.put(problem.getProblemId(), problem);
+        }
+        return map;
+    }
+
+
+    private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
+        ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
+        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
+        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+        Map<String, String> userNameIdMap = getUserNameIdMap();
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+        submissions = submissions.subList(startIdx, endIdx);
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (SubmissionWrapper submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
             arr.put(submissionJSONObject);
         }
         object.put("data", arr);
         return object.toString();
     }
 
-    private JSONObject ToJSONObject(UserSubmission submission) {
+    private String GetAllSubmissions(String userId, String pageId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findAll();
+        Map<String, String> userNameIdMap = getUserNameIdMap();
+        int pageIntId = Integer.parseInt(pageId);
+        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userNameIdMap);
+            arr.put(submissionJSONObject);
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private String GetMySubmissions(String userId) {
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByUserId(userId);
+        Map<String, String> userIdNameMap = getUserNameIdMap();
+        JSONObject object = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for (UserSubmission submission : submissions) {
+            JSONObject submissionJSONObject = ToJSONObject(submission, userIdNameMap);
+            arr.put(submissionJSONObject);
+        }
+        object.put("data", arr);
+        return object.toString();
+    }
+
+    private JSONObject ToJSONObject(UserSubmission submission, Map<String, String> userIdNameMap) {
+        JSONObject object = new JSONObject();
+        String authorName = "";
+        if (userIdNameMap.containsKey(submission.getUserId())) {
+            authorName = userIdNameMap.get(submission.getUserId());
+        }
         object.put("problemName", submission.getProblemName())
                 .put("problemLink", submission.getProblemLink())
                 .put("solutionLink", submission.getSolutionLink())
-                .put("submissionDate", submission.getCreatedAt());
+                .put("submissionDate", submission.getCreatedAt())
+                .put("authorName", authorName);
+        return object;
+    }
+
+    private JSONObject ToJSONObject(SubmissionWrapper submission,
+                                    ProblemDescription problemDescription,
+                                    Map<String, String> userIdNameMap) {
+        JSONObject object = new JSONObject();
+        String authorName = "";
+        if (userIdNameMap.containsKey(submission.getUserId())) {
+            authorName = userIdNameMap.get(submission.getUserId());
+        }
+        object.put("problemName", problemDescription.getTitle());
+        object.put("problemLink", problemDescription.getUrl());
+        object.put("problemId", problemDescription.getProblemId());
+        object.put("submissionDate", submission.getCreatedAt());
+        object.put("submissionId", submission.getSubmissionId());
+        object.put("solutionLink", submission.getSolutionLink());
+        object.put("authorName", authorName);
+        return object;
+    }
+
+    private JSONObject ToJSONObject(SubmissionWrapper submission,
+                                    UserProfile userProfile,
+                                    Map<String, ProblemDescription> problemDescriptionMap) {
+        JSONObject object = null;
+        final String problemId = submission.getProblemId();
+        if (problemDescriptionMap.containsKey(problemId)) {
+            object = new JSONObject();
+            String authorName = userProfile.getName();
+            ProblemDescription problemDescription = problemDescriptionMap.get(problemId);
+            object.put("problemName", problemDescription.getTitle());
+            object.put("problemLink", problemDescription.getUrl());
+            object.put("problemId", problemDescription.getProblemId());
+            object.put("submissionDate", submission.getCreatedAt());
+            object.put("submissionId", submission.getSubmissionId());
+            object.put("solutionLink", submission.getSolutionLink());
+            object.put("authorName", authorName);
+        }
         return object;
     }
 
@@ -658,7 +925,17 @@ public class MasterController {
         return submissionSet.size();
     }
 
-    private JSONObject getUserStatsFromSubmissions(String userId, String userName, Map<String, List<UserSubmission>> userSubmissionMap) {
+    private Date resetHours(Date in) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(in);
+        now.set(Calendar.HOUR_OF_DAY, 12);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+        return now.getTime();
+    }
+
+    private JSONObject getUserStatsFromSubmissions(String userId, String userName,
+                                                   Map<String, List<UserSubmission>> userSubmissionMap) {
         List<UserSubmission> submissions = userSubmissionMap.get(userId);
         int referralCount = 0;
         int numberUniqueDays = 0;
@@ -670,12 +947,12 @@ public class MasterController {
             numberOfSubmissions = GetNumberOfProblemSubmissions(submissions);
             try {
                 SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
-                Date startDate = parser.parse(Constants.START_DATE);
+                Date startDate = resetHours(parser.parse(Constants.START_DATE));
                 // Step-I: Get the number of Unique Submission Days.
                 for (int idx = 0; idx < submissions.size(); ++idx) {
                     Instant i = submissions.get(idx).getCreatedAt();
-                    Date endDate = Date.from(i);
-                    long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
+                    Date endDate = resetHours(Date.from(i));
+                    long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime()) * 2;
                     long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
                     datesSet.add(diffInDays);
                 }
@@ -707,11 +984,11 @@ public class MasterController {
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
                 .put("longestStreak", longestStreak);
-
     }
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
+        System.out.printf("UserId: %s\n", userId);
 
         // Step-I: Calculate start of the start this week.
         if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
@@ -736,8 +1013,10 @@ public class MasterController {
             for (int idx = 0; idx < submissions.size(); ++idx) {
                 Instant i = submissions.get(idx).getCreatedAt();
                 Date endDate = Date.from(i);
+                System.out.printf("Date :%s\n", endDate);
                 long diffInMillis = Math.abs(endDate.getTime() - startDate.getTime());
                 long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+                System.out.printf("diffInDays :%s\n", diffInDays);
                 datesSet.add(diffInDays);
             }
         } catch (ParseException e) {

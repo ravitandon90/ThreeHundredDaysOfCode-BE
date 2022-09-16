@@ -31,6 +31,34 @@ public class Utils {
         return GetLanguageFromId(languageIntId) ;
     }
 
+
+    public static String GetLastWord(String input) {
+        final String delimiter = " ";
+        String[] values = input.split(delimiter);
+        if (values.length == 0 ||
+                input.isEmpty() ||
+                input.charAt(input.length() - 1) == ' ') {
+            return "";
+        }
+        return values[values.length - 1];
+    }
+
+    public static String GetWordMatch(String matchText, String searchText, int numberOfWords) {
+        String wordMatch = "";
+        final String lowerMatchText = matchText.toLowerCase();
+        final String lowerSearchText = searchText.toLowerCase();
+        String[] arr = lowerMatchText.split(" ");
+        int index = -1;
+        for (String str : arr) {
+            ++index;
+            if (str.indexOf(lowerSearchText) == -1)  continue;
+            break;
+        }
+        for (int i = 0; i < numberOfWords && index + i < arr.length; ++i) {
+            wordMatch += arr[index + i] + " ";
+        }
+        return wordMatch.trim();
+    }
     public static String GetLanguageFromId(int languageIntId) {
         switch (languageIntId) {
             case Constants.LANGUAGE_CPP_CODE:
