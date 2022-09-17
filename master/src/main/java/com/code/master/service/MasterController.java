@@ -658,11 +658,12 @@ public class MasterController {
         List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByUserId(userId);
         List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.findByUserId(userId);
         List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
-        Map<String, ProblemDescription> problemIdNameMap = getProblemIdNameMap();
+        Map<String, ProblemDescription> problemIdDescriptionMap = getProblemIdNameMap();
+        Map<String, ProblemDescription> problemUrlDescriptionMap = getProblemLinkNameMap();
         JSONObject object = new JSONObject();
         JSONArray arr = new JSONArray();
         for (SubmissionWrapper submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdNameMap);
+            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdDescriptionMap, problemUrlDescriptionMap);
             if (submissionJSONObject != null) {
                 arr.put(submissionJSONObject);
             }
@@ -680,24 +681,34 @@ public class MasterController {
         return map;
     }
 
+    private Map<String, ProblemDescription> getProblemLinkNameMap() {
+        Map<String, ProblemDescription> map = new HashMap<>();
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        for (ProblemDescription problem : problems) {
+            map.put(problem.getUrl(), problem);
+        }
+        return map;
+    }
 
     private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
-        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
-        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
-        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
-        Map<String, String> userNameIdMap = getUserNameIdMap();
-        int pageIntId = Integer.parseInt(pageId);
-        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
-        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
-        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
-        JSONArray arr = new JSONArray();
-        for (SubmissionWrapper submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
-            arr.put(submissionJSONObject);
+        if (problemDescription != null) {
+            List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
+            List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
+            List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+            Map<String, String> userNameIdMap = getUserNameIdMap();
+            int pageIntId = Integer.parseInt(pageId);
+            int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+            int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+            submissions = submissions.subList(startIdx, endIdx);
+            JSONArray arr = new JSONArray();
+            for (SubmissionWrapper submission : submissions) {
+                JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
+                arr.put(submissionJSONObject);
+            }
+            object.put("data", arr);
         }
-        object.put("data", arr);
         return object.toString();
     }
 
@@ -752,13 +763,20 @@ public class MasterController {
 
     private JSONObject ToJSONObject(SubmissionWrapper submission,
                                     UserProfile userProfile,
-                                    Map<String, ProblemDescription> problemDescriptionMap) {
+                                    Map<String, ProblemDescription> problemIdDescriptionMap,
+                                    Map<String, ProblemDescription> problemUrlDescriptionMap) {
         JSONObject object = null;
+        ProblemDescription problemDescription = null;
+        String authorName = userProfile.getName();
         final String problemId = submission.getProblemId();
-        if (problemDescriptionMap.containsKey(problemId)) {
+        final String problemUrl = submission.getProblemUrl();
+        if (problemIdDescriptionMap.containsKey(problemId)) {
+            problemDescription = problemIdDescriptionMap.get(problemId);
+        } else if (problemUrlDescriptionMap.containsKey(problemUrl)) {
+            problemDescription = problemUrlDescriptionMap.get(problemUrl);
+        }
+        if (problemDescription != null) {
             object = new JSONObject();
-            String authorName = userProfile.getName();
-            ProblemDescription problemDescription = problemDescriptionMap.get(problemId);
             object.put("problemName", problemDescription.getTitle());
             object.put("problemLink", problemDescription.getUrl());
             object.put("problemId", problemDescription.getProblemId());
@@ -1009,6 +1027,7 @@ public class MasterController {
         }
         return new JSONObject()
                 .put("name", userName)
+                .put("userId", userId)
                 .put ("numberOfSubmissions", numberOfSubmissions)
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
@@ -1017,8 +1036,6 @@ public class MasterController {
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
-        System.out.printf("UserId: %s\n", userId);
-
         // Step-I: Calculate start of the start this week.
         if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
             Instant nowUtc = Instant.now();
