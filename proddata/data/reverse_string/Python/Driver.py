@@ -11,13 +11,13 @@ solution = Solution()
 for line in lines[1:]:
     if lineNumber % 2 == 1:
         input = [c.strip()[1:-1] for c in line.strip()[1:-1].split(',')]
-        actualOutput = solution.reverseString(input)
+        solution.reverseString(input)
     else:
         expectedOutput = [c.strip()[1:-1]
                           for c in line.strip()[1:-1].split(',')]
-        if (actualOutput != expectedOutput):
+        if (input != expectedOutput):
             print("Result: Failed")
-            print("Actual Output: ", actualOutput)
+            print("Actual Output: ", input)
             print("Expected Output: ", expectedOutput)
             isSolutionWrong = True
             break
