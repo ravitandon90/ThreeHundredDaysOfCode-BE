@@ -28,8 +28,13 @@ public class SubmissionWrapper {
     }
 
     public String getProblemId() {
-        if (this.type == SubmissionWrapperType.GITHUB_SUBMISSION) return userSubmission.getProblemName();
+        if (this.type == SubmissionWrapperType.GITHUB_SUBMISSION) return "";
         return codeSubmission.getProblemId();
+    }
+
+    public String getProblemUrl() {
+        if (this.type == SubmissionWrapperType.GITHUB_SUBMISSION) return userSubmission.getProblemLink();
+        return "";
     }
 
    public String getSolutionLink() {

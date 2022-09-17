@@ -1,7 +1,6 @@
-3
-"leetcode", ["leet","code"]
+leetcode leet code
 true
-"applepenapple", ["apple","pen"]
+applepenapple apple pen
 true
-"catsandog", ["cats","dog","sand","and","cat"]
+catsandog cats dog sand and cat
 false

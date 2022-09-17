@@ -18,10 +18,19 @@ lineNumber = 1
 solution = Solution()
 for line in lines[1:]:
     if lineNumber % 2 == 1:
-        input = createListFromString(line)
-        actualOutput = solution.findMaxConsecutiveOnes(input)
+        line = line.strip()
+        pos = 0
+        while not line[pos] == ']':
+            pos += 1
+        array1 = createListFromString(line[0: pos + 1])
+        while not line[pos] == '[':
+            pos += 1
+        array2 = createListFromString(line[pos:])
+        actualOutput = solution.intersection(array1, array2)
     else:
-        expectedOutput = int(line.strip())
+        expectedOutput = createListFromString(line)
+        actualOutput.sort()
+        expectedOutput.sort()
         if (actualOutput != expectedOutput):
             print("Result: Failed")
             print("Actual Output: ", actualOutput)
