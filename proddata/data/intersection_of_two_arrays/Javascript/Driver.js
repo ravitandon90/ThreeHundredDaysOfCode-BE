@@ -53,7 +53,7 @@ function getTestCases() {
       let j = 1;
 
       while (j < data[i].length && data[i][j] != "]") {
-        if (Number(data[i][j])) input1.push(Number(data[i][j]));
+        if (!isNaN(data[i][j])) input1.push(Number(data[i][j]));
 
         j++;
       }
@@ -66,7 +66,7 @@ function getTestCases() {
       let input2 = [];
 
       while (j < data[i].length && data[i][j] != "]") {
-        if (Number(data[i][j])) input2.push(Number(data[i][j]));
+        if (!isNaN(data[i][j])) input2.push(Number(data[i][j]));
         j++;
       }
 
@@ -80,7 +80,7 @@ function getTestCases() {
       j = 1;
 
       while (j < data[i].length && data[i][j] != "]") {
-        if (Number(data[i][j])) output.push(Number(data[i][j]));
+        if (!isNaN(data[i][j])) output.push(Number(data[i][j]));
         j++;
       }
 
