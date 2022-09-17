@@ -683,21 +683,23 @@ public class MasterController {
 
     private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
-        List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
-        List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
-        List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
-        Map<String, String> userNameIdMap = getUserNameIdMap();
-        int pageIntId = Integer.parseInt(pageId);
-        int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
-        int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
-        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
-        JSONArray arr = new JSONArray();
-        for (SubmissionWrapper submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
-            arr.put(submissionJSONObject);
+        if (problemDescription != null) {
+            List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
+            List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
+            List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
+            Map<String, String> userNameIdMap = getUserNameIdMap();
+            int pageIntId = Integer.parseInt(pageId);
+            int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
+            int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
+            submissions = submissions.subList(startIdx, endIdx);
+            JSONArray arr = new JSONArray();
+            for (SubmissionWrapper submission : submissions) {
+                JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
+                arr.put(submissionJSONObject);
+            }
+            object.put("data", arr);
         }
-        object.put("data", arr);
         return object.toString();
     }
 
@@ -1009,6 +1011,7 @@ public class MasterController {
         }
         return new JSONObject()
                 .put("name", userName)
+                .put("userId", userId)
                 .put ("numberOfSubmissions", numberOfSubmissions)
                 .put("numberUniqueDays", numberUniqueDays)
                 .put("referralCount", referralCount)
@@ -1017,8 +1020,6 @@ public class MasterController {
 
     private JSONObject getUserStats(String userId, String userName, String timeFilter) {
         List<UserSubmission> submissions;
-        System.out.printf("UserId: %s\n", userId);
-
         // Step-I: Calculate start of the start this week.
         if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
             Instant nowUtc = Instant.now();
