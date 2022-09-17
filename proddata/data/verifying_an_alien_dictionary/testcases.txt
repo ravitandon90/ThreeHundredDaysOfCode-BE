@@ -1,7 +1,6 @@
-3
-["hello","leetcode"], "hlabcdefgijkmnopqrstuvwxyz"
+hello leetcode hlabcdefgijkmnopqrstuvwxyz
 true
-["word","world","row"], "worldabcefghijkmnpqstuvxyz"
+word world row worldabcefghijkmnpqstuvxyz
 false
-["apple","app"], "abcdefghijklmnopqrstuvwxyz"
+apple app abcdefghijklmnopqrstuvwxyz
 false
