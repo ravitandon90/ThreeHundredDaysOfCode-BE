@@ -67,9 +67,7 @@
     <logback.version>1.2.10</logback.version>
 </properties>
 
-<modules>
-    <module>master</module>
-</modules>
+<modules></modules>
 
 <repositories>
     <repository>
