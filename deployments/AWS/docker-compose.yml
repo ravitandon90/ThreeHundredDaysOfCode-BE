@@ -13,6 +13,9 @@ services:
         awslogs-stream-prefix: master-300
     links:
       - db
+      - es01
+    networks:
+      - 'es-network'
     volumes:
       - master-data:/root/.aws
       - /Users/ravi/.aws/credentials:/Users/root/.aws/
@@ -28,6 +31,23 @@ services:
       - db-data:/var/lib/postgresql/data
       - ../scripts/init.sql:/docker-entrypoint-initdb.d/
 
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-cluster-1
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+    networks:
+      - 'es-network'
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
 
 volumes:
   db-data:

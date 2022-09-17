@@ -120,14 +120,12 @@ create table if not exists user_follower (
 create table if not exists user_group (
     group_id varchar(500) not null constraint user_group_jpa_data_store_credential_pkey primary key,
     group_name varchar(500) not null,
-    group_name varchar(500) not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
 
 create table if not exists user_role (
     role_id varchar(500) not null constraint user_role_jpa_data_store_credential_pkey primary key,
-    role_name varchar(500) not null,
     role_name varchar(500) not null,
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null

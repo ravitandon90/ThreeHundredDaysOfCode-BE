@@ -658,11 +658,12 @@ public class MasterController {
         List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByUserId(userId);
         List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.findByUserId(userId);
         List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
-        Map<String, ProblemDescription> problemIdNameMap = getProblemIdNameMap();
+        Map<String, ProblemDescription> problemIdDescriptionMap = getProblemIdNameMap();
+        Map<String, ProblemDescription> problemUrlDescriptionMap = getProblemLinkNameMap();
         JSONObject object = new JSONObject();
         JSONArray arr = new JSONArray();
         for (SubmissionWrapper submission : submissions) {
-            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdNameMap);
+            JSONObject submissionJSONObject = ToJSONObject(submission, userProfile, problemIdDescriptionMap, problemUrlDescriptionMap);
             if (submissionJSONObject != null) {
                 arr.put(submissionJSONObject);
             }
@@ -680,6 +681,14 @@ public class MasterController {
         return map;
     }
 
+    private Map<String, ProblemDescription> getProblemLinkNameMap() {
+        Map<String, ProblemDescription> map = new HashMap<>();
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+        for (ProblemDescription problem : problems) {
+            map.put(problem.getUrl(), problem);
+        }
+        return map;
+    }
 
     private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
@@ -754,13 +763,20 @@ public class MasterController {
 
     private JSONObject ToJSONObject(SubmissionWrapper submission,
                                     UserProfile userProfile,
-                                    Map<String, ProblemDescription> problemDescriptionMap) {
+                                    Map<String, ProblemDescription> problemIdDescriptionMap,
+                                    Map<String, ProblemDescription> problemUrlDescriptionMap) {
         JSONObject object = null;
+        ProblemDescription problemDescription = null;
+        String authorName = userProfile.getName();
         final String problemId = submission.getProblemId();
-        if (problemDescriptionMap.containsKey(problemId)) {
+        final String problemUrl = submission.getProblemUrl();
+        if (problemIdDescriptionMap.containsKey(problemId)) {
+            problemDescription = problemIdDescriptionMap.get(problemId);
+        } else if (problemUrlDescriptionMap.containsKey(problemUrl)) {
+            problemDescription = problemUrlDescriptionMap.get(problemUrl);
+        }
+        if (problemDescription != null) {
             object = new JSONObject();
-            String authorName = userProfile.getName();
-            ProblemDescription problemDescription = problemDescriptionMap.get(problemId);
             object.put("problemName", problemDescription.getTitle());
             object.put("problemLink", problemDescription.getUrl());
             object.put("problemId", problemDescription.getProblemId());
