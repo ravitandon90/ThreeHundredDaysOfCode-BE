@@ -21,6 +21,7 @@ function main() {
 
     if (user_code_output !== testcases[i].output) {
       console.log("Result: Failed");
+      console.log("Failed test case:", testcases[i].arg1)
       console.log("Output:", user_code_output);
       console.log("Expected:", testcases[i].output);
       Success = false;
