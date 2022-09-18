@@ -25,11 +25,10 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-        ;
     }
 
     static boolean drivercode() {
-        String filePath = "src/course_schedule/testcases.txt";
+        String filePath = "src/find_the_town_judge/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -56,6 +55,7 @@ public class Driver {
                     al2.add(list);
                 }
                 input2 = new int[al2.size()][2];
+
                 for(int j = 0;j<input2.length;j++)
                 {
                     for(int k = 0;k<input2[j].length;k++)
@@ -72,6 +72,9 @@ public class Driver {
 
                 b = b & out == user_out ? true : false;
                 if (b == false) {
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(Arrays.deepToString(input2));
                     System.out.println("Expected output  " + out);
                     System.out.println("Your output  " + user_out);
                     return b;

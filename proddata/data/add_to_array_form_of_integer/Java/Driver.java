@@ -1,10 +1,11 @@
-package add-to-array-form-of-integer.Java;
+package add_to_array_form_of_Integer.Java;
+
 import java.io.*;
 import java.util.*;
 
 public class Driver {
+
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -26,8 +27,9 @@ public class Driver {
     }
 
     static boolean drivercode()     {
-        String filePath = "proddata/data/add-to-array-form-of-integer/test cases";
+        String filePath = "src/add_to_array_form_of_integer/test cases";
         List<String> al = method(filePath);
+
         int input2;
         boolean b = true;
         int i = 0;
@@ -41,6 +43,7 @@ public class Driver {
             }
 
             al.remove(i);
+
             input2=Integer.parseInt(al.get(i));
             al.remove(i);
 
@@ -56,8 +59,11 @@ public class Driver {
             b = b & out.equals(user_output) ? true : false;
 
             if(b==false) {
-                System.out.println("Expected output  " + out);
+                System.out.println("Test case");
+                System.out.println(Arrays.toString(input1));
+                System.out.println(input2);
                 System.out.println("Your output  " + user_output);
+                System.out.println("Expected output  " + out);
                 return b;
             }
         }

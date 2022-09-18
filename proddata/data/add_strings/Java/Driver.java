@@ -1,4 +1,4 @@
-package add_strings.Java;
+package add_string.Java;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 public class Driver
 {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -28,7 +27,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/add_strings/testcases.txt";
+        String filePath = "src/add_string/test cases";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -47,8 +46,12 @@ public class Driver
                 output = user_code(input1,input2);
                 b = b & output.equals(s) ? true : false;
                 if (b == false) {
-                    System.out.println("Expected answer " + s);
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Your answer " + output);
+                    System.out.println("Expected answer " + s);
+
                     break;
                 }
             }
@@ -58,7 +61,7 @@ public class Driver
 
     static String user_code(String s1,String s2)
     {
-        Solution solution = new Solution();
-        return solution.Solution(s1, s2);
+        Solution sol = new Solution();
+        return sol.addString(s1, s2);
     }
 }

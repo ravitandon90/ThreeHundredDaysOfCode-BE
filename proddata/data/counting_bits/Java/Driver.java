@@ -1,11 +1,10 @@
-package counting-bits.Java;
+package counting_bits.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -28,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/counting-bits/testcases.txt";
+        String filePath = "src/counting_bits/testcases.txt";
         List<String> al = method(filePath);
 
         int[] out;
@@ -49,8 +48,10 @@ public class Driver {
                 int[] user_out = user_out(input);
                 b = b & Arrays.equals(out,user_out);
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

@@ -1,7 +1,7 @@
-package counting-bits.Java;
+package counting_bits.Java;
 
 public class Solution {
     public int[] countBits(int n) {
-        //write your code here
+        return new int[0];
     }
 }

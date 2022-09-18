@@ -72,8 +72,11 @@ public class Driver {
 
                 b = b & out == user_out ? true : false;
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(Arrays.deepToString(input2));
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

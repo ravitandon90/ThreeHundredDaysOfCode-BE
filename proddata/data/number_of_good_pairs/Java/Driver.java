@@ -52,9 +52,10 @@ public class Driver {
 
                 b = b & output == user_out ? true : false;
                 if (b == false) {
+                    System.out.println("Test case");
                     System.out.println(Arrays.toString(input1));
-                    System.out.println("Expected output  " + output);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + output);
                     return b;
                 }
             }

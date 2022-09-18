@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 public class Driver
 {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -28,10 +27,11 @@ public class Driver
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/subsets/testcases.txt";
+        String filePath = "src/subsets/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<Integer>> out = new ArrayList<>();
@@ -86,8 +86,10 @@ public class Driver
                 }
                 b = b & chec & user_out.equals(out);
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(Arrays.toString(input1));
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
 
