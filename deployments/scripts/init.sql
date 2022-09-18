@@ -130,3 +130,9 @@ create table if not exists user_role (
     created_at timestamp default now() not null,
     updated_at timestamp default now() not null
 );
+
+ALTER TABLE user_profile ADD COLUMN group_id varchar(500);
+ALTER TABLE user_submission ADD COLUMN group_id varchar(500);
+ALTER TABLE problem_description ADD COLUMN group_id varchar(500);
+ALTER TABLE code_submission ADD COLUMN group_id varchar(500);
+ALTER TABLE user_post ADD COLUMN group_id varchar(500);
