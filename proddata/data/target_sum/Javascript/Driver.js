@@ -23,7 +23,7 @@ function main() {
   for (let i = 0; i < sizeOfTestCases; i++) {
     const output_of_users_code = Solution(testcases[i].arg1, testcases[i].arg2);
 
-    if (input_arr !== testcases[i].output) {
+    if (output_of_users_code !== testcases[i].output) {
       console.log("Result: Failed");
       console.log("Failed test case:", testcases[i].arg1, testcases[i].arg2);
       console.log("Output:", output_of_users_code);
