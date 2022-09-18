@@ -1,4 +1,3 @@
-2
 abc ahbgdc
 true
 axc ahbgdc
