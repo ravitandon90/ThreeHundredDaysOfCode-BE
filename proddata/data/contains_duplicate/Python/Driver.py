@@ -11,13 +11,14 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
+        testCase = line
         input = list(map(int, [s.strip()
                      for s in line[1:-1].strip().split(',')]))
         actualOutput = solution.containsDuplicate(input)
     else:
         expectedOutput = True if line == "true" else False
         if (actualOutput != expectedOutput):
-            print("Result: Failed")
+            print("Result: Failed for test case: " + testCase)
             print("Actual Output: ", actualOutput)
             print("Expected Output: ", expectedOutput)
             isSolutionWrong = True

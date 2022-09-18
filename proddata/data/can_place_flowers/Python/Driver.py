@@ -11,6 +11,7 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
+        testCase = line
         pos = len(line) - 1
         while line[pos] != ',':
             pos -= 1
@@ -21,7 +22,7 @@ for line in lines[1:]:
     else:
         expectedOutput = True if line == "true" else False
         if (actualOutput != expectedOutput):
-            print("Result: Failed")
+            print("Result: Failed for test case: " + testCase)
             print("Actual Output: ", actualOutput)
             print("Expected Output: ", expectedOutput)
             isSolutionWrong = True

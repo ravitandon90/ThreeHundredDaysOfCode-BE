@@ -11,12 +11,13 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
+        testCase = line
         input = line[1:-1].strip()
         actualOutput = solution.firstUniqChar(input)
     else:
         expectedOutput = int(line)
         if (actualOutput != expectedOutput):
-            print("Result: Failed")
+            print("Result: Failed for test case: " + testCase)
             print("Actual Output: ", actualOutput)
             print("Expected Output: ", expectedOutput)
             isSolutionWrong = True
