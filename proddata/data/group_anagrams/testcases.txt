@@ -1,7 +1,17 @@
-3
-["eat","tea","tan","ate","nat","bat"]
-[["bat"],["nat","tan"],["ate","eat","tea"]]
-[""]
-[[""]]
-["a"]
-[["a"]]
+input
+eat tea tan ate nat bat 
+output
+bat
+nat tan
+ate eat tea
+check
+input
+
+output
+
+check
+input
+a
+output
+a
+check
