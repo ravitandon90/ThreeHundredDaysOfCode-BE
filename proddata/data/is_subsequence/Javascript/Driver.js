@@ -19,7 +19,7 @@ function main() {
 
     if (output_of_user_code !== testcases[i].output) {
       console.log("Result: Failed");
-      console.log("Failed test case:", testcases[i].arg1);
+      console.log("Failed test case:", testcases[i].arg1, testcases[i].arg2);
       console.log("Output:", output_of_user_code);
       console.log("Expected:", testcases[i].output);
       Success = false;
@@ -40,6 +40,7 @@ function getTestCases() {
     );
     data = data.split("\n");
     data.shift();
+    
     for (let i = 0; i < data.length; i++) {
       let inputArr = data[i].trim().split(" ");
       i++;
@@ -48,7 +49,7 @@ function getTestCases() {
 
       testcases.push({
         arg1: inputArr[0],
-        arg2: inputArr[1],
+        arg2: inputArr[inputArr.length - 1],
         output: output,
       });
     }
