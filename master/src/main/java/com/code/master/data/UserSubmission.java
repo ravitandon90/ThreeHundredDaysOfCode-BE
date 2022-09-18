@@ -35,6 +35,8 @@ public class UserSubmission {
     private String problemLink;
     @Column(name = "solution_link")
     private String solutionLink;
+    @Column(name = "group_id")
+    private String groupId;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;
