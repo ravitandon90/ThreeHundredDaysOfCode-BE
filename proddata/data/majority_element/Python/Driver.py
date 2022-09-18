@@ -11,7 +11,7 @@ for line in Lines:
     if (lineNo % 2 == 0):
         input = list(map(int, line.split()))
         x = input.copy()
-        actual_output = obj.missingNumber(input)
+        actual_output = obj.majorityElement(input)
     else:
         expected_output = line.strip()
         if (expected_output != str(actual_output)):

@@ -35,7 +35,7 @@ int main()
         }
         if (status % 2 == 1)
         {
-            actual_output = obj->missingNumber(nums);
+            actual_output = obj->majorityElement(nums);
             stringstream ss(line);
             ss >> expected_output;
             if (expected_output != actual_output)
