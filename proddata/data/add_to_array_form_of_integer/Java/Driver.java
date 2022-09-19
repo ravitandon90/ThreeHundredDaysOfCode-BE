@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode()     {
-        String filePath = "src/add_to_array_form_of_integer/test cases";
+        String filePath = "proddata/data/add_to_array_form_of_integer/test cases.txt";
         List<String> al = method(filePath);
 
         int input2;
@@ -72,7 +72,7 @@ public class Driver {
 
     public static List<Integer> addToArrayForm(int[] num, int k)
     {
-        Solution solution = new Solution();
+        add_to_array_form_of_Integer.Java.Solution solution = new add_to_array_form_of_Integer.Java.Solution();
         return solution.addToArrayForm(num,k);
 
     }

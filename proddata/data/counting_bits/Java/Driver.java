@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/counting_bits/testcases.txt";
+        String filePath = "proddata/data/counting_bits/testcases.txt";
         List<String> al = method(filePath);
 
         int[] out;
@@ -50,8 +50,8 @@ public class Driver {
                 if (b == false) {
                     System.out.println("Test case");
                     System.out.println(input);
-                    System.out.println("Your output  " + user_out);
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Your output  " + Arrays.toString(user_out));
+                    System.out.println("Expected output  " + Arrays.toString(out));
                     return b;
                 }
             }
@@ -61,7 +61,7 @@ public class Driver {
 
     public static int[] user_out(int n)
     {
-        Solution sol = new Solution();
+        counting_bits.Java.Solution sol = new counting_bits.Java.Solution();
         return sol.countBits(n);
     }
 }

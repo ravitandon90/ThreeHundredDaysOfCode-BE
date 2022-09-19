@@ -29,7 +29,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/decompress_run_length_encoded_list/testcases.txt";
+        String filePath = "proddata/data/decompress_run_length_encoded_list/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -61,7 +61,7 @@ public class Driver {
 
     public static int[] user_out(int input1[])
     {
-        Solution sol = new Solution();
+        decompress_run_length_encoded_list.Java.Solution sol = new decompress_run_length_encoded_list.Java.Solution();
         return sol.decompressRLElist(input1);
     }
 }

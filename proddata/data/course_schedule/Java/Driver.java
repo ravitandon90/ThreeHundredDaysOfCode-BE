@@ -29,7 +29,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/course_schedule/testcases.txt";
+        String filePath = "proddata/data/course_schedule/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -86,7 +86,7 @@ public class Driver {
     
     public static boolean schedule(int n , int b[][])
     {
-        Solution sol = new Solution();
+        course_schedule.Java.Solution sol = new course_schedule.Java.Solution();
         return sol.canFinish(n, b);
     }
     

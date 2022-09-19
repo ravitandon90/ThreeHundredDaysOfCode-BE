@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/egg_drop_with_2_eggs_and_n_floors/testcases.txt";
+        String filePath = "proddata/data/egg_drop_with_2_eggs_and_n_floors/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         int input1 = 0;
@@ -53,7 +53,7 @@ public class Driver {
 
     public static int user(int n)
     {
-        Solution sol = new Solution();
+        egg_drop_with_2_eggs_and_n_floors.Java.Solution sol = new egg_drop_with_2_eggs_and_n_floors.Java.Solution();
         return sol.twoEggDrop(n);
     } 
 }

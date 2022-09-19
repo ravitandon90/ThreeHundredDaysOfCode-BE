@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/can_place_flowers/testcases.txt";
+        String filePath = "proddata/data/can_place_flowers/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -66,7 +66,7 @@ public class Driver {
     }
 
     public static boolean canPlaceFlowers(int[] flowerbed, int n) {
-        Solution sol = new Solution();
+        can_place_flowers.Java.Solution sol = new can_place_flowers.Java.Solution();
         return sol.canPlaceFlowers(flowerbed,n);
     }
 }

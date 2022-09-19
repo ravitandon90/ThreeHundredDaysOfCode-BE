@@ -1,4 +1,4 @@
-package backspace_string_comparison.Java;
+package backspace_string_compare.Java;
 
 import java.io.*;
 import java.util.*;
@@ -27,19 +27,18 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/backspace_string_comparison/testcases.txt";
+        String filePath = "proddata/data/backspace_string_compare/testcases.txt";
         List<String> al = method(filePath);
 
-        int testcases = Integer.parseInt(al.remove(0));
         String input1 = null;
         String input2 = null;
         String output;
         boolean b = true;
-        for (int i = 0; i<2*testcases;i++)
+        for (int i = 0; i<al.size();i++)
         {
             if(i%2==0)
             {
-                String in[] = al.get(i).split(", ");
+                String in[] = al.get(i).split(" ");
                 input1 = in[0];
                 input2 = in[1];
 
@@ -66,7 +65,7 @@ public class Driver {
     }
 
     public static boolean backspaceCompare(String s, String t) {
-         Solution solution = new Solution();
+         backspace_string_compare.Java.Solution solution = new backspace_string_compare.Java.Solution();
          return solution.backspaceCompare(s,t);
     }
 }

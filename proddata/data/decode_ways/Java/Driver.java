@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/decode_ways/testcases.txt";
+        String filePath = "proddata/data/decode_ways/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         String input1 = null;
@@ -53,7 +53,7 @@ public class Driver {
 
     public static int numdecode(String s)
     {
-        Solution sol = new Solution();
+        decode_ways.Java.Solution sol = new decode_ways.Java.Solution();
         return sol.numDecodings(s);
     }
 }

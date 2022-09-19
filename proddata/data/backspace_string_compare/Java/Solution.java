@@ -1,4 +1,4 @@
-package backspace_string_comparison.Java;
+package backspace_string_compare.Java;
 
 public class Solution
 {

@@ -29,7 +29,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/add_binary/test cases";
+        String filePath = "proddata/data/add_binary/test cases";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -62,7 +62,7 @@ public class Driver {
 
     static String user_code(String s1,String s2)
     {
-        Solution sol = new Solution();
+        add_binary.Java.Solution sol = new add_binary.Java.Solution();
         return sol.add_binary(s1, s2);
     }
 }
