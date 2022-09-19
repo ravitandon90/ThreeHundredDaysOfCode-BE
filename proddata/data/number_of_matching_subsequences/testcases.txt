@@ -1,5 +1,4 @@
-2
-"abcde", ["a","bb","acd","ace"]
+abcde a bb acd ace
 3
-"dsahjpjauf", ["ahjpjau","ja","ahbwzgqnuk","tnmlanowax"]
+dsahjpjauf ahjpjau ja ahbwzgqnuk tnmlanowax
 2
