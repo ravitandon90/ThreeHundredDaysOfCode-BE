@@ -17,8 +17,8 @@ int main()
 {
     int numInputs = 0;
     int target = 0;
-    string s;
-    vector<string> wordDict;
+    string order;
+    vector<string> words;
     string expected_output;
     string actual_output;
     ifstream infile("../testcases.txt");
@@ -32,20 +32,13 @@ int main()
             string x = line;
             stringstream ss(x);
             string t;
-            int i = 0;
             while (ss >> t)
             {
-                if (i == 0)
-                {
-                    s = t;
-                }
-                else
-                {
-                    wordDict.push_back(t);
-                }
-                i++;
+                words.push_back(t);
             }
-            bool res = obj->wordBreak(s, wordDict);
+            order = words.back();
+            words.pop_back();
+            bool res = obj->isAlienSorted(words, order);
             if (res)
             {
                 actual_output = "true";
@@ -63,17 +56,17 @@ int main()
             {
                 cout << "Result: Failed" << endl;
                 cout << "Input: ";
-                cout << "s= " << s << ", ";
-                cout << "wordDict= ";
-                for (auto x : wordDict)
+                cout << "words= ";
+                for (auto x : words)
                 {
                     cout << x << " ";
                 }
+                cout << ", order= " << order << ", ";
                 cout << "\nExpected Output: " << expected_output << endl;
                 cout << "Actual Output: " << actual_output << endl;
                 return 0;
             }
-            wordDict.clear();
+            words.clear();
         }
         lineNo += 1;
     }
