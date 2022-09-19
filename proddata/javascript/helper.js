@@ -16,7 +16,6 @@ function compare1DArray(arr1 = [], arr2 = []) {
 
 // converts string elements of array to number and returns a new array
 function convertStringArrToNumArr(strArr) {
-
   let arr = [];
   arr = strArr.map((val) => {
     return Number(val);
@@ -44,8 +43,23 @@ function getArrFromStr(str) {
   return arr;
 }
 
+// prints failed case, takes all the input, actual output and expected output as an argument
+// argument passed must be an object with above mentioned properties
+function printFailedCase({ arg1, arg2, arg3, actual_output, expected_output }) {
+  console.log("Result: Failed");
+  console.log(
+    "Failed test case:",
+    arg1 !== null ? arg1 : "",
+    arg2 !== null ? arg2 : "",
+    arg3 !== null ? arg3 : ""
+  );
+  console.log("Output:", actual_output);
+  console.log("Expected:", expected_output);
+}
+
 module.exports = {
   compare1DArray,
   convertStringArrToNumArr,
   getArrFromStr,
+  printFailedCase,
 };
