@@ -5,6 +5,9 @@ import java.util.*;
 
 public class Driver {
 
+    public static void main(String[] args) {
+        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
+    }
 
     private static List<String> method(String filePath) {
         ArrayList<String> al = new ArrayList<>();
@@ -24,12 +27,9 @@ public class Driver {
         return al;
     }
 
-    public static void main(String[] args) {
-        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
-    }
 
     static boolean drivercode() {
-        String filePath = "src/add_binary/test cases";
+        String filePath = "proddata/data/add_binary/testcases.txt";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;

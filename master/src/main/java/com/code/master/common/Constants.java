@@ -22,4 +22,5 @@ public class Constants {
 
     public static final boolean RUN_CHANGE_MONITORS = true;
     public static final int DOCUMENT_POLL_INTERVAL_MINUTES = 60;
+    public static final String DEFAULT_USER_GROUP = "three-hundred-days-of-code";
 }
