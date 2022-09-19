@@ -1,4 +1,4 @@
-package divisor-game.Java;
+package divisor_game.Java;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 public class Driver
 {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -20,16 +19,16 @@ public class Driver
 
             e.printStackTrace();
         }
+
         return al;
     }
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/divisor-game/testcases.txt";
+        String filePath = "src/divisor_game/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;
@@ -51,6 +50,8 @@ public class Driver
                 b = b & user_out == (out);
 
                 if (b == false) {
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Expected output  " + out);
                     System.out.println("Your output  " + user_out);
                     return b;

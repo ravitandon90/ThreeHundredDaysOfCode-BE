@@ -1,4 +1,4 @@
-package basic-calculator-ii.Java;
+package basic_calculator_ii.Java;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 public class Driver
 {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -24,11 +23,11 @@ public class Driver
     }
 
     public static void main(String[] args) {
-        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/basic-calculator-ii/testcases.txt";
+        String filePath = "src/basic_calculator_ii/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -49,8 +48,10 @@ public class Driver
                 b = b & output==user_out ? true : false;
                 if(b==false)
                 {
-                    System.out.println("Expected output  " + output);
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + output);
                     return b;
                 }
             }

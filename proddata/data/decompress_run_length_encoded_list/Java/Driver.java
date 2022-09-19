@@ -48,6 +48,7 @@ public class Driver {
                 Arrays.sort(user_out);
                 b = b & Arrays.equals(output, user_out) ? true : false;
                 if (b == false) {
+                    System.out.println("Test case");
                     System.out.println(Arrays.toString(input1));
                     System.out.println("Expected output  " + Arrays.toString(output));
                     System.out.println("Your output  " + Arrays.toString(user_out));

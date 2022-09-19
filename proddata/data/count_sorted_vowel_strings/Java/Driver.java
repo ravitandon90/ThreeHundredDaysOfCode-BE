@@ -41,8 +41,10 @@ public class Driver {
                 int user_output = count(input1);
                 b = b & output == user_output ? true : false;
                 if (b == false) {
-                    System.out.println("Expected answer " + output);
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Your answer " + user_output);
+                    System.out.println("Expected answer " + output);
                     return b;
                 }
             }

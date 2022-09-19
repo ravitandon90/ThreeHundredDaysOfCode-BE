@@ -41,6 +41,8 @@ public class Driver {
                 int user_output = user(input1);
                 b = b & output == user_output ? true : false;
                 if (b == false) {
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Expected answer " + output);
                     System.out.println("Your answer " + user_output);
                     return b;

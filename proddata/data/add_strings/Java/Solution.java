@@ -1,9 +1,10 @@
-package add-strings.Java;
+package add_string.Java;
 
 public class Solution
 {
-    public String Solution(String num1,String num2)
+    public String addString(String s1 , String s2)
     {
         //write your code here
+        return "";
     }
 }

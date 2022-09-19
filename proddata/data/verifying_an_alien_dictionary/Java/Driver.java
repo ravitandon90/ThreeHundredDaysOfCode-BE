@@ -45,8 +45,11 @@ public class Driver {
                 out = al.get(i).equals("true") ? true : false;
                 b = b & user_out(input1, input2) == out;
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(Arrays.toString(input1));
+                    System.out.println(input2);
                     System.out.println("Your output  " + user_out(input1, input2));
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

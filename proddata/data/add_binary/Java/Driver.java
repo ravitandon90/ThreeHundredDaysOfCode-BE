@@ -3,10 +3,10 @@ package add_binary.Java;
 import java.io.*;
 import java.util.*;
 
-public class driver {
-private static List<String> method(String filePath)
-        {
-        StringBuilder builder = new StringBuilder();
+public class Driver {
+
+
+    private static List<String> method(String filePath) {
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -29,8 +29,7 @@ private static List<String> method(String filePath)
     }
 
     static boolean drivercode() {
-
-        String filePath = "proddata/data/add_binary/testcases.txt";
+        String filePath = "src/add_binary/test cases";
         List<String> al = method(filePath);
         String input1=null;
         String input2=null;
@@ -49,9 +48,12 @@ private static List<String> method(String filePath)
                 output = user_code(input1,input2);
                 b = b & output.equals(s) ? true : false;
                 if (b == false) {
-                    System.out.println("Expected answer " + s);
+                    System.out.println("Test Case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Your answer " + output);
-                    return b;
+                    System.out.println("Expected answer " + s);
+                    break;
                 }
             }
         }
