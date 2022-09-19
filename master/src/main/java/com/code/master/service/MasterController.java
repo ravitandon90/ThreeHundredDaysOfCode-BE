@@ -142,8 +142,10 @@ public class MasterController {
     }
 
     @GetMapping(path = "/google/problem")
-    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic,
-                                                 @RequestParam(value = "userId") String userId) { return getProblemOfTheDay(userId, logic); }
+    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "userId") String userId,
+                                                 @RequestParam(value = "logic") String logic) {
+        return getProblemOfTheDay(userId, logic);
+    }
 
     @GetMapping(path = "/problemById")
     public String handleGetProblemById(Principal user, @RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
@@ -157,7 +159,7 @@ public class MasterController {
     }
 
     @GetMapping(path = "/google/problemBaseCode")
-    public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
+    public String handleGoogleGetProblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
         return getProblemBaseCode(problemId, languageId);
     }
 
