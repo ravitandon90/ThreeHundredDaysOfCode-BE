@@ -3,8 +3,7 @@ package add_string.Java;
 import java.io.*;
 import java.util.*;
 
-public class Driver
-{
+public class Driver {
     private static List<String> method(String filePath) {
         ArrayList<String> al = new ArrayList<>();
 

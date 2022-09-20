@@ -73,22 +73,24 @@ public class MasterController {
 
     @GetMapping(path = "/me")
     public String handleGetProfile(Principal user) {
-        return GetProfile(user.getName());
+        return getUserProfile(user.getName());
     }
 
     @GetMapping(path = "/google/me")
     public String handleGoogleGetProfile(@RequestParam(value = "userId") String userId) {
-        return GetProfile(userId);
+        return getUserProfile(userId);
     }
 
     @GetMapping("/google/leaderBoard")
     public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId, @RequestParam(value = "timeFilter") String timeFilter) {
-        return getLeaderBoard(timeFilter);
+        return getLeaderBoard(userId, timeFilter);
     }
 
     @GetMapping(path = "/leaderBoard")
-    public String handleGetLeaderBoard(@RequestParam(value = "timeFilter") String timeFilter) {
-        return getLeaderBoard(timeFilter);
+    public String handleGetLeaderBoard(
+            Principal user,
+            @RequestParam(value = "timeFilter") String timeFilter) {
+        return getLeaderBoard(user.getName(), timeFilter);
     }
 
     @GetMapping(path = "/mySubmissions")
@@ -103,44 +105,45 @@ public class MasterController {
 
     @GetMapping(path = "/submissions")
     public String handleGetAllSubmissions(Principal user, @RequestParam(value = "pageId") String pageId) {
-        return GetAllSubmissions(user.getName(), pageId);
+        return getAllSubmissionsAccessibleToAUser(user.getName(), pageId);
     }
 
     @GetMapping(path = "/google/submissions")
     public String handleGetAllSubmissions(@RequestParam(value = "userId") String userId,
                                           @RequestParam(value = "pageId") String pageId) {
-        return GetAllSubmissions(userId, pageId);
+        return getAllSubmissionsAccessibleToAUser(userId, pageId);
     }
 
     @GetMapping(path = "/submissionsProblem")
     public String handleGetSubmissionsForAProblem(Principal user,
                                           @RequestParam(value = "problemId") String problemId,
                                           @RequestParam(value = "pageId") String pageId) {
-        return GetSubmissionsForAProblem(user.getName(), pageId, problemId);
+        return getSubmissionsForAProblem(user.getName(), pageId, problemId);
     }
 
     @GetMapping(path = "/google/submissionsProblem")
     public String handleGoogleGetSubmissionsForAProblem(@RequestParam(value = "userId") String userId,
                                           @RequestParam(value = "problemId") String problemId,
                                           @RequestParam(value = "pageId") String pageId) {
-        return GetSubmissionsForAProblem(userId, pageId, problemId);
+        return getSubmissionsForAProblem(userId, pageId, problemId);
     }
 
     @GetMapping(path = "/problems")
-    public String handleGetProblems(Principal user) {
-        return GetProblems();
-    }
+    public String handleGetProblems(Principal user) { return getProblems(user.getName()); }
 
     @GetMapping(path = "/google/problems")
-    public String handleGoogleGetProblems() {
-        return GetProblems();
+    public String handleGoogleGetProblems(@RequestParam(value = "userId") String userId) {
+        return getProblems(userId);
     }
 
     @GetMapping(path = "/problem")
-    public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
+    public String handleGetProblemOfTheDay(Principal user, @RequestParam(value = "logic") String logic) { return
+            getProblemOfTheDay(user.getName(), logic);
+    }
 
     @GetMapping(path = "/google/problem")
-    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic) { return GetProblemOfTheDay(logic); }
+    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic,
+                                                 @RequestParam(value = "userId") String userId) { return getProblemOfTheDay(userId, logic); }
 
     @GetMapping(path = "/problemById")
     public String handleGetProblemById(Principal user, @RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
@@ -150,40 +153,40 @@ public class MasterController {
 
     @GetMapping(path = "/problemBaseCode")
     public String handleGetProblemBaseCode(@RequestParam(value = "languageId") String languageId,@RequestParam(value = "problemId") String problemId) {
-        return GetProblemBaseCode(problemId, languageId);
+        return getProblemBaseCode(problemId, languageId);
     }
 
     @GetMapping(path = "/google/problemBaseCode")
     public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
-        return GetProblemBaseCode(problemId, languageId);
+        return getProblemBaseCode(problemId, languageId);
     }
 
     @PostMapping(path = "/submitCode")
     public String handleCodeSubmission(
-            @RequestBody SubmitCodeHTTPRequest request, Principal user) { return SubmitCode(request); }
+            @RequestBody SubmitCodeHTTPRequest request, Principal user) { return submitCode(request); }
 
 
     @PostMapping(path = "/submitCodeSolution")
     public String handleSubmitCodeSolution(
-            @RequestBody SubmitCodeSolutionHTTPRequest request) { return SubmitCodeSolution(request); }
+            @RequestBody SubmitCodeSolutionHTTPRequest request) { return submitCodeSolution(request); }
 
     @PostMapping(path = "/google/submitCodeSolution")
-    public String handleGoogleSubmitCodeSolution(@RequestBody SubmitCodeSolutionHTTPRequest request) {return SubmitCodeSolution(request);}
+    public String handleGoogleSubmitCodeSolution(@RequestBody SubmitCodeSolutionHTTPRequest request) {return submitCodeSolution(request);}
 
     @PostMapping(path = "/google/submitCode")
     public String handleGoogleSubmitCode(@RequestBody SubmitCodeHTTPRequest request) {
-        return SubmitCode(request);
+        return submitCode(request);
     }
 
     @PostMapping(path = "/createProfile")
     public String handleCreateProfile(
             @RequestBody CreateProfileHTTPRequest request, Principal user) {
-        return CreateProfile(user.getName(), request.getEmailId(), request.getUserName(), request.getReferrerId());
+        return createProfile(user.getName(), request.getEmailId(), request.getUserName(), request.getReferrerId());
     }
 
     @PostMapping(path = "/google/createProfile")
     public String handleCreateProfile(@RequestBody CreateProfileHTTPRequest request) {
-        return CreateProfile(request.getUserId(), request.getEmailId(), request.getUserName(), request.getReferrerId());
+        return createProfile(request.getUserId(), request.getEmailId(), request.getUserName(), request.getReferrerId());
     }
 
     @PostMapping(path = "/updateProfile")
@@ -265,7 +268,7 @@ public class MasterController {
 
     @GetMapping(path = "/google/timeRemaining")
     public String handleGetTimeRemaining() {
-        return GetTimeRemainingMilliseconds();
+        return getTimeRemainingMilliseconds();
     }
 
     @GetMapping(path = "/google/submission")
@@ -598,8 +601,9 @@ public class MasterController {
         return new JSONObject().put("message", "Success").toString();
     }
 
-    private String GetProblems() {
-        List<ProblemDescription> problems = this.problemDescriptionRepository.findAll();
+    private String getProblems(String userId) {
+        final String groupId = getGroupIdForAUser(userId);
+        List<ProblemDescription> problems = this.problemDescriptionRepository.findAllByGroupId(groupId);
         final int maxSize = problems.size();
         JSONArray ar = new JSONArray();
         for (ProblemDescription problemDescription : problems) {
@@ -611,7 +615,7 @@ public class MasterController {
                     .put("problemTitle", problemDescription.getTitle());
             ar.put(object);
         }
-        String problemOfTheDay = GetProblemOfTheDay("daily");
+        String problemOfTheDay = getProblemOfTheDay(userId, "daily");
         return new JSONObject().put("data", SortByIndex(ar)).put("size", maxSize).put("problemOfTheDay", problemOfTheDay).toString();
     }
 
@@ -655,6 +659,7 @@ public class MasterController {
 
     private String GetSubmissionsForAUser(String userId) {
         UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+
         List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByUserId(userId);
         List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.findByUserId(userId);
         List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
@@ -690,12 +695,20 @@ public class MasterController {
         return map;
     }
 
-    private String GetSubmissionsForAProblem(String userId, String pageId, String problemId) {
+    private String getGroupIdForAUser(String userId) {
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        if (userProfile == null) return "";
+        return userProfile.getGroupId();
+    }
+
+    private String getSubmissionsForAProblem(String userId, String pageId, String problemId) {
+        final String groupId = getGroupIdForAUser(userId);
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
         JSONObject object = new JSONObject();
         if (problemDescription != null) {
-            List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemName(problemDescription.getTitle());
-            List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemId(problemId);
+            final String problemName = problemDescription.getTitle();
+            List<UserSubmission> userSubmissions = this.userSubmissionRepository.findByProblemNameAndGroupId(problemName, groupId);
+            List<CodeSubmission> codeSubmissions = this.codeSubmissionRepository.getByProblemIdAndGroupId(problemId, groupId);
             List<SubmissionWrapper> submissions = getMerged(userSubmissions, codeSubmissions);
             Map<String, String> userNameIdMap = getUserNameIdMap();
             int pageIntId = Integer.parseInt(pageId);
@@ -712,8 +725,11 @@ public class MasterController {
         return object.toString();
     }
 
-    private String GetAllSubmissions(String userId, String pageId) {
-        List<UserSubmission> submissions = this.userSubmissionRepository.findAll();
+    private String getAllSubmissionsAccessibleToAUser(
+            String userId, String pageId) {
+        UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
+        final String groupId = userProfile.getGroupId();
+        List<UserSubmission> submissions = this.userSubmissionRepository.findByGroupId(groupId);
         Map<String, String> userNameIdMap = getUserNameIdMap();
         int pageIntId = Integer.parseInt(pageId);
         int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
@@ -788,22 +804,24 @@ public class MasterController {
         return object;
     }
 
-    private String GetProblemBaseCode(String problemId, String languageId) {
+    private String getProblemBaseCode(String problemId, String languageId) {
         ProblemBaseCode problemBaseCode =
                 this.problemBaseCodeRepository.findByProblemIdAndLanguage(problemId, Utils.GetLanguageFromId(languageId));
-        System.out.printf("ProblemId, Language: {%s, %s}\n", problemId, Utils.GetLanguageFromId(languageId));
         return new JSONObject()
                 .put("message", "Success")
                 .put("base_code", problemBaseCode.getBaseCode())
                 .toString();
     }
 
-    private String SubmitCode(SubmitCodeHTTPRequest request) {
+    private String submitCode(SubmitCodeHTTPRequest request) {
+        final String userId = request.getUserId();
         UserSubmission userSubmission = new UserSubmission();
         userSubmission.setUserId(request.getUserId());
         userSubmission.setProblemName(request.getProblemName());
         userSubmission.setProblemLink(request.getProblemLink());
         userSubmission.setSolutionLink(request.getSolutionLink());
+        final String groupId = getGroupIdForAUser(userId);
+        userSubmission.setGroupId(groupId);
         this.userSubmissionRepository.save(userSubmission);
         JSONObject obj = getUserStats(request.getUserId(), "", "");
         return new JSONObject().put("message", "Success")
@@ -812,10 +830,12 @@ public class MasterController {
     }
 
     // TOOD(Ravi): Add support for running the code through the Code Judge to get the metrics.
-    private String SubmitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
+    private String submitCodeSolution(SubmitCodeSolutionHTTPRequest request) {
         // Step-I: Get the base code.
         CodeJudge judge = new CodeJudge(this.problemInputRepository);
         JSONObject response = judge.evaluate(request.getSource_code(), request.getProblem_id(), request.getLanguage_id());
+        final String userId = request.getUser_id();
+        final String groupId = getGroupIdForAUser(userId);
 
         // Step-I: Save the code submission to the DB.
         CodeSubmission codeSubmission = new CodeSubmission();
@@ -831,6 +851,7 @@ public class MasterController {
             if (response.has("memory")) {
                 codeSubmission.setMemoryConsumption(response.getLong("memory"));
             }
+            codeSubmission.setGroupId(groupId);
             this.codeSubmissionRepository.save(codeSubmission);
 
             // Step-II: Save to User Input Repository.
@@ -840,6 +861,7 @@ public class MasterController {
             userSubmission.setProblemName(problem.getTitle());
             userSubmission.setProblemLink(problem.getUrl());
             userSubmission.setSolutionLink(codeSubmission.getSubmissionId());
+            userSubmission.setGroupId(groupId);
             this.userSubmissionRepository.save(userSubmission);
 
             // Step-III: Create a user post.
@@ -850,12 +872,13 @@ public class MasterController {
             userPost.setPostType("CODE_REVIEW");
             userPost.setText(request.getSource_code());
             userPost.setAuthorId(request.getUser_id());
+            userPost.setGroupId(groupId);
             this.userPostRepository.save(userPost);
         }
         return response.toString();
     }
 
-    private String CreateProfile(String userId, String userEmailId, String userName, String referrerId) {
+    private String createProfile(String userId, String userEmailId, String userName, String referrerId) {
         // Check if the profile already exists in the database.
         UserProfile profile = this.userProfileRepository.getByUserId(userId);
         // Create a new profile if it already does not exist in the database.
@@ -864,6 +887,8 @@ public class MasterController {
             UserProfile userProfile = new UserProfile(userId, userEmailId);
             userProfile.setName(userName);
             userProfile.setReferrerId(referrerId);
+            // TODO(Ravi): This should come in from the frontend.
+            userProfile.setGroupId(Constants.DEFAULT_USER_GROUP);
             this.userProfileRepository.save(userProfile);
         }
         return new JSONObject().put("message", "Success").toString();
@@ -902,7 +927,7 @@ public class MasterController {
         return "{}";
     }
 
-    private String GetTimeRemainingMilliseconds() {
+    private String getTimeRemainingMilliseconds() {
         long diffInMillis;
         Date currentDate = new Date();
         Calendar c = Calendar.getInstance();
@@ -917,12 +942,13 @@ public class MasterController {
         return new JSONObject().put("message", "Success").put("diffInMillis", diffInMillis).toString();
     }
 
-    private String GetProblemOfTheDay(String logic) {
+    private String getProblemOfTheDay(String userId, String logic) {
         boolean getRandom = false;
+        JSONObject jsonObject = new JSONObject();
         if (logic.equalsIgnoreCase("random")) {
             getRandom = true;
         }
-
+        final String groupId = getGroupIdForAUser(userId);
         try {
             SimpleDateFormat parser = new SimpleDateFormat(Constants.START_DATE_FORMAT);
             parser.setTimeZone(TimeZone.getTimeZone("IST"));
@@ -931,38 +957,27 @@ public class MasterController {
             long diffInMillis = Math.abs(currentDate.getTime() - startDate.getTime());
             long diffInDays = TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
             if (getRandom) diffInDays = ThreadLocalRandom.current().nextLong(Constants.MAX_NUM_PROBLEMS);
-            ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+            ProblemDescription problemDescription = this.problemDescriptionRepository.getByIndexAndGroupId(diffInDays, groupId);
+            // Ideally, there should be no misses in the data with respect to diff-days.
             while (problemDescription == null) {
                 ++diffInDays;
-                problemDescription = this.problemDescriptionRepository.getByIndex(diffInDays);
+                problemDescription = this.problemDescriptionRepository.getByIndexAndGroupId(diffInDays, groupId);
             }
             if (problemDescription != null) {
-                String jsonString = new JSONObject()
+                jsonObject
                         .put("problemTitle", problemDescription.getTitle())
                         .put("problemIndex", problemDescription.getIndex())
                         .put("problemLink", problemDescription.getUrl())
                         .put("description", problemDescription.getDescription())
-                        .put("problemId", problemDescription.getProblemId())
-                        .toString();
-                return jsonString;
+                        .put("problemId", problemDescription.getProblemId());
             }
         } catch (ParseException e) {
             System.out.printf("Error parsing date: {%s}\n", e);
         }
-        return "{}";
+        return jsonObject.toString();
     }
 
-    private static Date firstDayOfWeek(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.clear(Calendar.MINUTE);
-        cal.clear(Calendar.SECOND);
-        cal.clear(Calendar.MILLISECOND);
-        cal.setFirstDayOfWeek(Calendar.SUNDAY);
-        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        System.out.println("Start of this week: " + cal.getTime());
-        return cal.getTime();
-    }
+
 
     private int GetNumberOfProblemSubmissions(List<UserSubmission> submissions) {
         Set<String> submissionSet = new HashSet<>();
@@ -1041,7 +1056,7 @@ public class MasterController {
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
             ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
-            Instant currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
+            Instant currentDate = Utils.firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
             submissions = this.userSubmissionRepository.findByUserIdAndCreatedAtGreaterThan(userId, currentDate);
         } else { // TimeFilter = ANY-Time
             submissions = this.userSubmissionRepository.findByUserId(userId);
@@ -1092,7 +1107,7 @@ public class MasterController {
                 .put("longestStreak", longestStreak);
     }
 
-    private String GetProfile(String userId) {
+    private String getUserProfile(String userId) {
         // Step-I: Get data from the database.
         UserProfile userProfile = this.userProfileRepository.getByUserId(userId);
         if (userProfile == null) return "{}";
@@ -1114,12 +1129,15 @@ public class MasterController {
         return jsonString;
     }
 
-    private String getLeaderBoard(String timeFilter) {
-        // Step-I: Get all user profiles.
-        List<UserProfile> userProfiles = this.userProfileRepository.findAll();
+    private String getLeaderBoard(String userId, String timeFilter) {
+        // Step-I: Get group-id for the user.
+        final String groupId = getGroupIdForAUser(userId);
 
-        // Step-II: Get all user submissions.
-        Map<String, List<UserSubmission>> userSubmissions = GetAllSubmissions(timeFilter);
+        // Step-II: Get all user profiles.
+        List<UserProfile> userProfiles = this.userProfileRepository.findByGroupId(groupId);
+
+        // Step-III: Get all user submissions.
+        Map<String, List<UserSubmission>> userSubmissions = getAllSubmissions(groupId, timeFilter);
 
         JSONObject result = new JSONObject();
         JSONArray ar = new JSONArray();
@@ -1140,25 +1158,25 @@ public class MasterController {
         return result.toString();
     }
 
-    private Map<String, List<UserSubmission>> GetAllSubmissions(String timeFilter) {
+    private Map<String, List<UserSubmission>> getAllSubmissions(String groupId, String timeFilter) {
         List<UserSubmission> allSubmissions;
         Map<String, List<UserSubmission>> userSubmissionMap = new HashMap<>();
         if (timeFilter.equalsIgnoreCase("LAST_WEEK")) {
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
             ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
-            Date currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia)));
+            Date currentDate = Utils.firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia)));
             Date lastWeekDate = DateUtils.addDays(currentDate, -7);
             Instant currentDateInstant = lastWeekDate.toInstant();
-            allSubmissions = this.userSubmissionRepository.findByCreatedAtGreaterThan(currentDateInstant);
+            allSubmissions = this.userSubmissionRepository.findByGroupIdAndCreatedAtGreaterThan(groupId, currentDateInstant);
         } else if (timeFilter.equalsIgnoreCase("WEEK")) { // TimeFilter = This Week
             Instant nowUtc = Instant.now();
             ZoneId asiaIndia = ZoneId.of("Asia/Kolkata");
             ZonedDateTime nowAsiaIndia = ZonedDateTime.ofInstant(nowUtc, asiaIndia);
-            Instant currentDate = firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
-            allSubmissions = this.userSubmissionRepository.findByCreatedAtGreaterThan(currentDate);
+            Instant currentDate = Utils.firstDayOfWeek(Date.from(Instant.from(nowAsiaIndia))).toInstant();
+            allSubmissions = this.userSubmissionRepository.findByGroupIdAndCreatedAtGreaterThan(groupId, currentDate);
         } else { // TimeFilter = ANY-Time
-            allSubmissions = this.userSubmissionRepository.findAll();
+            allSubmissions = this.userSubmissionRepository.findByGroupId(groupId);
         }
         for (UserSubmission submission: allSubmissions) {
             List<UserSubmission> userSubmissions = userSubmissionMap.get(submission.getUserId());
@@ -1235,6 +1253,5 @@ public class MasterController {
             sortedJsonArray.put(jsonValues.get(i));
         }
         return sortedJsonArray;
-
     }
 }
