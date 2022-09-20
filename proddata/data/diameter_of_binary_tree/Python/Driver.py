@@ -1,4 +1,3 @@
-from logging import root
 from Solution import Solution
 from proddata.python.helpers import createTreeFromArrayInput, displayErrorMessage
 import sys

@@ -1,4 +1,4 @@
-from Solution import Solution, TreeNode
+from Solution import Solution
 from proddata.python.helpers import createTreeFromArrayInput, displayErrorMessage
 import sys
 import os
@@ -26,9 +26,7 @@ for line in lines[1:]:
                 expectedOutput.append(
                     list(map(int, [s.strip() for s in array[pos + 1:].strip().split(',')])))
         if (actualOutput != expectedOutput):
-            print("Result: Failed for test case: " + testCase)
-            print("Actual Output: ", actualOutput)
-            print("Expected Output: ", expectedOutput)
+            displayErrorMessage(testCase, actualOutput, expectedOutput)
             isSolutionWrong = True
             break
     lineNumber += 1
