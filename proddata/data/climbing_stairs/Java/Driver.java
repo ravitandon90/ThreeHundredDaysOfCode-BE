@@ -1,11 +1,10 @@
-package climbing-stairs.Java;
+package climbing_stairs.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -25,10 +24,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/climbing-stairs/testcases.txt";
+        String filePath = "src/climbing_stairs/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;
@@ -50,8 +50,10 @@ public class Driver {
                 b = b & user_out == (out);
 
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

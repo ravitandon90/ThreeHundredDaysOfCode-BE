@@ -4,5 +4,6 @@ public class Solution {
     public boolean isAlienSorted(String[] words, String order) 
     {
         //write your code here
+        return true;
     }
 }

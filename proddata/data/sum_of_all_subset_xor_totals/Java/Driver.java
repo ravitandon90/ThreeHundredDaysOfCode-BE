@@ -1,11 +1,10 @@
-package sum-of-all-subset-xor-totals.Java;
+package sum_of_all_subset_xor_totals.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -24,11 +23,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
-
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/sum-of-all-subset-xor-totals/testcases.txt";
+        String filePath = "src/sum_of_all_subset_xor_totals/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -46,14 +45,15 @@ public class Driver {
             else
             {
                 out = Integer.parseInt(al.get(i));
-
                 int user_out = user_out(input);
 
                 b = b & user_out == (out);
 
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(Arrays.toString(input));
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

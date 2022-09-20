@@ -73,9 +73,10 @@ public class Driver {
 
                 b = b & out == user_out ? true : false;
                 if (b == false) {
-                    System.out.println("Input is "+input);
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }

@@ -1,12 +1,10 @@
-package palindrome-partitioning.Java;
+package palindrome_partitioning.Java;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -25,10 +23,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/palindrome-partitioning/testcases.txt";
+        String filePath = "src/palindrome_partitioning/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<String>> out = new ArrayList<>();
@@ -50,9 +49,6 @@ public class Driver {
                 if(!al.get(i+1).equals(""))
                 {
                     String s= al.get(i);
-                if(!al.get(i+1).equals(""))
-                {
-                    String s= al.get(i);
                     StringTokenizer st = new StringTokenizer(s);
                     int n = st.countTokens();
                     for(int j = 0;j<n;j++)
@@ -61,7 +57,6 @@ public class Driver {
                     }
                     out.add(al2);
                 }
-
             }
             else if(al.get(i).equals("check"))
             {
@@ -78,8 +73,10 @@ public class Driver {
                 }
                 b = b & chec & user_out.equals(out);
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
 
