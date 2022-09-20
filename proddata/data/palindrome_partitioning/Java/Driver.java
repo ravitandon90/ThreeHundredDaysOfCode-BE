@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/palindrome_partitioning/testcases.txt";
+        String filePath = "proddata/data/palindrome_partitioning/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<String>> out = new ArrayList<>();
@@ -99,7 +99,7 @@ public class Driver {
     }
 
     public static List<List<String>> user_out(String s) {
-        Solution sol = new Solution();
+        palindrome_partitioning.Java.Solution sol = new palindrome_partitioning.Java.Solution();
         return sol.partition(s);
     }
 

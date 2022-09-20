@@ -27,7 +27,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/count_substrings_that_differ_by_one_character/testcases.txt";
+        String filePath = "proddata/data/count_substrings_that_differ_by_one_character/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         String input1=null;
@@ -60,7 +60,7 @@ public class Driver
     }
     public static int count(String s, String t)
     {
-        Solution sol = new Solution();
+        count_substrings_that_differ_by_one_character.Java.Solution sol = new count_substrings_that_differ_by_one_character.Java.Solution();
         return sol.countSubstrings(s, t);
     }
 }

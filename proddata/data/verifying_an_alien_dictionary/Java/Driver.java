@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/verifying_an_alien_dictionary/testcases.txt";
+        String filePath = "proddata/data/verifying_an_alien_dictionary/testcases.txt";
         List<String> al = method(filePath);
 
         String[] input1 = new String[0];
@@ -59,7 +59,7 @@ public class Driver {
     }
 
     public static boolean user_out(String words[], String order) {
-        Solution sol = new Solution();
+        verifying_an_alien_dictionary.Java.Solution sol = new verifying_an_alien_dictionary.Java.Solution();
         return sol.isAlienSorted(words, order);
     }
 }

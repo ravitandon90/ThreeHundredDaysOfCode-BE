@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/kids_with_the_greatest_number_of_candies/testcases.txt";
+        String filePath = "proddata/data/kids_with_the_greatest_number_of_candies/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -81,7 +81,7 @@ public class Driver {
 
     public static List<Boolean> user(int cadies[], int extra )
     {
-        Solution sol = new Solution();
+        kids_with_the_greatest_number_of_candies.Java.Solution sol = new kids_with_the_greatest_number_of_candies.Java.Solution();
         return sol.kidsWithCandies(cadies, extra);
     }
 

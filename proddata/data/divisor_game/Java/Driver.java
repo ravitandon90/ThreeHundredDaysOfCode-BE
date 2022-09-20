@@ -28,7 +28,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/divisor_game/testcases.txt";
+        String filePath = "proddata/data/divisor_game/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;
@@ -63,7 +63,7 @@ public class Driver
 
     public static boolean game(int n)
     {
-        Solution sol = new Solution();
+        divisor_game.Java.Solution sol = new divisor_game.Java.Solution();
         return sol.divisorGame(n);
     }
 }

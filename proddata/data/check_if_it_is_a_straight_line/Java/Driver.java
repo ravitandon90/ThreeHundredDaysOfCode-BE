@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/check_if_it_is_a_straight_line/testcases.txt";
+        String filePath = "proddata/data/check_if_it_is_a_straight_line/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -39,7 +39,6 @@ public class Driver {
         for (int i = 0; i < 2 * testcases; i++) {
             if (i % 2 == 0) {
                 StringTokenizer st = new StringTokenizer(al.get(i));
-                // input1 = Integer.parseInt(st.nextToken().replace(",", ""));
                 String s = st.nextToken();
                 s=s.replace("],[", "||");
                 s=s.replace("[", "");
@@ -84,7 +83,7 @@ public class Driver {
 
     public static boolean check(int input2[][])
     {
-        Solution sol = new Solution();
+        check_if_it_is_a_straight_line.Java.Solution sol = new check_if_it_is_a_straight_line.Java.Solution();
         return sol.checkStraightLine(input2);
     }
 

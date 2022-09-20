@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/remove_invalid_parentheses/testcases.txt";
+        String filePath = "proddata/data/remove_invalid_parentheses/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out;
@@ -64,7 +64,7 @@ public class Driver {
     }
 
     public static List<String> user_out(String s) {
-        Solution sol = new Solution();
+        remove_invalid_parentheses.Java.Solution sol = new remove_invalid_parentheses.Java.Solution();
         return sol.removeInvalidParentheses(s);
     }
 }

@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/word_break/testcases.txt";
+        String filePath = "proddata/data/word_break/testcases.txt";
         List<String> al = method(filePath);
 
         String input1 = null;
@@ -69,7 +69,7 @@ public class Driver {
 
     public static boolean word(String a , List<String> b)
     {
-        Solution sol = new Solution();
+        word_break.Java.Solution sol = new word_break.Java.Solution();
         return sol.wordBreak(a, b);
     }
 

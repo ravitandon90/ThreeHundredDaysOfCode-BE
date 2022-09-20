@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/buddy_strings/testcases.txt";
+        String filePath = "proddata/data/buddy_strings/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -66,7 +66,7 @@ public class Driver {
     }
 
     public static boolean buddyStrings(String s, String goal) {
-        Solution sol = new Solution();
+        buddy_strings.Java.Solution sol = new buddy_strings.Java.Solution();
         return sol.buddyStrings(s,goal);
     }
 

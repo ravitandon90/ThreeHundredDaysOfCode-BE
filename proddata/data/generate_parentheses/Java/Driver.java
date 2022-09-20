@@ -27,7 +27,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/generate_parentheses/testcases.txt";
+        String filePath = "proddata/data/generate_parentheses/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out = new ArrayList<>();
@@ -63,7 +63,7 @@ public class Driver
     }
 
     public static List<String> user_out(int n) {
-        Solution sol = new Solution();
+        generate_parentheses.Java.Solution sol = new generate_parentheses.Java.Solution();
         return sol.generateParenthesis(n);
     }
 }

@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/climbing_stairs/testcases.txt";
+        String filePath = "proddata/data/climbing_stairs/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         int input = 0;
@@ -62,7 +62,7 @@ public class Driver {
     }
     public static int climbstair(int n)
     {
-        Solution sol = new Solution();
+        climbing_stairs.Java.Solution sol = new climbing_stairs.Java.Solution();
         return sol.climbStairs(n);
     }
 }

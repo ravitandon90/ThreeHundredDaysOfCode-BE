@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/longest_continuous_increasing_subsequence/testcases.txt";
+        String filePath = "proddata/data/longest_continuous_increasing_subsequence/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -60,7 +60,7 @@ public class Driver {
     
     public static int user_out(int nums[])
     {
-        Solution sol = new Solution();
+        longest_continuous_increasing_subsequence.Java.Solution sol = new longest_continuous_increasing_subsequence.Java.Solution();
         return sol.findLengthOfLCIS(nums);
     }
 }
