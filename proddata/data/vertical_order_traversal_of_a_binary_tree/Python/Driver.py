@@ -1,33 +1,7 @@
 from Solution import Solution, TreeNode
-from collections import deque
+from proddata.python.helpers import createTreeFromArrayInput, displayErrorMessage
 import sys
 import os
-
-
-def createTree(nodes):
-    root = TreeNode(int(nodes[0]))
-    pos, q = 1, deque([root])
-    while len(q) > 0:
-        size = len(q)
-        while size > 0:
-            node = q.popleft()
-            if pos == len(nodes):
-                q = []
-                break
-            if nodes[pos] != "null":
-                node.left = TreeNode(int(nodes[pos]))
-                q.append(node.left)
-            pos += 1
-            if pos == len(nodes):
-                q = []
-                break
-            if nodes[pos] != "null":
-                node.right = TreeNode(int(nodes[pos]))
-                q.append(node.right)
-            pos += 1
-            size -= 1
-    return root
-
 
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
@@ -39,11 +13,7 @@ for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
         testCase = line
-        root = None
-        valuesWithNoParentheses = line[1:-1].strip()
-        if valuesWithNoParentheses != "":
-            nodes = [s.strip() for s in valuesWithNoParentheses.split(',')]
-            root = createTree(nodes)
+        root = createTreeFromArrayInput(line)
         actualOutput = solution.verticalTraversal(root)
     else:
         expectedOutput = []
