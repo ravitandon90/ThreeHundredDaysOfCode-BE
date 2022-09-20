@@ -7,7 +7,7 @@ const {
   printFailedCase,
 } = require("../../../javascript/helper");
 
-// const addToArrayFormFn = new Solution().addToArrayForm;
+// Solution function takes 2 arguments, 1st is the array of Numbers and 2nd one is a Number, return type of the function is a Number
 let testcases = [];
 //  testcases: array of objects
 //  {
