@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/plus_one/testcases.txt";
+        String filePath = "proddata/data/plus_one/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -64,7 +64,7 @@ public class Driver {
 
     public static int[] user_out(int digits[])
     {
-        Solution sol = new Solution();
+        plus_one.Java.Solution sol = new plus_one.Java.Solution();
         return sol.plusOne(digits);
     }
 

@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/running_sum_of_1d_array/testcases.txt";
+        String filePath = "proddata/data/running_sum_of_1d_array/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -64,7 +64,7 @@ public class Driver {
 
     public static int[] user(int nums[])
     {
-        Solution sol = new Solution();
+        running_sum_of_1d_array.Java.Solution sol = new running_sum_of_1d_array.Java.Solution();
         return sol.runningSum(nums);
     }
 

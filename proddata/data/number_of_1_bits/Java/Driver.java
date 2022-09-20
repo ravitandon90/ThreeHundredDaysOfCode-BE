@@ -28,7 +28,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/number_of_1_bits/testcases.txt";
+        String filePath = "proddata/data/number_of_1_bits/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -61,7 +61,7 @@ public class Driver
 
     public static int user_out(int n)
     {
-        Solution sol = new Solution();
+        number_of_1_bits.Java.Solution sol = new number_of_1_bits.Java.Solution();
         return sol.hammingWeight(n);
     }
 }

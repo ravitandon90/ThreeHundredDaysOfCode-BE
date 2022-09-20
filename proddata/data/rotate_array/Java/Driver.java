@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/rotate_array/testcases.txt";
+        String filePath = "proddata/data/rotate_array/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -72,7 +72,7 @@ public class Driver {
 
     public static void user(int inpu1[], int input2)
     {
-        Solution sol = new Solution();
+        rotate_array.Java.Solution sol = new rotate_array.Java.Solution();
         sol.rotate(inpu1, input2);
     }
 }

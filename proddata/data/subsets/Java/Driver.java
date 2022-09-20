@@ -31,7 +31,7 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/subsets/testcases.txt";
+        String filePath = "proddata/data/subsets/testcases.txt";
         List<String> al = method(filePath);
 
         List<List<Integer>> out = new ArrayList<>();
@@ -109,7 +109,7 @@ public class Driver
     };
 
     public static List<List<Integer>> subsets(int[] nums) {
-        Solution sol = new Solution();
+        subsets.Java.Solution sol = new subsets.Java.Solution();
         return sol.subsets(nums);
     }
 }

@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/letter_case_permutation/testcases.txt";
+        String filePath = "proddata/data/letter_case_permutation/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out = new ArrayList<>();
@@ -63,7 +63,7 @@ public class Driver {
     }
 
     public static List<String> user_out(String s) {
-        Solution sol = new Solution();
+        letter_case_permutation.Java.Solution sol = new letter_case_permutation.Java.Solution();
         return sol.letterCasePermutation(s);
     }
 

@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/kth_missing_positive_number/testcases.txt";
+        String filePath = "proddata/data/kth_missing_positive_number/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -63,7 +63,7 @@ public class Driver {
 
     public static int user(int arr[], int k)
     {
-        Solution sol = new Solution();
+        kth_missing_positive_number.Java.Solution sol = new kth_missing_positive_number.Java.Solution();
         return sol.findKthPositive(arr, k);
     } 
 }

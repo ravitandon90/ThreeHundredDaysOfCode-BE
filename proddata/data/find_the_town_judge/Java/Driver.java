@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/find_the_town_judge/testcases.txt";
+        String filePath = "proddata/data/find_the_town_judge/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -86,7 +86,7 @@ public class Driver {
     
     public static int judge(int n, int trust[][])
     {
-        Solution sol = new Solution();
+        find_the_town_judge.Java.Solution sol = new find_the_town_judge.Java.Solution();
         return sol.findJudge(n, trust);
     } 
     

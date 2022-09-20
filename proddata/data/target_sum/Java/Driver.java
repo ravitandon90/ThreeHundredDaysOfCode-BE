@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/target_sum/testcases.txt";
+        String filePath = "proddata/data/target_sum/testcases.txt";
         List<String> al = method(filePath);
 
         int input1[] = new int[0];
@@ -70,7 +70,7 @@ public class Driver {
 
     public static int user_out(int[] a, int b)
     {
-        Solution sol = new Solution();
+        target_sum.Java.Solution sol = new target_sum.Java.Solution();
         return sol.findTargetSumWays(a, b);
     }
 

@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/unique_paths/testcases.txt";
+        String filePath = "proddata/data/unique_paths/testcases.txt";
         List<String> al = method(filePath);
 
         int input1 = 0;
@@ -65,7 +65,7 @@ public class Driver {
 
     public static int paths(int a , int b)
     {
-        Solution sol = new Solution();
+        unique_paths.Java.Solution sol = new unique_paths.Java.Solution();
         return sol.uniquePaths(a, b);
     }
 
