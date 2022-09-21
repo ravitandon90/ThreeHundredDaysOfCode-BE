@@ -1,7 +1,15 @@
-from Solution import Solution, ListNode
-from proddata.python.helpers import createLLFromArrayInput, createArrayFromLinkedList, displayErrorMessage
+from Solution import Solution
+from proddata.python.helpers import ListNode, createLLFromArrayInput, createArrayFromLinkedList, displayErrorMessage
 import sys
 import os
+
+# 3
+# 8, [4,1,8,4,5], [5,6,1,8,4,5], 2, 3
+# 8
+# 2, [1,9,1,2,4], [3,2,4], 3, 1
+# 2
+# 0, [2,6,4], [1,5], 3, 2
+# No intersection
 
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
