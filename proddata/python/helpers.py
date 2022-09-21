@@ -67,7 +67,30 @@ def createArrayFromTreeInput(root):
     return array
 
 
+def getSubtreeFromRootValue(root, val):
+    if not root:
+        return None
+    if val == root.val:
+        return root
+    if root.val > val:
+        return getSubtreeFromRootValue(root.left, val)
+    return getSubtreeFromRootValue(root.right, val)
+
+
 def displayErrorMessage(testCase, actualOutput, expectedOutput):
     print("Result: Failed for test case: " + testCase)
     print("Actual Output: ", actualOutput)
     print("Expected Output: ", expectedOutput)
+
+
+def createInputForDesignProblems(lineOfInput):
+    input = []
+    ind = lineOfInput.find(']')
+    instructions = [s.strip()[1:-1].strip()
+                    for s in lineOfInput[1:ind].split(',')]
+    while lineOfInput[ind] != '[':
+        ind += 1
+    params = [s.strip() for s in lineOfInput[ind + 1: -1].split(',')]
+    for i, instruction in enumerate(instructions):
+        input.append((instruction, params[i]))
+    return input
