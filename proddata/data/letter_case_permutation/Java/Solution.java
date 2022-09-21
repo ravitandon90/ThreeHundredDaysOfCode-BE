@@ -1,10 +1,10 @@
-package letter-case-permutation.Java;
+package letter_case_permutation.Java;
 
 import java.util.*;
 
 public class Solution {
     public List<String> letterCasePermutation(String s) {
-        //write your code here
+        return new ArrayList<>();
     }
 
 }

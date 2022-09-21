@@ -1,4 +1,4 @@
-package backspace-string-compare.Java;
+package backspace_string_compare.Java;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 public class Driver {
 
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -24,23 +23,22 @@ public class Driver {
     }
 
     public static void main(String[] args) {
-        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        System.out.println(drivercode() ? "Accepted" : "Wrong Answer");;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/backspace-string-compare/testcases.txt";
+        String filePath = "proddata/data/backspace_string_compare/testcases.txt";
         List<String> al = method(filePath);
 
-        int testcases = Integer.parseInt(al.remove(0));
         String input1 = null;
         String input2 = null;
         String output;
         boolean b = true;
-        for (int i = 0; i<2*testcases;i++)
+        for (int i = 0; i<al.size();i++)
         {
             if(i%2==0)
             {
-                String in[] = al.get(i).split(", ");
+                String in[] = al.get(i).split(" ");
                 input1 = in[0];
                 input2 = in[1];
 
@@ -54,8 +52,11 @@ public class Driver {
                 b = b & out==user_out ? true : false;
                 if(b==false)
                 {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -64,7 +65,7 @@ public class Driver {
     }
 
     public static boolean backspaceCompare(String s, String t) {
-         Solution solution = new Solution();
+         backspace_string_compare.Java.Solution solution = new backspace_string_compare.Java.Solution();
          return solution.backspaceCompare(s,t);
     }
 }

@@ -41,6 +41,8 @@ public class CodeSubmission {
     private long runningTimeMS;
     @Column(name = "memory_consumed")
     private long memoryConsumption;
+    @Column(name = "group_id")
+    private String groupId;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;

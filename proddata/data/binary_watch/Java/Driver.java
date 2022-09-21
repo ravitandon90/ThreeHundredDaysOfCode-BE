@@ -1,11 +1,10 @@
-package binary-watch.Java;
+package binary_watch.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -27,10 +26,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/binary-watch/testcases.txt";
+        String filePath = "proddata/data/binary_watch/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -49,8 +49,10 @@ public class Driver {
 
                 b = b & out == user_out ? true : false;
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -60,7 +62,7 @@ public class Driver {
 
 
     public static List<String> readBinaryWatch(int turnedOn) {
-        Solution sol = new Solution();
+        binary_watch.Java.Solution sol = new binary_watch.Java.Solution();
         return sol.readBinaryWatch(turnedOn);
     }
 

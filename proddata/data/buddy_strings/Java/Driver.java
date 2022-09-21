@@ -1,11 +1,10 @@
-package buddy-strings.Java;
+package buddy_strings.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -31,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/buddy-strings/testcases.txt";
+        String filePath = "proddata/data/buddy_strings/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -54,8 +53,11 @@ public class Driver {
 
                 b = b & out == user_out ? true : false;
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -64,7 +66,7 @@ public class Driver {
     }
 
     public static boolean buddyStrings(String s, String goal) {
-        Solution sol = new Solution();
+        buddy_strings.Java.Solution sol = new buddy_strings.Java.Solution();
         return sol.buddyStrings(s,goal);
     }
 

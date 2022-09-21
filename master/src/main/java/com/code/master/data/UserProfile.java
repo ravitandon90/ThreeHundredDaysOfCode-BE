@@ -31,8 +31,9 @@ public class UserProfile {
     private String emailId;
     @Column(name = "org")
     private String org;
-    @NotNull
-    @Column(name = "referrer_id")
+    @Column(name = "group_id")
+    private String groupId;
+    @NotNull @Column(name = "referrer_id")
     private String referrerId;
     @CreatedDate
     @Column(name = "created_at")

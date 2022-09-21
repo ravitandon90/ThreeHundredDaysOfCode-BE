@@ -1,14 +1,11 @@
-package remove-invalid-brackets.Java;
+package remove_invalid_parentheses.Java;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class Driver {
 
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -27,10 +24,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/remove-invalid-parentheses/testcases.txt";
+        String filePath = "proddata/data/remove_invalid_parentheses/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out;
@@ -54,8 +52,10 @@ public class Driver {
                 b = b & user_out.equals(out);
 
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -64,7 +64,7 @@ public class Driver {
     }
 
     public static List<String> user_out(String s) {
-        Solution sol = new Solution();
+        remove_invalid_parentheses.Java.Solution sol = new remove_invalid_parentheses.Java.Solution();
         return sol.removeInvalidParentheses(s);
     }
 }

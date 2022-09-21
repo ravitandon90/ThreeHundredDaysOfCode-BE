@@ -1,4 +1,4 @@
-package permutations-ii.Java;
+package permutations_ii.Java;
 
 import java.io.*;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -15,13 +14,6 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("nums = ","");
-                str = str.replace("],[","||");
-                str = str.replace("]","");
-                str = str.replace("[", "");
-                str = str.replace(",", " ");
-
-
                 al.add(str);
             }
         } catch (IOException e) {
@@ -36,55 +28,74 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/permutations-ii/testcases.txt";
+        String filePath = "proddata/data/permutations_ii/testcases.txt";
         List<String> al = method(filePath);
 
-        int testcases = Integer.parseInt(al.remove(0));
-        int input1[] = new int[0];
-        List<List<Integer>> output;
+        List<List<Integer>> out = new ArrayList<>();
+        int[] input1 = new int[0];
+
         boolean b = true;
-        for (int i = 0; i < 2 * testcases; i++) {
-            if (i % 2 == 0) {
 
-                String in[] = al.get(i).split(" ");
-                input1 = Arrays.stream(in).mapToInt(Integer :: parseInt).toArray();
-
-            } else {
-
-                StringTokenizer st = new StringTokenizer(al.get(i),"||");
-                output = new ArrayList<>();
-                int n = st.countTokens();
-                for (int j = 1; j <= n; j++) {
-                    String out[] = st.nextElement().toString().split(" ");
-                    int o[] = Arrays.stream(out).mapToInt(Integer :: parseInt).toArray();
-                    List<Integer> al1 = Arrays.stream(o).boxed().collect(Collectors.toList());
-                    output.add(al1);
+        for (int i = 0; i< al.size();i++)
+        {
+            if(al.get(i).equals("input"))
+            {
+                input1 = Arrays.stream(al.get(i+1).split(" ")).mapToInt(Integer :: parseInt).toArray();
+                i++;
+            }
+            else if(!al.get(i).equals("output") && !al.get(i).equals("check"))
+            {
+                List<Integer> al2 = new ArrayList<>();
+                if(!al.get(i+1).equals(""))
+                {
+                    String s= al.get(i);
+                    int arr[] = Arrays.stream(s.split(" ")).mapToInt(Integer :: parseInt).toArray();
+                    al2 = Arrays.stream(arr).boxed().collect(Collectors.toList());
+                    out.add(al2);
                 }
+            }
+            else if(al.get(i).equals("check"))
+            {
                 List<List<Integer>> user_out = user_out(input1);
-                for (List<Integer> p:output) {
-                    Collections.sort(p);
-                }
-                for (List<Integer> p:user_out) {
-                    Collections.sort(p);
-                }
+
                 boolean chec = true;
+                chec = chec & out.size()==user_out.size();
+
+                Collections.sort(out, new CustomComparator());
+                Collections.sort(user_out, new CustomComparator());
                 for (int k=0;k<user_out.size();k++)
                 {
-                    chec = chec & output.get(i).equals(user_out.get(i));
+                    chec = chec & out.get(k).equals(user_out.get(k));
                 }
-                b = b & chec;
+                b = b & chec & user_out.equals(out);
                 if (b == false) {
-                    System.out.println("Expected output  " + output);
+                    System.out.println("Test case");
+                    System.out.println(Arrays.toString(input1));
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
+
+                out.clear();
             }
         }
         return b;
     }
 
+    static class CustomComparator implements Comparator<List<Integer>>
+    {
+        @Override
+        public int compare(List<Integer> o1,
+                           List<Integer> o2)
+        {
+            String firstString_o1 = String.valueOf(o1.get(0));
+            String firstString_o2 = String.valueOf(o2.get(0));
+            return firstString_o1.compareTo(firstString_o2);
+        }
+    }
+
     public static List<List<Integer>> user_out(int[] nums) {
-        Solution sol = new Solution();
+        permutations_ii.Java.Solution sol = new permutations_ii.Java.Solution();
         return sol.permuteUnique(nums);
     }
 }

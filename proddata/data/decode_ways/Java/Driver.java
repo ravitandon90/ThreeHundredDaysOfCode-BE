@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/decode_ways/testcases.txt";
+        String filePath = "proddata/data/decode_ways/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         String input1 = null;
@@ -40,8 +40,10 @@ public class Driver {
                 int user_output = numdecode(input1);
                 b = b & output == user_output ? true : false;
                 if (b == false) {
-                    System.out.println("Expected answer " + output);
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Your answer " + user_output);
+                    System.out.println("Expected answer " + output);
                     return b;
                 }
             }
@@ -51,6 +53,7 @@ public class Driver {
 
     public static int numdecode(String s)
     {
-        return 0;
+        decode_ways.Java.Solution sol = new decode_ways.Java.Solution();
+        return sol.numDecodings(s);
     }
 }

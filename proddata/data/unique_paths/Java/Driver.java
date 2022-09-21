@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/unique_paths/testcases.txt";
+        String filePath = "proddata/data/unique_paths/testcases.txt";
         List<String> al = method(filePath);
 
         int input1 = 0;
@@ -50,6 +50,9 @@ public class Driver {
                 out = Integer.parseInt(al.get(i));
                 b = b  & paths(input1, input2) == out;
                 if (b == false) {
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Expected output  " + out);
                     System.out.println("Your output  " + paths(input1, input2));
                     return b;
@@ -62,7 +65,7 @@ public class Driver {
 
     public static int paths(int a , int b)
     {
-        Solution sol = new Solution();
+        unique_paths.Java.Solution sol = new unique_paths.Java.Solution();
         return sol.uniquePaths(a, b);
     }
 

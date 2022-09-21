@@ -1,5 +1,17 @@
-2
-[["MUC","LHR"],["JFK","MUC"],["SFO","SJC"],["LHR","SFO"]]
-["JFK","MUC","LHR","SFO","SJC"]
-[["JFK","SFO"],["JFK","ATL"],["SFO","ATL"],["ATL","JFK"],["ATL","SFO"]]
-["JFK","ATL","JFK","SFO","ATL","SFO"]
+input
+MUC LHR
+JFK MUC
+SFO SJC
+LHR SFO
+output
+JFK MUC LHR SFO SJC
+check
+input
+JFK SFO
+JFK ATL
+SFO ATL
+ATL JFK
+ATL SFO
+output
+JFK ATL JFK SFO ATL SFO
+check

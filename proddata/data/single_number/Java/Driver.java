@@ -1,11 +1,10 @@
-package single-number.Java;
+package single_number.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -24,10 +23,11 @@ public class Driver {
 
     public static void main(String[] args) {
         System.out.println(drivercode() ? "Accepted" : "Wrong Answer");
+        ;
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/single-number/testcases.txt";
+        String filePath = "proddata/data/single_number/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -50,17 +50,21 @@ public class Driver {
                 b = b & user_out == (out);
 
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(Arrays.toString(input));
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
         }
         return b;
     }
+
+
     public static int user_out(int nums[])
     {
-        Solution sol = new Solution();
+        single_number.Java.Solution sol = new single_number.Java.Solution();
         return sol.singleNumber(nums);
     }
 }

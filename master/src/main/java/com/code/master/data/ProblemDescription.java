@@ -45,6 +45,8 @@ public class ProblemDescription {
     @NotNull
     @Column(name = "idx")
     private long index;
+    @Column(name = "group_id")
+    private String groupId;
     @CreatedDate
     @Column(name = "created_at")
     private Instant createdAt;

@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/fibonacci_number/testcases.txt";
+        String filePath = "proddata/data/fibonacci_number/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         int input1 = 0;
@@ -41,6 +41,8 @@ public class Driver {
                 int user_output = user(input1);
                 b = b & output == user_output ? true : false;
                 if (b == false) {
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Expected answer " + output);
                     System.out.println("Your answer " + user_output);
                     return b;
@@ -52,7 +54,7 @@ public class Driver {
 
     public static int user(int n)
     {
-        Solution sol = new Solution();
+        fibonacci_number.Java.Solution sol = new fibonacci_number.Java.Solution();
         return sol.fib(n);
     }
 }

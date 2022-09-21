@@ -1,11 +1,10 @@
-package letter-case-permutation.Java;
+package letter_case_permutation.Java;
 
 import java.io.*;
 import java.util.*;
 
 public class Driver {
     private static List<String> method(String filePath) {
-        StringBuilder builder = new StringBuilder();
         ArrayList<String> al = new ArrayList<>();
 
         try (BufferedReader buffer = new BufferedReader(
@@ -28,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/letter-case-permutation/testcases.txt";
+        String filePath = "proddata/data/letter_case_permutation/testcases.txt";
         List<String> al = method(filePath);
 
         List<String> out = new ArrayList<>();
@@ -52,8 +51,10 @@ public class Driver {
                 b = b & user_out.equals(out);
 
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input);
                     System.out.println("Your output  " + user_out);
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -62,7 +63,7 @@ public class Driver {
     }
 
     public static List<String> user_out(String s) {
-        Solution sol = new Solution();
+        letter_case_permutation.Java.Solution sol = new letter_case_permutation.Java.Solution();
         return sol.letterCasePermutation(s);
     }
 

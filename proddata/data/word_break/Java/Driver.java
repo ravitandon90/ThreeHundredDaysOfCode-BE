@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/word_break/testcases.txt";
+        String filePath = "proddata/data/word_break/testcases.txt";
         List<String> al = method(filePath);
 
         String input1 = null;
@@ -54,8 +54,11 @@ public class Driver {
                 out = al.get(i).equals("true") ? true : false;
                 b = b  & word(input1, input2) == out;
                 if (b == false) {
-                    System.out.println("Expected output  " + out);
+                    System.out.println("Test case");
+                    System.out.println(input1);
+                    System.out.println(input2);
                     System.out.println("Your output  " + word(input1, input2));
+                    System.out.println("Expected output  " + out);
                     return b;
                 }
             }
@@ -66,7 +69,7 @@ public class Driver {
 
     public static boolean word(String a , List<String> b)
     {
-        Solution sol = new Solution();
+        word_break.Java.Solution sol = new word_break.Java.Solution();
         return sol.wordBreak(a, b);
     }
 

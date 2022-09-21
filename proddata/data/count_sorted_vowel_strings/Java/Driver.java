@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/count_sorted_vowel_strings/testcases.txt";
+        String filePath = "proddata/data/count_sorted_vowel_strings/testcases.txt";
         List<String> al = method(filePath);
         al.remove(0);
         int input1 = 0;
@@ -41,8 +41,10 @@ public class Driver {
                 int user_output = count(input1);
                 b = b & output == user_output ? true : false;
                 if (b == false) {
-                    System.out.println("Expected answer " + output);
+                    System.out.println("Test case");
+                    System.out.println(input1);
                     System.out.println("Your answer " + user_output);
+                    System.out.println("Expected answer " + output);
                     return b;
                 }
             }
@@ -51,7 +53,7 @@ public class Driver {
     }
 
     public static int count(int n) {
-        Solution sol = new Solution();
+        count_sorted_vowel_strings.Java.Solution sol = new count_sorted_vowel_strings.Java.Solution();
         return sol.countVowelStrings(n);
     }
 }
