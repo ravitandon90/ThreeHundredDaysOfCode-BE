@@ -67,6 +67,16 @@ def createArrayFromTreeInput(root):
     return array
 
 
+def getSubtreeFromRootValue(root, val):
+    if not root:
+        return None
+    if val == root.val:
+        return root
+    if root.val > val:
+        return getSubtreeFromRootValue(root.left, val)
+    return getSubtreeFromRootValue(root.right, val)
+
+
 def displayErrorMessage(testCase, actualOutput, expectedOutput):
     print("Result: Failed for test case: " + testCase)
     print("Actual Output: ", actualOutput)
