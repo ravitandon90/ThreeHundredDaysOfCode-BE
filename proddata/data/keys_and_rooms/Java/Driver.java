@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/keys_and_rooms/testcases.txt";
+        String filePath = "proddata/data/keys_and_rooms/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -86,7 +86,7 @@ public class Driver {
     
     public static boolean user(List<List<Integer>> al)
     {
-        Solution sol = new Solution();
+        keys_and_rooms.Java.Solution sol = new keys_and_rooms.Java.Solution();
         return sol.canVisitAllRooms(al);
     }
     

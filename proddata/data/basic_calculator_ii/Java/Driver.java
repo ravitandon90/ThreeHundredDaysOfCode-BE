@@ -27,14 +27,13 @@ public class Driver
     }
 
     static boolean drivercode() {
-        String filePath = "src/basic_calculator_ii/testcases.txt";
+        String filePath = "proddata/data/basic_calculator_ii/testcases.txt";
         List<String> al = method(filePath);
 
-        int testcases = Integer.parseInt(al.remove(0));
         String input1 = null;
         int output;
         boolean b = true;
-        for (int i = 0; i<2*testcases;i++)
+        for (int i = 0; i<al.size();i++)
         {
             if(i%2==0)
             {
@@ -60,7 +59,7 @@ public class Driver
     }
 
     public static int calculate(String s) {
-        Solution solution = new Solution();
+        basic_calculator_ii.Java.Solution solution = new basic_calculator_ii.Java.Solution();
         return solution.calculate(s);
     }
 }

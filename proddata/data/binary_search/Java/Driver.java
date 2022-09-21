@@ -31,7 +31,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/binary_search/testcases.txt";
+        String filePath = "proddata/data/binary_search/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -66,7 +66,7 @@ public class Driver {
         return b;
     }
     public static int search(int[] nums, int target) {
-        Solution solution = new Solution();
+        binary_search.Java.Solution solution = new binary_search.Java.Solution();
         return solution.search(nums,target);
     }
 

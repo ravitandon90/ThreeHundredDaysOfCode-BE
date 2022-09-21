@@ -27,7 +27,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/sum_of_all_subset_xor_totals/testcases.txt";
+        String filePath = "proddata/data/sum_of_all_subset_xor_totals/testcases.txt";
         List<String> al = method(filePath);
 
         int out = 0;
@@ -63,7 +63,7 @@ public class Driver {
 
     public static int user_out(int nums[])
     {
-        Solution sol = new Solution();
+        sum_of_all_subset_xor_totals.Java.Solution sol = new sum_of_all_subset_xor_totals.Java.Solution();
         return sol.subsetXORSum(nums);
     }
 }

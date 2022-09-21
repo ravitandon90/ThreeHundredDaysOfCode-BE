@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/product_of_array_except_self/testcases.txt";
+        String filePath = "proddata/data/product_of_array_except_self/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -64,7 +64,7 @@ public class Driver {
 
     public static int[] user_out(int nums[])
     {
-        Solution sol = new Solution();
+        product_of_array_except_self.Java.Solution sol = new product_of_array_except_self.Java.Solution();
         return sol.productExceptSelf(nums);
     }
 

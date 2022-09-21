@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/intersection_of_two_arrays/testcases.txt";
+        String filePath = "proddata/data/intersection_of_two_arrays/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -68,7 +68,7 @@ public class Driver {
     
     public static int[] user_out(int input1[], int input2[])
     {
-        Solution sol = new Solution();
+        intersection_of_two_arrays.Java.Solution sol = new intersection_of_two_arrays.Java.Solution();
         return sol.intersection(input1, input2);
     }
 

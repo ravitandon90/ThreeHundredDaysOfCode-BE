@@ -26,7 +26,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/merge_sorted_array/testcases.txt";
+        String filePath = "proddata/data/merge_sorted_array/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -81,7 +81,7 @@ public class Driver {
 
     public static void user(int[] nums1, int m, int[] nums2, int n)
     {
-        Solution sol = new Solution();
+        merge_sorted_array.Java.Solution sol = new merge_sorted_array.Java.Solution();
         sol.merge(nums1, m, nums2, n);
     }
 

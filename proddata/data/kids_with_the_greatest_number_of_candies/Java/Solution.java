@@ -5,5 +5,6 @@ import java.util.*;
 public class Solution {
     public List<Boolean> kidsWithCandies(int[] candies, int extraCandies) {
         //write your code here
+        return new ArrayList<>();
     }
 }

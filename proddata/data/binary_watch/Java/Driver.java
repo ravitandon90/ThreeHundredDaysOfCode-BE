@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/binary_watch/testcases.txt";
+        String filePath = "proddata/data/binary_watch/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -62,7 +62,7 @@ public class Driver {
 
 
     public static List<String> readBinaryWatch(int turnedOn) {
-        Solution sol = new Solution();
+        binary_watch.Java.Solution sol = new binary_watch.Java.Solution();
         return sol.readBinaryWatch(turnedOn);
     }
 

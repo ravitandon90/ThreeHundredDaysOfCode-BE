@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/create_target_array_in_the_given_order/testcases.txt";
+        String filePath = "proddata/data/create_target_array_in_the_given_order/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -68,7 +68,7 @@ public class Driver {
 
     public static int[] user_out(int nums[], int index[])
     {
-        Solution sol = new Solution();
+        create_target_array_in_the_given_order.Java.Solution sol = new create_target_array_in_the_given_order.Java.Solution();
         return sol.createTargetArray(nums, index);
     }
 

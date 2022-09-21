@@ -30,7 +30,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "src/max_consecutive_ones/testcases.txt";
+        String filePath = "proddata/data/max_consecutive_ones/testcases.txt";
         List<String> al = method(filePath);
 
         int testcases = Integer.parseInt(al.remove(0));
@@ -65,7 +65,7 @@ public class Driver {
     
     public static int user_out(int nums[])
     {
-        Solution sol = new Solution();
+        max_consecutive_ones.Java.Solution sol = new max_consecutive_ones.Java.Solution();
         return sol.findMaxConsecutiveOnes(nums);
     }
 
