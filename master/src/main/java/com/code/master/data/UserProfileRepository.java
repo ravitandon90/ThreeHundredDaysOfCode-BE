@@ -9,6 +9,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, String
     UserProfile getByUserId(String userId);
     List<UserProfile> findByReferrerId(String referralId);
     List<UserProfile> findAll();
+    List<UserProfile> findByGroupId(String groupId);
 }
 
 

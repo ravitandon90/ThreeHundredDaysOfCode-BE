@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 
 // Contains publicly accessible utility methods.
 public class Utils {
@@ -41,6 +43,18 @@ public class Utils {
             return "";
         }
         return values[values.length - 1];
+    }
+
+    public static Date firstDayOfWeek(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.clear(Calendar.MINUTE);
+        cal.clear(Calendar.SECOND);
+        cal.clear(Calendar.MILLISECOND);
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        System.out.println("Start of this week: " + cal.getTime());
+        return cal.getTime();
     }
 
     public static String GetWordMatch(String matchText, String searchText, int numberOfWords) {
