@@ -2,19 +2,18 @@ const fs = require("fs");
 const { Solution } = require("./Solution");
 const { printFailedCase } = require("../../../Javascript/helper");
 
-// Solution function takes 2 arguments, 1st is the array of Numbers and 2nd one is a Number, return type of the function is a Number
+// Solution function takes 2 arguments.
 let testcases = [];
 //  testcases: array of objects
 //  {
 //      arg1: [],
-//      output: boolean
+//      output: Number
 // }
 
 main();
 
 function main() {
   getTestCases();
-  console.log(testcases);
   let Success = true;
   const sizeOfTestCases = testcases.length;
 
