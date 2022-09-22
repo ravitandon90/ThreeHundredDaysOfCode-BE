@@ -79,10 +79,17 @@ func main() {
 			input := createIntArrayFromInput(line)
 			actualOutput = sortArrayByParity(input)
 		} else {
-			expectedOutput := createIntArrayFromInput(line)
-			if !areIntArraysEqual(actualOutput, expectedOutput) {
+			oddStarted := false
+			for _, value := range actualOutput {
+				if value%2 == 1 {
+					oddStarted = true
+				} else if oddStarted {
+					isSolutionWrong = true
+					break
+				}
+			}
+			if isSolutionWrong {
 				displayErrorMessage(testCase, createStringFromArray(actualOutput), line)
-				isSolutionWrong = true
 				break
 			}
 		}
