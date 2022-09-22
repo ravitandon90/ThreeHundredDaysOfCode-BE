@@ -80,23 +80,16 @@ string RemoveAllPunctInString(string line)
 // To Remove all punctuations from a array
 string RemoveAllPunctInArray(string line)
 {
-    string line1 = "";
     for (int i = 0, len = line.size(); i < len; i++)
     {
-        if (line[i] == ']' || line[i] == '[' || line[i] == ',')
-        {
+        if (line[i] == '-')
             continue;
-        }
-        else if (line[i] == '-')
+        if (ispunct(line[i]))
         {
-            line1 = line1 + line[i];
-        }
-        else
-        {
-            line1 = line1 + line[i] + " ";
+            line[i] = ' ';
         }
     }
-    return line1;
+    return line;
 }
 
 string convertInttoBool(bool res)
