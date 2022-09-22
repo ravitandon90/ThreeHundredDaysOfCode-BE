@@ -31,7 +31,7 @@ int main()
 
             while (s[pos] != '\0')
             {
-                if (s[pos] != ']' && s[pos] != ']' && s[pos] != ',')
+                if (s[pos] != ']' && s[pos] != '[' && s[pos] != ',')
 
                 {
                     int numb = s[pos] - '0';
