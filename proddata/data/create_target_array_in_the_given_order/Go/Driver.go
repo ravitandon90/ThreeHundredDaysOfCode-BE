@@ -90,6 +90,7 @@ func main() {
 			if !areIntArraysEqual(actualOutput, expectedOutput) {
 				displayErrorMessage(testCase, createStringFromArray(actualOutput), line)
 				isSolutionWrong = true
+				break
 			}
 		}
 	}

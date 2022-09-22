@@ -57,6 +57,7 @@ func main() {
 			if actualOutput != expectedOutput {
 				displayErrorMessage(testCase, strconv.Itoa(actualOutput), line)
 				isSolutionWrong = true
+				break
 			}
 		}
 	}
