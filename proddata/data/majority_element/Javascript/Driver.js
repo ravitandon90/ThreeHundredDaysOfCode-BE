@@ -12,7 +12,7 @@ let testcases = [];
 //  testcases: array of objects
 //  {
 //      arg1: [],
-//      output: boolean
+//      output: Number
 // }
 
 main();
