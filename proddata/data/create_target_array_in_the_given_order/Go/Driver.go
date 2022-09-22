@@ -42,11 +42,19 @@ func areIntArraysEqual(arr1 []int, arr2 []int) bool {
 }
 
 func createStringFromArray(array []int) string {
-	s := "["
-	for _, ele := range array {
-		s += strconv.Itoa(ele)
+	if len(array) == 0 {
+		return "[]"
 	}
-	return s + "]"
+	s := "["
+	for ind, ele := range array {
+		s += strconv.Itoa(ele)
+		if ind != len(array)-1 {
+			s += ","
+		} else {
+			s += "]"
+		}
+	}
+	return s
 }
 
 func displayErrorMessage(testCase string, actualOutput string, expectedOutput string) {

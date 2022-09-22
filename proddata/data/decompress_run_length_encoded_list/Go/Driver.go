@@ -40,6 +40,9 @@ func areIntArraysEqual(arr1 []int, arr2 []int) bool {
 }
 
 func createStringFromArray(array []int) string {
+	if len(array) == 0 {
+		return "[]"
+	}
 	s := "["
 	for ind, ele := range array {
 		s += strconv.Itoa(ele)
