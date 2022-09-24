@@ -2,4 +2,4 @@
 # def isBadVersion(version: int) -> bool:
 
 class Solution:
-    def firstBadVersion(self, n: int) -> int:
+        def firstBadVersion(self, n: int) -> int:
