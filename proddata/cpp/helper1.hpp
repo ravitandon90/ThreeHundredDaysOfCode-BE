@@ -90,6 +90,30 @@ bool checkOuputCharVec(vector<char> expected_output, vector<char> actual_output,
 // input: string
 // output: vector<string>
 
+bool checkOuputCharVec(vector<string> expected_output, vector<string> actual_output, string input1)
+{
+    if (expected_output != actual_output)
+    {
+        cout << "Result: Failed" << endl;
+        cout << "Input: " << input1 << endl;
+        cout << "Expected Output: ";
+        for (auto x : expected_output)
+        {
+            cout << x << " ";
+        }
+        cout << "\nActual Output: ";
+        for (auto x : actual_output)
+        {
+            cout << x << " ";
+        }
+        return true;
+    }
+    return false;
+}
+
+// input: string
+// output: vector<string>
+
 bool checkOuputStringVec(vector<string> expected_output, vector<string> actual_output, string input1)
 {
     if (expected_output != actual_output)

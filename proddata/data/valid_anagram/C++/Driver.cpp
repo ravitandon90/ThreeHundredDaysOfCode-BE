@@ -42,7 +42,7 @@ int main()
             istream_iterator<string> begin(ss);
             istream_iterator<string> end;
             vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
+            bool res = obj->isAnagram(input[0], input[1]);
             actual_output = convertInttoBool(res);
         }
         else
