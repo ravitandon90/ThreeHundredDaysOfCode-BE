@@ -93,8 +93,8 @@ func main() {
 			expectedOutput := createBoolArrayFromString(line)
 			for ind, value := range expectedOutput {
 				if actualOutput[ind] != value {
-
 					isSolutionWrong = true
+					break
 				}
 			}
 			if isSolutionWrong {
