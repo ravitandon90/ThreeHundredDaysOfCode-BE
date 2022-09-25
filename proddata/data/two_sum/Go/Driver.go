@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -87,6 +88,8 @@ func main() {
 			actualOutput = twoSum(nums, target)
 		} else {
 			expectedOutput := createIntArrayFromInput(line)
+			sort.Ints(actualOutput)
+			sort.Ints(expectedOutput)
 			if !areIntArraysEqual(actualOutput, expectedOutput) {
 				displayErrorMessage(testCase, createStringFromArray(actualOutput), line)
 				isSolutionWrong = true
