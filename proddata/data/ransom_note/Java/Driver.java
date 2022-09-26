@@ -1,4 +1,4 @@
-package longest_substring_without_repeating_characters.Java;
+package ransome_note.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,7 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("[","").replace("\"","").replace(", "," ").replace("]","");
+                str = str.replace("\"","").replace(", "," ");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -28,22 +28,27 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/longest_substring_without_repeating_characters/testcases.txt";
+        String filePath = "proddata/data/ransom_note/testcases.txt";
         List<String> al = method(filePath);
+        boolean out;
         int testcases = Integer.parseInt(al.remove(0));
-        int out;
-        String input = null;
+        String input[] = new String[0];
+        String input1 = null;
+        String input2 = null;
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
-                input = al.get(i);
+                input = al.get(i).split(" ");
+                input1 = input[0];
+                input2 = input[1];
             } else {
-                out = Integer.parseInt(al.get(i));
-                int user_out = user(input);
+                out = al.get(i).equals("true") ? true : false;
+                boolean user_out = user(input1,input2);
                 b = b & out==(user_out) ? true : false;
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println(input);
+                    System.out.println("ransomNote = "+input1);
+                    System.out.println("magazine = "+input2);
                     System.out.println("Your output " + user_out);
                     System.out.println("Expected output " + out);
                     return b;
@@ -53,8 +58,7 @@ public class Driver {
         return b;
     }
 
-    public static int user(String s) {
-        longest_substring_without_repeating_characters.Java.Solution sol =new longest_substring_without_repeating_characters.Java.Solution();
-        return sol.lengthOfLongestSubstring(s);
+    public static boolean user(String ransomNote, String magazine) {
+        return new ransome_note.Java.Solution().canConstruct(ransomNote,magazine);
     }
 }

@@ -1,4 +1,4 @@
-package longest_substring_without_repeating_characters.Java;
+package maximum_swap.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,7 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("[","").replace("\"","").replace(", "," ").replace("]","");
+                str = str.replace("\"","").replace(", "," ");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -28,15 +28,15 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/longest_substring_without_repeating_characters/testcases.txt";
+        String filePath = "proddata/data/maximum_swap/testcases.txt";
         List<String> al = method(filePath);
         int testcases = Integer.parseInt(al.remove(0));
         int out;
-        String input = null;
+        int input = 0;
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
-                input = al.get(i);
+                input = Integer.parseInt(al.get(i));
             } else {
                 out = Integer.parseInt(al.get(i));
                 int user_out = user(input);
@@ -53,8 +53,7 @@ public class Driver {
         return b;
     }
 
-    public static int user(String s) {
-        longest_substring_without_repeating_characters.Java.Solution sol =new longest_substring_without_repeating_characters.Java.Solution();
-        return sol.lengthOfLongestSubstring(s);
+    public static int user(int nums) {
+        return new maximum_swap.Java.Solution().maximumSwap(nums);
     }
 }

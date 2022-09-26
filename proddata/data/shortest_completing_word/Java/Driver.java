@@ -1,4 +1,4 @@
-package longest_substring_without_repeating_characters.Java;
+package shortest_completing_word.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,13 +13,18 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("[","").replace("\"","").replace(", "," ").replace("]","");
+                str = str.replace("\"","")
+                        .replace(", ","||")
+                        .replace(","," ")
+                        .replace("[","")
+                        .replace("]","");
                 al.add(str);
             }
         } catch (IOException e) {
 
             e.printStackTrace();
         }
+        System.out.println(al);
         return al;
     }
 
@@ -28,22 +33,26 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/longest_substring_without_repeating_characters/testcases.txt";
+        String filePath = "proddata/data/shortest_completing_word/testcases.txt";
         List<String> al = method(filePath);
-        int testcases = Integer.parseInt(al.remove(0));
-        int out;
-        String input = null;
+        int testcase = Integer.parseInt(al.remove(0));
+        String out;
+        String input1 = null;
+        String input2[] = new String[0];
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
-                input = al.get(i);
+                StringTokenizer st = new StringTokenizer(al.get(i),"||");
+                input1 = st.nextToken();
+                input2 = st.nextToken().split(" ");
             } else {
-                out = Integer.parseInt(al.get(i));
-                int user_out = user(input);
-                b = b & out==(user_out) ? true : false;
+                out = al.get(i);
+                String user_out = user(input1,input2);
+                b = b & out.equals(user_out) ? true : false;
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println(input);
+                    System.out.println("licensePlate = " + input1);
+                    System.out.println("words = "+Arrays.toString(input2));
                     System.out.println("Your output " + user_out);
                     System.out.println("Expected output " + out);
                     return b;
@@ -53,8 +62,7 @@ public class Driver {
         return b;
     }
 
-    public static int user(String s) {
-        longest_substring_without_repeating_characters.Java.Solution sol =new longest_substring_without_repeating_characters.Java.Solution();
-        return sol.lengthOfLongestSubstring(s);
+    public static String user(String licensePlate, String words[]) {
+        return new shortest_completing_word.Java.Solution().shortestCompletingWord(licensePlate,words);
     }
 }

@@ -1,4 +1,4 @@
-package longest_substring_without_repeating_characters.Java;
+package move_zeroes.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,8 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("[","").replace("\"","").replace(", "," ").replace("]","");
+                str = str.replace("\"","").replace(","," ")
+                        .replace("[","").replace("]","");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -28,24 +29,24 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/longest_substring_without_repeating_characters/testcases.txt";
+        String filePath = "proddata/data/move_zeroes/testcases.txt";
         List<String> al = method(filePath);
         int testcases = Integer.parseInt(al.remove(0));
-        int out;
-        String input = null;
+        int out[];
+        int[] input = new int[0];
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
-                input = al.get(i);
+                input = Arrays.stream(al.get(i).split(" ")).mapToInt(Integer::parseInt).toArray();
             } else {
-                out = Integer.parseInt(al.get(i));
-                int user_out = user(input);
-                b = b & out==(user_out) ? true : false;
+                out = Arrays.stream(al.get(i).split(" ")).mapToInt(Integer::parseInt).toArray();
+                user(input);
+                b = b & Arrays.equals(out,input) ? true : false;
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println(input);
-                    System.out.println("Your output " + user_out);
-                    System.out.println("Expected output " + out);
+                    System.out.println(Arrays.toString(input));
+                    System.out.println("Your output " + Arrays.toString(input));
+                    System.out.println("Expected output " + Arrays.toString(out));
                     return b;
                 }
             }
@@ -53,8 +54,7 @@ public class Driver {
         return b;
     }
 
-    public static int user(String s) {
-        longest_substring_without_repeating_characters.Java.Solution sol =new longest_substring_without_repeating_characters.Java.Solution();
-        return sol.lengthOfLongestSubstring(s);
+    public static void user(int nums[]) {
+        new move_zeroes.Java.Solution().moveZeroes(nums);
     }
 }

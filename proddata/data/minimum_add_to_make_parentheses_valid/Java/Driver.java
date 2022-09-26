@@ -1,4 +1,4 @@
-package longest_substring_without_repeating_characters.Java;
+package minimum_add_to_make_parentheses_valid.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,7 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("[","").replace("\"","").replace(", "," ").replace("]","");
+                str = str.replace("\"","").replace(", "," ");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -28,7 +28,7 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/longest_substring_without_repeating_characters/testcases.txt";
+        String filePath = "proddata/data/minimum_add_to_make_parentheses_valid/testcases.txt";
         List<String> al = method(filePath);
         int testcases = Integer.parseInt(al.remove(0));
         int out;
@@ -54,7 +54,6 @@ public class Driver {
     }
 
     public static int user(String s) {
-        longest_substring_without_repeating_characters.Java.Solution sol =new longest_substring_without_repeating_characters.Java.Solution();
-        return sol.lengthOfLongestSubstring(s);
+        return new minimum_add_to_make_parentheses_valid.Java.Solution().minAddToMakeValid(s);
     }
 }
