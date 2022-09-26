@@ -1,6 +1,5 @@
 const fs = require("fs");
 const { Solution } = require("./Solution");
-// Solution function takes 2 argument of following form
 const {
   compare1DArray,
   convertStringArrToNumArr,
