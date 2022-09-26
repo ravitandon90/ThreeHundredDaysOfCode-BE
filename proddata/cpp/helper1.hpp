@@ -149,6 +149,12 @@ void RemoveAllCommas(string &line)
     }
 }
 
+// To Remove double quotes from string
+void RemoveDoubleQuotes(string &line)
+{
+    line.erase(remove(line.begin(), line.end(), '\"'), line.end());
+}
+
 // To Remove all punctuations from a string
 void RemoveAllPunctInString(string &line)
 {
