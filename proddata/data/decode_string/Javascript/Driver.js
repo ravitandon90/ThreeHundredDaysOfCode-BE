@@ -18,7 +18,6 @@ main();
 
 function main() {
   getTestCases();
-  console.log(testcases);
   let Success = true;
   const sizeOfTestCases = testcases.length;
 
