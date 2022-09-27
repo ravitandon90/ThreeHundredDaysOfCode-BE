@@ -17,12 +17,10 @@ using namespace std;
 
 int main()
 {
-    int numInputs = 0;
-    int target = 0;
+    int s;
     string input1;
-    vector<int> input;
-    string expected_output;
-    string actual_output;
+    vector<string> expected_output;
+    vector<string> actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -34,25 +32,32 @@ int main()
             lineNo += 1;
             continue;
         }
-        if ((lineNo % 2) != 0)
+
+        if (lineNo % 2 != 0)
         {
             input1 = line;
-            RemoveAllPunctInString(line);
             stringstream ss(line);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
-            actual_output = convertInttoBool(res);
+            ss >> s;
         }
+
         else
         {
-            expected_output = line;
+            line = RemoveAllPunctInArray(line);
+            istringstream ss(line);
+            string n;
+            while (ss >> n)
+            {
+                expected_output.push_back(n);
+            }
 
-            if (checkOuputString(expected_output, actual_output, input1))
+            actual_output = obj->fizzBuzz(s);
+
+            if (checkOuputStringVec(expected_output, actual_output, input1))
             {
                 return 0;
             }
+            expected_output.clear();
+            actual_output.clear();
         }
         lineNo += 1;
     }

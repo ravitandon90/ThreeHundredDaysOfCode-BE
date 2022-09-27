@@ -20,7 +20,6 @@ int main()
     int numInputs = 0;
     int target = 0;
     string input1;
-    vector<int> input;
     string expected_output;
     string actual_output;
     ifstream infile("../testcases.txt");
@@ -29,6 +28,7 @@ int main()
     int lineNo = 0;
     while (getline(infile, line))
     {
+        RemoveAllPunctInString(line);
         if (lineNo == 0)
         {
             lineNo += 1;
@@ -37,13 +37,9 @@ int main()
         if ((lineNo % 2) != 0)
         {
             input1 = line;
-            RemoveAllPunctInString(line);
-            stringstream ss(line);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
-            actual_output = convertInttoBool(res);
+            string s = line;
+            string res = obj->makeGood(s);
+            actual_output = res;
         }
         else
         {
