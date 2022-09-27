@@ -26,8 +26,6 @@ public class UserSession {
     private String sessionType;
     @Column(name = "problem_id")
     private String problemId;
-    @Column(name = "problem_link")
-    private String problemLink;
     @Column(name = "solution_link")
     private String solutionLink;
     @Column(name = "solution_language")

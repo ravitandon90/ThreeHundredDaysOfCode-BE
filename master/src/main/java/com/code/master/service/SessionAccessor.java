@@ -12,14 +12,13 @@ public class SessionAccessor {
 
 
     public String createSession(String userId, String groupId, String sessionType,
-                                String problemId, String problemLink, String language, String solutionCode) {
+                                String problemId, String language, String solutionCode) {
         UserSession userSession = new UserSession();
         userSession.setSessionType(sessionType);
         userSession.setGroupId(groupId);
         userSession.setUserId(userId);
         userSession.setGroupId(groupId);
         userSession.setProblemId(problemId);
-        userSession.setProblemLink(problemLink);
         userSession.setSolutionLanguage(language);
         userSession.setSolutionCode(solutionCode);
         this.userSessionRepository.save(userSession);
@@ -27,17 +26,26 @@ public class SessionAccessor {
     }
 
     public UserSession getSessionFromProblem(String userId, String problemId) {
-        UserSession userSession = this.userSessionRepository.getByProblemId(problemId);
+        UserSession userSession = this.userSessionRepository.getByUserIdAndProblemId(userId, problemId);
+        return userSession;
+    }
+
+    public UserSession getSessionFromId(String sessionId) {
+        UserSession userSession = this.userSessionRepository.getById(sessionId);
         return userSession;
     }
 
     public String updateSession(
-            String sessionId, String userId, String groupId, String sessionType,
-                                String problemId, String problemLink, String language, String solutionCode) {
-
+            String sessionId,
+            String userId,
+            String groupId,
+            String sessionType,
+            String problemId,
+            String language,
+            String solutionCode) {
         UserSession userSession = this.userSessionRepository.getById(sessionId);
         if (userSession == null) {
-            return createSession(userId, groupId, sessionType, problemId, problemLink, language, solutionCode);
+            return createSession(userId, groupId, sessionType, problemId, language, solutionCode);
         }
         userSession = new UserSession();
         userSession.setSessionId(sessionId);
@@ -46,7 +54,6 @@ public class SessionAccessor {
         userSession.setUserId(userId);
         userSession.setGroupId(groupId);
         userSession.setProblemId(problemId);
-        userSession.setProblemLink(problemLink);
         userSession.setSolutionLanguage(language);
         userSession.setSolutionCode(solutionCode);
         this.userSessionRepository.save(userSession);

@@ -135,7 +135,6 @@ create table if not exists user_session (
     session_id varchar(500) not null constraint user_session_jpa_data_store_credential_pkey primary key,
     session_type varchar(500) not null,
     problem_id varchar(500),
-    problem_link varchar(500),
     solution_language varchar(500),
     solution_code varchar(500),
     user_id varchar(500) not null,
