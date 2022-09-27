@@ -10,51 +10,50 @@
 #include <unordered_set>
 
 #include "Solution.hpp"
-
 #include "../../cpp/helper1.hpp"
 
 using namespace std;
 
 int main()
 {
-    int numInputs = 0;
-    int target = 0;
     string input1;
-    vector<int> input;
+    vector<string> nums;
     string expected_output;
     string actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
-    int lineNo = 0;
+    int status = 0;
     while (getline(infile, line))
     {
-        if (lineNo == 0)
+        if (status == 0)
         {
-            lineNo += 1;
+            status += 1;
             continue;
         }
-        if ((lineNo % 2) != 0)
+        if (status % 2 != 0)
         {
             input1 = line;
-            RemoveAllPunctInString(line);
+            RemoveAllPunctInStringArray(line);
             stringstream ss(line);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
-            actual_output = convertInttoBool(res);
+            string v;
+            while (ss >> v)
+            {
+                nums.push_back(v);
+            }
         }
         else
         {
+            actual_output = obj->longestCommonPrefix(nums);
+            RemoveDoubleQuotes(line);
             expected_output = line;
-
             if (checkOuputString(expected_output, actual_output, input1))
             {
                 return 0;
             }
+            nums.clear();
         }
-        lineNo += 1;
+        status += 1;
     }
     Success();
     return 0;

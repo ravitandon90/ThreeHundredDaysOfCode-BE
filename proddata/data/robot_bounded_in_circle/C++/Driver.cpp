@@ -10,7 +10,6 @@
 #include <unordered_set>
 
 #include "Solution.hpp"
-
 #include "../../cpp/helper1.hpp"
 
 using namespace std;
@@ -37,12 +36,10 @@ int main()
         if ((lineNo % 2) != 0)
         {
             input1 = line;
+
             RemoveAllPunctInString(line);
-            stringstream ss(line);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
+
+            bool res = obj->isRobotBounded(line);
             actual_output = convertInttoBool(res);
         }
         else

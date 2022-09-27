@@ -10,7 +10,6 @@
 #include <unordered_set>
 
 #include "Solution.hpp"
-
 #include "../../cpp/helper1.hpp"
 
 using namespace std;
@@ -20,9 +19,8 @@ int main()
     int numInputs = 0;
     int target = 0;
     string input1;
-    vector<int> input;
-    string expected_output;
-    string actual_output;
+    int expected_output;
+    int actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -37,19 +35,15 @@ int main()
         if ((lineNo % 2) != 0)
         {
             input1 = line;
-            RemoveAllPunctInString(line);
-            stringstream ss(line);
-            istream_iterator<string> begin(ss);
-            istream_iterator<string> end;
-            vector<string> input(begin, end);
-            bool res = obj->canConstruct(input[0], input[1]);
-            actual_output = convertInttoBool(res);
+            RemoveDoubleQuotes(line);
+            actual_output = obj->minAddToMakeValid(line);
         }
         else
         {
-            expected_output = line;
+            stringstream ss(line);
+            ss >> expected_output;
 
-            if (checkOuputString(expected_output, actual_output, input1))
+            if (checkOuputInt(expected_output, actual_output, input1))
             {
                 return 0;
             }
