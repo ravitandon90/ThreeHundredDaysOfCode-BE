@@ -37,20 +37,13 @@ int main()
         if ((lineNo % 2) != 0)
         {
             input1 = line;
-            string s = RemoveAllPunctInString(line);
-            stringstream ss(s);
+            RemoveAllPunctInString(line);
+            stringstream ss(line);
             istream_iterator<string> begin(ss);
             istream_iterator<string> end;
             vector<string> input(begin, end);
             bool res = obj->canConstruct(input[0], input[1]);
-            if (res)
-            {
-                actual_output = "true";
-            }
-            else
-            {
-                actual_output = "false";
-            }
+            actual_output = convertInttoBool(res);
         }
         else
         {

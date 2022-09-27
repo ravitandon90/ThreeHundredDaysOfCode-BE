@@ -24,7 +24,6 @@ public class Driver {
 
             e.printStackTrace();
         }
-        System.out.println(al);
         return al;
     }
 
