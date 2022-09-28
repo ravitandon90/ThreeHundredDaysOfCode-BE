@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { Solution } = require("./Solution");
-const { printFailedCase } = require("../../../Javascript/helper");
+const { printFailedCase, compare1DArray } = require("../../../Javascript/helper");
 
 let testcases = [];
 //  testcases: array of objects
