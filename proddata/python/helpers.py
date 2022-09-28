@@ -8,6 +8,12 @@ class TreeNode:
         self.right = right
 
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
 def createTreeFromArrayInput(arrayInput):
     root = None
     inputWithNoParentheses = arrayInput[1:-1].strip()
@@ -65,7 +71,7 @@ def createArrayFromTreeInput(root):
     while array[-1] == "null":
         array.pop()
     return array
-
+    
 
 def getSubtreeFromRootValue(root, val):
     if not root:
@@ -75,6 +81,30 @@ def getSubtreeFromRootValue(root, val):
     if root.val > val:
         return getSubtreeFromRootValue(root.left, val)
     return getSubtreeFromRootValue(root.right, val)
+
+
+def createLLFromArrayInput(arrayInput):
+    inputAfterRemovingBraces = arrayInput[1:-1].strip()
+    if inputAfterRemovingBraces == "":
+        return None
+    return createLinkedList(list(map(int, [s.strip() for s in inputAfterRemovingBraces.split(',')])))
+
+
+def createLinkedList(values):
+    head = ListNode(values[0])
+    prev = head
+    for i in range(1, len(values)):
+        prev.next = ListNode(values[i])
+        prev = prev.next
+    return head
+
+
+def createArrayFromLinkedList(ll):
+    array = []
+    while ll:
+        array.append(ll.val)
+        ll = ll.next
+    return array
 
 
 def displayErrorMessage(testCase, actualOutput, expectedOutput):
