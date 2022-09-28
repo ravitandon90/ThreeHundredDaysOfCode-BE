@@ -66,6 +66,8 @@ public class MasterController {
     private ProblemDocumentRepository problemDocumentRepository;
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
+//    @Autowired
+    private SessionAccessor sessionAccessor;
 
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
@@ -82,7 +84,8 @@ public class MasterController {
     }
 
     @GetMapping("/google/leaderBoard")
-    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId, @RequestParam(value = "timeFilter") String timeFilter) {
+    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId,
+                                       @RequestParam(value = "timeFilter") String timeFilter) {
         return getLeaderBoard(userId, timeFilter);
     }
 
@@ -142,8 +145,10 @@ public class MasterController {
     }
 
     @GetMapping(path = "/google/problem")
-    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "logic") String logic,
-                                                 @RequestParam(value = "userId") String userId) { return getProblemOfTheDay(userId, logic); }
+    public String handleGoogleGetProblemOfTheDay(@RequestParam(value = "userId") String userId,
+                                                 @RequestParam(value = "logic") String logic) {
+        return getProblemOfTheDay(userId, logic);
+    }
 
     @GetMapping(path = "/problemById")
     public String handleGetProblemById(Principal user, @RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
@@ -157,7 +162,7 @@ public class MasterController {
     }
 
     @GetMapping(path = "/google/problemBaseCode")
-    public String handleGoogleGetPorblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
+    public String handleGoogleGetProblemBaseCode(@RequestParam(value = "languageId") String languageId, @RequestParam(value = "problemId") String problemId) {
         return getProblemBaseCode(problemId, languageId);
     }
 
@@ -293,9 +298,7 @@ public class MasterController {
     @GetMapping(path = "/google/search")
     public String handleGoogleSearch(
             @RequestParam(value = "searchText") String searchText,
-            @RequestParam(value = "userId") String userId
-
-    ) {
+            @RequestParam(value = "userId") String userId) {
         return GetSearchResults(searchText, userId);
     }
 
@@ -305,6 +308,49 @@ public class MasterController {
             @RequestParam(value = "searchText") String searchText){
         return GetSearchResults(searchText, user.getName());
     }
+
+    @GetMapping(path = "/google/sessionByProblem")
+    public String handleGoogleGetSessionFromProblem(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "problemId") String problemId){
+        UserSession u = this.sessionAccessor.getSessionFromProblem(userId, problemId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "Success") // Move "message" to "status".
+                .put("session", u.toString());
+        return jsonObject.toString();
+    }
+
+    @GetMapping(path = "/google/sessionById")
+    public String handleGoogleGetSessionFromId(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "sessionId") String sessionId){
+        UserSession u = this.sessionAccessor.getSessionFromId(sessionId);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("message", "Success") // Move "message" to "status".
+                .put("session", u.toString());
+        return jsonObject.toString();
+    }
+
+
+
+    @PostMapping(path = "/google/session")
+    public String handleGoogleUpdateSession(Principal user, UpdateSessionHTTPRequest request) {
+        final String userId = user.getName();
+        final String groupId = getGroupIdForAUser(userId);
+        final String sId = this.sessionAccessor.updateSession(
+                request.getSessionId(),
+                userId,
+                groupId,
+                "PROBLEM",
+                request.getProblemId(),
+                request.getLanguage(),
+                request.getSolutionCode());
+        JSONObject response = new JSONObject();
+        response.put("message", "Sucesss")
+                .put("sessionId", sId);
+        return response.toString();
+    }
+
 
     @PostMapping(path = "/google/buildIndex")
     public String handleTriggerIndexBuild() {
@@ -1028,6 +1074,7 @@ public class MasterController {
             Collections.sort(datesList);
 
             int currRun = 0;
+            int numDrops = 0;
             for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
                 final long diff = datesList.get(idx + 1) - datesList.get(idx);
                 if (diff == 0) continue;
@@ -1035,7 +1082,10 @@ public class MasterController {
                     currRun++;
                     longestStreak = max(longestStreak, currRun);
                 } else {
-                    currRun = 1;
+                    numDrops++;
+                    if (numDrops >= Constants.NUMBER_OF_DROPS_ALLOWED_STREAK) {
+                        currRun = 1;
+                    }
                 }
             }
             if (datesList.size() > 0) longestStreak++;
@@ -1088,6 +1138,7 @@ public class MasterController {
         Collections.sort(datesList);
 
         int currRun = 0;
+        int numDrops = 0;
         for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
             final long diff = datesList.get(idx + 1) - datesList.get(idx);
             if (diff == 0) continue;
@@ -1095,7 +1146,13 @@ public class MasterController {
                 currRun++;
                 longestStreak = max(longestStreak, currRun);
             } else {
-                currRun = 1;
+                numDrops++;
+                if (numDrops >= Constants.NUMBER_OF_DROPS_ALLOWED_STREAK) {
+                    currRun = 1;
+                } else {
+                    currRun++;
+                    longestStreak = max(longestStreak, currRun);
+                }
             }
         }
         if (datesList.size() > 0) longestStreak++;
