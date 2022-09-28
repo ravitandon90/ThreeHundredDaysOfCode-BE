@@ -66,7 +66,7 @@ public class MasterController {
     private ProblemDocumentRepository problemDocumentRepository;
     @Autowired
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
-    @Autowired
+//    @Autowired
     private SessionAccessor sessionAccessor;
 
     /*********************************** End Of API Definitions. *****************************************/
@@ -84,7 +84,8 @@ public class MasterController {
     }
 
     @GetMapping("/google/leaderBoard")
-    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId, @RequestParam(value = "timeFilter") String timeFilter) {
+    public String handleGetLeaderBoard(@RequestParam(value = "userId") String userId,
+                                       @RequestParam(value = "timeFilter") String timeFilter) {
         return getLeaderBoard(userId, timeFilter);
     }
 
@@ -1073,6 +1074,7 @@ public class MasterController {
             Collections.sort(datesList);
 
             int currRun = 0;
+            int numDrops = 0;
             for (int idx = 0; idx < (datesList.size() - 1); ++idx) {
                 final long diff = datesList.get(idx + 1) - datesList.get(idx);
                 if (diff == 0) continue;
@@ -1080,7 +1082,10 @@ public class MasterController {
                     currRun++;
                     longestStreak = max(longestStreak, currRun);
                 } else {
-                    currRun = 1;
+                    numDrops++;
+                    if (numDrops >= Constants.NUMBER_OF_DROPS_ALLOWED_STREAK) {
+                        currRun = 1;
+                    }
                 }
             }
             if (datesList.size() > 0) longestStreak++;
@@ -1144,6 +1149,9 @@ public class MasterController {
                 numDrops++;
                 if (numDrops >= Constants.NUMBER_OF_DROPS_ALLOWED_STREAK) {
                     currRun = 1;
+                } else {
+                    currRun++;
+                    longestStreak = max(longestStreak, currRun);
                 }
             }
         }

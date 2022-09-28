@@ -3,13 +3,13 @@ package com.code.master.service;
 import com.code.master.data.UserProfileRepository;
 import com.code.master.data.UserSession;
 import com.code.master.data.UserSessionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class SessionAccessor {
-
-
+    @Autowired
     private UserSessionRepository userSessionRepository;
+    @Autowired
     private UserProfileRepository userProfileRepository;
-
 
     public String createSession(String userId, String groupId, String sessionType,
                                 String problemId, String language, String solutionCode) {
