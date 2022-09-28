@@ -21,6 +21,7 @@ public class Constants {
     public static final int NUM_MAX_WORDS_COMPLETION = 3;
 
     public static final boolean RUN_CHANGE_MONITORS = true;
-    public static final int DOCUMENT_POLL_INTERVAL_MINUTES = 60;
+    public static final int DOCUMENT_POLL_INTERVAL_MINUTES = 60 * 24;
     public static final String DEFAULT_USER_GROUP = "three-hundred-days-of-code";
+    public static final int NUMBER_OF_DROPS_ALLOWED_STREAK = 7;
 }

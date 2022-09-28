@@ -23,7 +23,7 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(basePackages = "com.code.master.data")
 @EnableElasticsearchRepositories(basePackages = "com.code.master.index.repository")
-@EntityScan(basePackages = {"com.code.master.data", "com.code.master.index.repository"})
+@EntityScan(basePackages = {"com.code.master.data", "com.code.master.index.repository", "com.code.master.service"})
 public class Config {
     @Autowired
     private Environment env;
@@ -68,5 +68,9 @@ public class Config {
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         return hibernateProperties;
+    }
+    @Bean
+    public SessionAccessor sessionAccessor() {
+        return new SessionAccessor();
     }
 }
