@@ -71,7 +71,7 @@ def createArrayFromTreeInput(root):
     while array[-1] == "null":
         array.pop()
     return array
-    
+
 
 def getSubtreeFromRootValue(root, val):
     if not root:
@@ -124,3 +124,10 @@ def createInputForDesignProblems(lineOfInput):
     for i, instruction in enumerate(instructions):
         input.append((instruction, params[i]))
     return input
+
+
+def createIntArrayFromString(arrayAsString):
+    arrayWithoutBraces = arrayAsString.strip()[1:-1].strip()
+    if arrayWithoutBraces == "":
+        return []
+    return list(map(int, [s.strip() for s in arrayWithoutBraces.split(",")]))
