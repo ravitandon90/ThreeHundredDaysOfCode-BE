@@ -1,14 +1,13 @@
 from Solution import Solution
+from proddata.python.helpers import createIntArrayFromString
 import sys
 import os
 
-
-def createListFromString(line):
-    array = [s.strip()
-             for s in line.strip()[1:-1].split(",")]
-    return [] if array[0] == "" else list(
-        map(int, array))
-
+# 2
+# [1,1,0,1,1,1]
+# 3
+# [1,0,1,1,0,1]
+# 2
 
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
@@ -17,11 +16,12 @@ isSolutionWrong = False
 lineNumber = 1
 solution = Solution()
 for line in lines[1:]:
+    line = line.strip()
     if lineNumber % 2 == 1:
-        input = createListFromString(line)
+        input = createIntArrayFromString(line)
         actualOutput = solution.findMaxConsecutiveOnes(input)
     else:
-        expectedOutput = int(line.strip())
+        expectedOutput = int(line)
         if (actualOutput != expectedOutput):
             print("Result: Failed")
             print("Actual Output: ", actualOutput)
