@@ -127,8 +127,7 @@ def createInputForDesignProblems(lineOfInput):
 
 
 def createIntArrayFromString(arrayAsString):
-    arrayWithoutBraces = [s.strip()
-                          for s in arrayAsString.strip()[1:-1].split(",")]
+    arrayWithoutBraces = arrayAsString.strip()[1:-1].strip()
     if arrayWithoutBraces == "":
         return []
-    return list(map(int, arrayWithoutBraces))
+    return list(map(int, [s.strip() for s in arrayWithoutBraces.split(",")]))
