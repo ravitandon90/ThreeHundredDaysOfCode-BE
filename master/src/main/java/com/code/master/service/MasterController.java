@@ -151,10 +151,17 @@ public class MasterController {
     }
 
     @GetMapping(path = "/problemById")
-    public String handleGetProblemById(Principal user, @RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
+    public String handleGetProblemById(Principal user,
+                                       @RequestParam(value = "problemId") String problemId) {
+        return GetProblemById(user.getName(), problemId);
+    }
 
     @GetMapping(path = "/google/problemById")
-    public String handleGoogleGetProblemById(@RequestParam(value = "problemId") String problemId) { return GetProblemById(problemId); }
+    public String handleGoogleGetProblemById(
+            @RequestParam(value = "userId") String userId,
+            @RequestParam(value = "problemId") String problemId) {
+        return GetProblemById(userId, problemId);
+    }
 
     @GetMapping(path = "/problemBaseCode")
     public String handleGetProblemBaseCode(@RequestParam(value = "languageId") String languageId,@RequestParam(value = "problemId") String problemId) {
@@ -327,8 +334,11 @@ public class MasterController {
             @RequestParam(value = "sessionId") String sessionId) {
         UserSession userSession = this.sessionAccessor.getSessionFromId(sessionId);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("message", "Success") // Move "message" to "status".
-                .put("submissionCode", userSession.getSolutionCode());
+        // Move "message" to "status".
+        jsonObject.put("message", "Success");
+        if (userSession != null) {
+            jsonObject.put("submissionCode", userSession.getSolutionCode());
+        }
         return jsonObject.toString();
     }
 
@@ -959,16 +969,19 @@ public class MasterController {
         return new JSONObject().put("message", "Success").toString();
     }
 
-    private String GetProblemById(String problemId) {
+    private String GetProblemById(String userId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
         if (problemDescription != null) {
-            String jsonString = new JSONObject()
+            JSONObject jsonObject = new JSONObject()
                     .put("problemTitle", problemDescription.getTitle())
                     .put("problemIndex", problemDescription.getIndex())
                     .put("problemLink", problemDescription.getUrl())
-                    .put("description", problemDescription.getDescription())
-                    .toString();
-            return jsonString;
+                    .put("description", problemDescription.getDescription());
+            UserSession userSession =  this.sessionAccessor.getSessionFromProblem(userId, problemId);
+            if (userSession != null) {
+                jsonObject.put("sessionId", userSession.getSessionId());
+            }
+            return jsonObject.toString();
         }
         return "{}";
     }
