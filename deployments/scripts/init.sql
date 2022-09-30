@@ -136,7 +136,7 @@ create table if not exists user_session (
     session_type varchar(500) not null,
     problem_id varchar(500),
     solution_language varchar(500),
-    solution_code varchar(500),
+    solution_code varchar,
     user_id varchar(500) not null,
     group_id varchar(500) not null,
     created_at timestamp default now() not null,

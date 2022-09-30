@@ -26,12 +26,11 @@ public class SessionAccessor {
     }
 
     public UserSession getSessionFromProblem(String userId, String problemId) {
-        UserSession userSession = this.userSessionRepository.getByUserIdAndProblemId(userId, problemId);
-        return userSession;
+        return this.userSessionRepository.findFirstByUserIdAndProblemIdOrderByCreatedAtDesc(userId, problemId);
     }
 
     public UserSession getSessionFromId(String sessionId) {
-        UserSession userSession = this.userSessionRepository.getById(sessionId);
+        UserSession userSession = this.userSessionRepository.getBySessionId(sessionId);
         return userSession;
     }
 
