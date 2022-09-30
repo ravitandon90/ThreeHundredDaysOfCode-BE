@@ -52,7 +52,6 @@ public class Utils {
         cal.clear(Calendar.MILLISECOND);
         cal.setFirstDayOfWeek(Calendar.SUNDAY);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        System.out.println("Start of this week: " + cal.getTime());
         return cal.getTime();
     }
 

@@ -760,7 +760,7 @@ public class MasterController {
             int pageIntId = Integer.parseInt(pageId);
             int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
             int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
-            submissions = submissions.subList(startIdx, endIdx);
+//            submissions = submissions.subList(startIdx, endIdx);
             JSONArray arr = new JSONArray();
             for (SubmissionWrapper submission : submissions) {
                 JSONObject submissionJSONObject = ToJSONObject(submission, problemDescription, userNameIdMap);
@@ -780,7 +780,6 @@ public class MasterController {
         int pageIntId = Integer.parseInt(pageId);
         int startIdx = (pageIntId - 1) * Constants.FEED_PAGE_SIZE;
         int endIdx = min(submissions.size(), startIdx + Constants.FEED_PAGE_SIZE);
-        submissions = submissions.subList(startIdx, endIdx);
         JSONObject object = new JSONObject();
         JSONArray arr = new JSONArray();
         for (UserSubmission submission : submissions) {
@@ -801,6 +800,7 @@ public class MasterController {
                 .put("problemLink", submission.getProblemLink())
                 .put("solutionLink", submission.getSolutionLink())
                 .put("submissionDate", submission.getCreatedAt())
+                .put("userId", submission.getUserId())
                 .put("authorName", authorName);
         return object;
     }
@@ -813,13 +813,14 @@ public class MasterController {
         if (userIdNameMap.containsKey(submission.getUserId())) {
             authorName = userIdNameMap.get(submission.getUserId());
         }
-        object.put("problemName", problemDescription.getTitle());
-        object.put("problemLink", problemDescription.getUrl());
-        object.put("problemId", problemDescription.getProblemId());
-        object.put("submissionDate", submission.getCreatedAt());
-        object.put("submissionId", submission.getSubmissionId());
-        object.put("solutionLink", submission.getSolutionLink());
-        object.put("authorName", authorName);
+        object.put("problemName", problemDescription.getTitle())
+                .put("problemLink", problemDescription.getUrl())
+                .put("problemId", problemDescription.getProblemId())
+                .put("submissionDate", submission.getCreatedAt())
+                .put("submissionId", submission.getSubmissionId())
+                .put("solutionLink", submission.getSolutionLink())
+                .put("authorName", authorName)
+                .put("userId", submission.getUserId());
         return object;
     }
 
