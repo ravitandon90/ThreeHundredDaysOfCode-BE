@@ -8,6 +8,12 @@ class TreeNode:
         self.right = right
 
 
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+
 def createTreeFromArrayInput(arrayInput):
     root = None
     inputWithNoParentheses = arrayInput[1:-1].strip()
@@ -77,6 +83,30 @@ def getSubtreeFromRootValue(root, val):
     return getSubtreeFromRootValue(root.right, val)
 
 
+def createLLFromArrayInput(arrayInput):
+    inputAfterRemovingBraces = arrayInput[1:-1].strip()
+    if inputAfterRemovingBraces == "":
+        return None
+    return createLinkedList(list(map(int, [s.strip() for s in inputAfterRemovingBraces.split(',')])))
+
+
+def createLinkedList(values):
+    head = ListNode(values[0])
+    prev = head
+    for i in range(1, len(values)):
+        prev.next = ListNode(values[i])
+        prev = prev.next
+    return head
+
+
+def createArrayFromLinkedList(ll):
+    array = []
+    while ll:
+        array.append(ll.val)
+        ll = ll.next
+    return array
+
+
 def displayErrorMessage(testCase, actualOutput, expectedOutput):
     print("Result: Failed for test case: " + testCase)
     print("Actual Output: ", actualOutput)
@@ -94,3 +124,10 @@ def createInputForDesignProblems(lineOfInput):
     for i, instruction in enumerate(instructions):
         input.append((instruction, params[i]))
     return input
+
+
+def createIntArrayFromString(arrayAsString):
+    arrayWithoutBraces = arrayAsString.strip()[1:-1].strip()
+    if arrayWithoutBraces == "":
+        return []
+    return list(map(int, [s.strip() for s in arrayWithoutBraces.split(",")]))
