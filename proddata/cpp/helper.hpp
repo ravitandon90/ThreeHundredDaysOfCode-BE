@@ -461,3 +461,54 @@ vector<string> parseVectorOfStringSentence(string line)
   }
   return s1;
 }
+
+// Input: vector<vector<char>>, String
+void parseCharVectorOfVectorAndString(string &line, vector<vector<char>> &nums, string &s)
+{
+  vector<char> temp1;
+  replace(line.begin(), line.end(), ',', ' ');
+  int index;
+  string sub_str = " [";
+  string sub_str1 = "] ";
+  while ((index = line.find("[[")) != string::npos)
+  {
+    line.replace(index, sub_str.length(), sub_str);
+  }
+  while ((index = line.find("]]")) != string::npos)
+  {
+    line.replace(index, sub_str1.length(), sub_str1);
+  }
+  line.erase(remove(line.begin(), line.end(), '\"'), line.end());
+  int start = 0, end = 0;
+  int c = 0;
+  for (int i = 0; i < line.size(); i++)
+  {
+    if (line[i] == ' ')
+    {
+      c += 1;
+      continue;
+    }
+    if (c == 3)
+    {
+      s += line[i];
+      continue;
+    }
+    if (line[i] == '[')
+    {
+      start = i;
+    }
+    if (line[i] == ']')
+    {
+      end = i - 1 - start;
+      stringstream ss(line.substr(start + 1, end));
+      char v;
+      while (ss >> v)
+      {
+        temp1.push_back(v);
+      }
+      nums.push_back(temp1);
+      temp1.clear();
+    }
+    c = 0;
+  }
+}
