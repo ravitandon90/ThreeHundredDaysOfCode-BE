@@ -3,7 +3,6 @@ package com.code.master.utils;
 import com.code.master.common.Constants;
 import org.json.JSONObject;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,7 +52,6 @@ public class Utils {
         cal.clear(Calendar.MILLISECOND);
         cal.setFirstDayOfWeek(Calendar.SUNDAY);
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-        System.out.println("Start of this week: " + cal.getTime());
         return cal.getTime();
     }
 
