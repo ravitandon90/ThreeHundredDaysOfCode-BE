@@ -1,4 +1,4 @@
-package shortest_completing_word.Java;
+package text_justification.Java;
 
 import java.io.*;
 import java.util.*;
@@ -12,12 +12,10 @@ public class Driver {
 
             String str;
             while ((str = buffer.readLine()) != null) {
-                str.trim();
                 str = str.replace("\"","")
-                        .replace(", ","||")
-                        .replace(","," ")
-                        .replace("[","")
-                        .replace("]","");
+                         .replace(", ","||")
+                         .replace("[","")
+                         .replace("]","");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -32,26 +30,37 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/shortest_completing_word/testcases.txt";
+        String filePath = "proddata/data/text_justification/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
-        String out;
-        String input1 = null;
-        String input2[] = new String[0];
+        List<String> out;
+        String input1[] = new String[0];
+        int maxWeidth = 0;
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
                 StringTokenizer st = new StringTokenizer(al.get(i),"||");
-                input1 = st.nextToken();
-                input2 = st.nextToken().split(" ");
+                int n = st.countTokens();
+                input1 = new String[n-1];
+                for (int j = 0;j<n-1;j++)
+                {
+                    input1[j] = st.nextToken();
+                }
+                maxWeidth = Integer.parseInt(st.nextToken());
             } else {
-                out = al.get(i);
-                String user_out = user(input1,input2);
-                b = b & out.equals(user_out) ? true : false;
+                StringTokenizer st = new StringTokenizer(al.get(i),"||");
+                out = new ArrayList<>();
+                while(st.hasMoreTokens())out.add(st.nextToken());
+                List<String> user_out = user(input1, maxWeidth);
+
+                for (int j = 0; j<out.size();j++) {
+                    b = b & out.get(j).equals(user_out.get(j));
+                }
+
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println("licensePlate = " + input1);
-                    System.out.println("words = "+Arrays.toString(input2));
+                    System.out.println("words = " + Arrays.toString(input1));
+                    System.out.println("maxWidth = " + maxWeidth);
                     System.out.println("Your output " + user_out);
                     System.out.println("Expected output " + out);
                     return b;
@@ -61,7 +70,7 @@ public class Driver {
         return b;
     }
 
-    public static String user(String licensePlate, String words[]) {
-        return new shortest_completing_word.Java.Solution().shortestCompletingWord(licensePlate,words);
+    public static List<String> user(String words[], int maxWidth) {
+        return new text_justification.Java.Solution().fullJustify(words, maxWidth);
     }
 }

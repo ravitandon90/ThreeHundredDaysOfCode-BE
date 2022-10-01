@@ -1,4 +1,4 @@
-package shortest_completing_word.Java;
+package top_k_frequent_elements.Java;
 
 import java.io.*;
 import java.util.*;
@@ -12,12 +12,11 @@ public class Driver {
 
             String str;
             while ((str = buffer.readLine()) != null) {
-                str.trim();
                 str = str.replace("\"","")
-                        .replace(", ","||")
                         .replace(","," ")
-                        .replace("[","")
-                        .replace("]","");
+                        .replace("]","")
+                        .replace("  ","||")
+                        .replace("[","");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -32,28 +31,30 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/shortest_completing_word/testcases.txt";
+        String filePath = "proddata/data/top_k_frequent_elements/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
-        String out;
-        String input1 = null;
-        String input2[] = new String[0];
+        int out[];
+        int input1[] = new int[0];
+        int k = 0;
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
                 StringTokenizer st = new StringTokenizer(al.get(i),"||");
-                input1 = st.nextToken();
-                input2 = st.nextToken().split(" ");
+                input1 = Arrays.stream(st.nextToken().split(" ")).mapToInt(Integer::parseInt).toArray();
+                k = Integer.parseInt(st.nextToken());
             } else {
-                out = al.get(i);
-                String user_out = user(input1,input2);
-                b = b & out.equals(user_out) ? true : false;
+                out = Arrays.stream(al.get(i).split(" ")).mapToInt(Integer::parseInt).toArray();
+                int[] user_out = user(input1, k);
+
+                b = b & Arrays.equals(out,user_out);
+
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println("licensePlate = " + input1);
-                    System.out.println("words = "+Arrays.toString(input2));
-                    System.out.println("Your output " + user_out);
-                    System.out.println("Expected output " + out);
+                    System.out.println("nums = " + Arrays.toString(input1));
+                    System.out.println("k = " + k);
+                    System.out.println("Your output " + Arrays.toString(user_out));
+                    System.out.println("Expected output " + Arrays.toString(out));
                     return b;
                 }
             }
@@ -61,7 +62,7 @@ public class Driver {
         return b;
     }
 
-    public static String user(String licensePlate, String words[]) {
-        return new shortest_completing_word.Java.Solution().shortestCompletingWord(licensePlate,words);
+    public static int[] user(int nums[], int k) {
+        return new top_k_frequent_elements.Java.Solution().topKFrequent(nums, k);
     }
 }

@@ -1,4 +1,4 @@
-package shortest_completing_word.Java;
+package sorting_the_sentence.Java;
 
 import java.io.*;
 import java.util.*;
@@ -13,11 +13,7 @@ public class Driver {
             String str;
             while ((str = buffer.readLine()) != null) {
                 str.trim();
-                str = str.replace("\"","")
-                        .replace(", ","||")
-                        .replace(","," ")
-                        .replace("[","")
-                        .replace("]","");
+                str = str.replace("\"","");
                 al.add(str);
             }
         } catch (IOException e) {
@@ -32,26 +28,22 @@ public class Driver {
     }
 
     static boolean drivercode() {
-        String filePath = "proddata/data/shortest_completing_word/testcases.txt";
+        String filePath = "proddata/data/sorting_the_sentence/testcases.txt";
         List<String> al = method(filePath);
         int testcase = Integer.parseInt(al.remove(0));
         String out;
         String input1 = null;
-        String input2[] = new String[0];
         boolean b = true;
         for (int i = 0; i < al.size(); i++) {
             if (i % 2 == 0) {
-                StringTokenizer st = new StringTokenizer(al.get(i),"||");
-                input1 = st.nextToken();
-                input2 = st.nextToken().split(" ");
+                input1 = al.get(i);
             } else {
                 out = al.get(i);
-                String user_out = user(input1,input2);
+                String user_out = user(input1);
                 b = b & out.equals(user_out) ? true : false;
                 if (b == false) {
                     System.out.println("Test case");
-                    System.out.println("licensePlate = " + input1);
-                    System.out.println("words = "+Arrays.toString(input2));
+                    System.out.println("s = " + input1);
                     System.out.println("Your output " + user_out);
                     System.out.println("Expected output " + out);
                     return b;
@@ -61,7 +53,7 @@ public class Driver {
         return b;
     }
 
-    public static String user(String licensePlate, String words[]) {
-        return new shortest_completing_word.Java.Solution().shortestCompletingWord(licensePlate,words);
+    public static String user(String s) {
+        return new sorting_the_sentence.Java.Solution().sortSentence(s);
     }
 }
