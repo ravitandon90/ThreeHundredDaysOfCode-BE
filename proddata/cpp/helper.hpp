@@ -512,3 +512,32 @@ void parseCharVectorOfVectorAndString(string &line, vector<vector<char>> &nums, 
     c = 0;
   }
 }
+
+// Input: string, vector<string>
+void parseStringAndVectorOfStrings(string &line, string &s, vector<string> &nums)
+{
+  replace(line.begin(), line.end(), ',', ' ');
+  int index;
+
+  line.erase(remove(line.begin(), line.end(), '\"'), line.end());
+  int start = 0, end = 0;
+  for (int i = 0; i < line.size(); i++)
+  {
+    if (line[i] == '[')
+    {
+      start = i;
+      stringstream ss(line.substr(0, i - 1));
+      ss >> s;
+    }
+    if (line[i] == ']')
+    {
+      end = i - 1 - start;
+      stringstream ss(line.substr(start + 1, end));
+      string v;
+      while (ss >> v)
+      {
+        nums.push_back(v);
+      }
+    }
+  }
+}
