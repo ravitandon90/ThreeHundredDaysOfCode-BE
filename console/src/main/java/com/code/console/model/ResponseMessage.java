@@ -9,6 +9,12 @@ public class ResponseMessage {
     public String response;
     public String time;
 
+    public ResponseMessage() {
+        status = "";
+        response = "";
+        time = "";
+    }
+
     public ResponseMessage(String status, String response, String time) {
         this.status = status;
         this.response = response;

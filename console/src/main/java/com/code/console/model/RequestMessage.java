@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class RequestMessage {
-    private String type;
+    private String method;
     private String command;
 }
