@@ -10,7 +10,7 @@
 #include <unordered_set>
 
 #include "Solution.hpp"
-#include "../../cpp/helper.hpp"
+#include "../../cpp/helper1.hpp"
 
 using namespace std;
 
@@ -18,8 +18,8 @@ int main()
 {
     string input1;
     int k;
-    string v;
-    vector<string> nums;
+    int v;
+    vector<int> nums;
     vector<string> expected_output;
     vector<string> actual_output;
     ifstream infile("../testcases.txt");
@@ -36,24 +36,28 @@ int main()
         if (status % 2 != 0)
         {
             input1 = line;
-            RemoveAllPunctInStringArray(line);
+            line = RemoveAllPunctInArray(line);
             stringstream ss(line);
             while (ss >> v)
             {
                 nums.push_back(v);
             }
-            stringstream s(nums.back());
-            s >> k;
+            k = nums.back();
             nums.pop_back();
         }
         else
         {
-            actual_output = obj->topKFrequent(nums, k);
+            vector<bool> res = obj->kidsWithCandies(nums, k);
+            for (auto x : res)
+            {
+                actual_output.push_back(convertInttoBool(x));
+            }
             string x = RemoveAllPunctInArray(line);
             stringstream ss(x);
-            while (ss >> v)
+            string vv;
+            while (ss >> vv)
             {
-                expected_output.push_back(v);
+                expected_output.push_back(vv);
             }
             if (checkOuputStringVec(expected_output, actual_output, input1))
             {
@@ -61,6 +65,7 @@ int main()
             }
             nums.clear();
             expected_output.clear();
+            actual_output.clear();
         }
         status += 1;
     }
