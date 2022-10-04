@@ -1,27 +1,20 @@
-func addToArrayForm(A []int, K int) []int {
-    carry:=0
-    digK:=0
-    res:=[]int{}      
-    for i:=len(A)-1;i>=0;i-- {
-        digK=K%10
-        K=K/10
-        res=append(res,(A[i]+digK+carry)%10)
-        carry=(A[i]+digK+carry)/10
-    }
+func addToArrayForm(num []int, k int) []int {
+	var out = []int{}
 
-     for K>0 {
-		digK=K%10
-		K=K/10		
-        res=append(res,(digK+carry)%10)
-		carry=(digK+carry)/10		
-    }
-    if carry>0 {
-        res=append(res,carry)
-    } 
-    for i:=0;i<len(res)/2;i++ {
-        tmp:=res[i]
-        res[i]=res[len(res)-1-i]
-        res[len(res)-1-i]=tmp
-    }    
-    return res        
+	for i := len(num) - 1; i >= 0; i-- {
+		k += num[i]
+		out = append(out, k%10)
+		k /= 10
+	}
+
+	for k > 0 {
+		out = append(out, k%10)
+		k /= 10
+	}
+
+	for i := 0; i < len(out)/2; i++ {
+		out[i], out[len(out)-i-1] = out[len(out)-i-1], out[i]
+	}
+
+	return out
 }
