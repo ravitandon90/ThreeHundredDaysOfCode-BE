@@ -594,3 +594,101 @@ void parseIntVectorOfVectorAndInt(string &line, vector<vector<int>> &nums, int &
   stringstream ss(s1);
   ss >> s;
 }
+
+// Input: int, vector<vector<int>>, int, int
+void parseIntAndVectorOfVectorAndIntAndInt(string &line, int &s, vector<vector<int>> &nums, int &n, int &m)
+{
+  int last;
+  int v;
+  vector<int> temp2;
+  vector<int> temp1;
+  replace(line.begin(), line.end(), ',', ' ');
+  int index;
+  string sub_str = " [";
+  string sub_str1 = "] ";
+  while ((index = line.find("[[")) != string::npos)
+  {
+    line.replace(index, sub_str.length(), sub_str);
+  }
+  while ((index = line.find("]]")) != string::npos)
+  {
+    line.replace(index, sub_str1.length(), sub_str1);
+  }
+  int start = 0, end = 0;
+  for (int i = 0; i < line.size(); i++)
+  {
+    if (line[i] == '[')
+    {
+      start = i;
+      stringstream ss(line.substr(0, i - 1));
+      ss >> s;
+    }
+    if (line[i] == ']')
+    {
+      last = i;
+      end = i - 1 - start;
+      stringstream ss(line.substr(start + 1, end));
+      while (ss >> v)
+      {
+        temp1.push_back(v);
+      }
+      nums.push_back(temp1);
+      temp1.clear();
+    }
+  }
+  stringstream ss(line.substr(last + 1));
+  while (ss >> v)
+  {
+    temp2.push_back(v);
+  }
+  n = temp2[0];
+  m = temp2[1];
+}
+
+// Input: vector<vector<int>>, int, int
+void parseIntVectorOfVectorAndIntAndInt(string &line, vector<vector<int>> &nums, int &n, int &m)
+{
+  int last;
+  int v;
+  vector<int> temp2;
+  vector<int> temp1;
+  replace(line.begin(), line.end(), ',', ' ');
+  int index;
+  string sub_str = " [";
+  string sub_str1 = "] ";
+  while ((index = line.find("[[")) != string::npos)
+  {
+    line.replace(index, sub_str.length(), sub_str);
+  }
+  while ((index = line.find("]]")) != string::npos)
+  {
+    line.replace(index, sub_str1.length(), sub_str1);
+  }
+  int start = 0, end = 0;
+  for (int i = 0; i < line.size(); i++)
+  {
+    if (line[i] == '[')
+    {
+      start = i;
+    }
+    if (line[i] == ']')
+    {
+      last = i;
+      end = i - 1 - start;
+      stringstream ss(line.substr(start + 1, end));
+      while (ss >> v)
+      {
+        temp1.push_back(v);
+      }
+      nums.push_back(temp1);
+      temp1.clear();
+    }
+  }
+  stringstream ss(line.substr(last + 1));
+  while (ss >> v)
+  {
+    temp2.push_back(v);
+  }
+  n = temp2[0];
+  m = temp2[1];
+}
