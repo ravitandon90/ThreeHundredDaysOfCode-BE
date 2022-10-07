@@ -8,26 +8,17 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class SSHManager {
-    @Getter
-    @Setter
+    @Getter @Setter
     private boolean isConnected = false;
-    private JSch jschSSHChannel;
-    private String strUserName;
-    private String strConnectionIP;
-    private int intConnectionPort  = 22;
-    private String strPassword;
+    private final JSch jschSSHChannel;
+    private final int intConnectionPort  = 22;
     private Session sesConnection;
-    private int intTimeOut = 60000;
-    private String privateKey = "/Users/ravi/.ssh/id_ed25519";
-    private String userName = "ravi";
-    private String host = "localhost";
 
-    public SSHManager(String knownHostsFileName) {
+    public SSHManager() {
         jschSSHChannel = new JSch();
         try {
-            jschSSHChannel.setKnownHosts(knownHostsFileName);
+            final String privateKey = "/Users/ravi/.ssh/id_rsa";
             jschSSHChannel.addIdentity(privateKey);
-            isConnected = true;
         } catch (JSchException jschX) {
             logError(jschX.getMessage());
         }
@@ -36,11 +27,17 @@ public class SSHManager {
     public String connect() {
         String errorMessage = null;
         try {
+            String userName = "ravi";
+            String host = "localhost";
             sesConnection = jschSSHChannel.getSession(userName, host, intConnectionPort);
-            sesConnection.setPassword(strPassword);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            sesConnection.setConfig(config);
             // UNCOMMENT THIS FOR TESTING PURPOSES, BUT DO NOT USE IN PRODUCTION
             // sesConnection.setConfig("StrictHostKeyChecking", "no");
+            int intTimeOut = 60000;
             sesConnection.connect(intTimeOut);
+            isConnected = true;
         } catch (JSchException jschX) {
             errorMessage = jschX.getMessage();
         }
@@ -72,16 +69,16 @@ public class SSHManager {
         sesConnection.disconnect();
     }
 
-    private String logError(String errorMessage) {
-        if (errorMessage != null) {
-            System.out.printf("{0}:{1} - {2}", new Object[]{strConnectionIP, intConnectionPort, errorMessage});
+    private String logError(String message) {
+        if (message != null) {
+            System.out.printf("{%s}:{%s} - {%s}", "localhost", intConnectionPort, message);
         }
-        return errorMessage;
+        return message;
     }
-    private String logWarning(String warnMessage) {
-        if (warnMessage != null) {
-            System.out.printf("{0}:{1} - {2}", new Object[]{strConnectionIP, intConnectionPort, warnMessage});
+    private String logWarning(String message) {
+        if (message != null) {
+            System.out.printf("{%s}:{%s} - {%s}", "localhost", intConnectionPort, message);
         }
-        return warnMessage;
+        return message;
     }
 }

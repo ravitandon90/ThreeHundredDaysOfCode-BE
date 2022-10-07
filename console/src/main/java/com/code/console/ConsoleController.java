@@ -5,7 +5,6 @@ import com.code.console.model.ResponseMessage;
 import com.code.console.ssh.SSHManager;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
@@ -23,9 +22,10 @@ public class ConsoleController {
 
     public ConsoleController() {
         System.out.println("Connecting through SSH ......");
-        String errorMessage =  sshManager.connect();
+        this.sshManager = new SSHManager();
+        String errorMessage = sshManager.connect();
         if (errorMessage == null) System.out.println("Connection successful.");
-        else System.out.println("Connection failed.");
+        else System.out.printf("Connection failed. Error: %s\n", errorMessage);
     }
 
     @MessageMapping("/all")
@@ -44,6 +44,7 @@ public class ConsoleController {
             responseMessage.setStatus("Success");
             responseMessage.setTime(time);
             responseMessage.setResponse(output);
+            responseMessage.setCommand(message.getCommand());
         }
         return responseMessage;
     }

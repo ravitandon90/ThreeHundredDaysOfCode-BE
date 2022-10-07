@@ -14,7 +14,7 @@ public class ConsoleServiceConfig extends AbstractWebSocketMessageBrokerConfigur
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic", "/queue");
+        config.enableSimpleBroker("/topic");
         config.setApplicationDestinationPrefixes("/app");
     }
 

@@ -8,6 +8,7 @@ public class ResponseMessage {
     public String status;
     public String response;
     public String time;
+    public String command;
 
     public ResponseMessage() {
         status = "";
