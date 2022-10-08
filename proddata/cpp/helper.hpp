@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <cmath>
 #include <boost/tokenizer.hpp>
 
 using namespace std;
@@ -143,6 +144,22 @@ bool checkOuputString(string expected_output, string actual_output, string input
 bool checkOuputInt(int expected_output, int actual_output, string input1)
 {
     if (expected_output != actual_output)
+    {
+        cout << "Result: Failed" << endl;
+        cout << "Input: " << input1 << endl;
+        cout << "Expected Output: " << expected_output << endl;
+        cout << "Actual Output: " << actual_output << endl;
+        return true;
+    }
+    return false;
+}
+
+// input: string
+// output: double
+
+bool checkOuputDouble(double actual_output, double expected_output, string input1, double epsilon = .0001)
+{
+    if (fabs(actual_output - expected_output) < epsilon == 0)
     {
         cout << "Result: Failed" << endl;
         cout << "Input: " << input1 << endl;
@@ -789,6 +806,7 @@ void parseIntAndVectorOfVectorAndIntAndInt(string &line, int &s, vector<vector<i
     n = temp2[0];
     m = temp2[1];
 }
+
 
 // Input: vector<vector<int>>, int, int
 void parseIntVectorOfVectorAndIntAndInt(string &line, vector<vector<int>> &nums, int &n, int &m)
