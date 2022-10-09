@@ -461,6 +461,66 @@ void parseVectorOfVector(string &line, vector<vector<int>> &nums)
 }
 
 
+
+// Input: vector<vector<int>>, vector<int>
+void parseIntVectorOfVectorAndIntOfVector(string &line, vector<vector<int>> &nums, vector<int> &nums1)
+{
+    vector<int> temp1;
+    replace(line.begin(), line.end(), ',', ' ');
+    int index;
+    string sub_str = " [";
+    string sub_str1 = "] ";
+    while ((index = line.find("[[")) != string::npos)
+    {
+        line.replace(index, sub_str.length(), sub_str);
+    }
+    while ((index = line.find("]]")) != string::npos)
+    {
+        line.replace(index, sub_str1.length(), sub_str1);
+    }
+    int gap_count=0;
+    int start = 0, end = 0, status=0;
+    for (int i = 0; i < line.size(); i++)
+    {
+        if (line[i]==' '){
+            gap_count+=1;
+            if (gap_count==3){
+                status=1;
+            }
+            continue;
+        }
+        if (line[i] == '[')
+        {
+            start = i;
+        }
+        if (line[i] == ']' && status==1)
+        {
+            end = i - 1 - start;
+            stringstream ss(line.substr(start + 1, end));
+            int v;
+            while (ss >> v)
+            {
+                nums1.push_back(v);
+            }
+            continue;
+        }
+        if (line[i] == ']')
+        {
+            end = i - 1 - start;
+            stringstream ss(line.substr(start + 1, end));
+            int v;
+            while (ss >> v)
+            {
+                temp1.push_back(v);
+            }
+            nums.push_back(temp1);
+            temp1.clear();
+        }
+        gap_count=0;
+    }
+}
+
+
 // Input: vector<vector<int>>, vector<vector<int>>
 void parseIntVectorOfVectorAndIntVectorOfVector(string &line, vector<vector<int>> &nums, vector<vector<int>> &nums1)
 {
