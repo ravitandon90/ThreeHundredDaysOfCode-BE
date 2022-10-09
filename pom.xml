@@ -69,6 +69,7 @@
 
 <modules>
     <module>master</module>
+    <module>console</module>
 </modules>
 
 <repositories>

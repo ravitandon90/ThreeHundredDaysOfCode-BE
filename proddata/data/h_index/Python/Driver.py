@@ -1,5 +1,5 @@
 from Solution import Solution
-from proddata.python.helpers import createIntArrayFromString
+from proddata.python.helpers import createIntArrayFromString, displayErrorMessage
 import sys
 import os
 
@@ -18,14 +18,13 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
+        testCase = line
         input = createIntArrayFromString(line)
         actualOutput = solution.hIndex(input)
     else:
         expectedOutput = int(line)
         if (actualOutput != expectedOutput):
-            print("Result: Failed")
-            print("Actual Output: ", actualOutput)
-            print("Expected Output: ", expectedOutput)
+            displayErrorMessage(testCase, actualOutput, expectedOutput)
             isSolutionWrong = True
             break
     lineNumber += 1

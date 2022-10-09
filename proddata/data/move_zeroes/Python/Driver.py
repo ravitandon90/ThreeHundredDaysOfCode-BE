@@ -1,6 +1,14 @@
+from cgi import test
 from Solution import Solution
+from proddata.python.helpers import createIntArrayFromString, displayErrorMessage
 import sys
 import os
+
+# 2
+# [0,1,0,3,12]
+# [1,3,12,0,0]
+# [0]
+# [0]
 
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
@@ -11,15 +19,13 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
-        input = list(map(int, [s.strip() for s in line[1:-1].split(',')]))
+        testCase = line
+        input = createIntArrayFromString(line)
         solution.moveZeroes(input)
     else:
-        expectedOutput = list(map(int, [s.strip()
-                              for s in line[1:-1].split(',')]))
+        expectedOutput = createIntArrayFromString(line)
         if (input != expectedOutput):
-            print("Result: Failed")
-            print("Actual Output: ", input)
-            print("Expected Output: ", expectedOutput)
+            displayErrorMessage(testCase, input, expectedOutput)
             isSolutionWrong = True
             break
     lineNumber += 1
