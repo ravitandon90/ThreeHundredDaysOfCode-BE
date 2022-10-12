@@ -35,7 +35,22 @@ string Print(const vector<vector<int>> &input)
     output.pop_back();
   return "[" + output + "]";
 }
-
+void Print(vector<int> actual_output, vector<int> expected_output)
+{
+    cout << "Result: Failed" << endl;
+    cout << "Actual Output: " << endl;
+    for (int i = 0; i < actual_output.size(); i++)
+    {
+        cout << actual_output[i] << " ";
+    }
+    cout << endl;
+    cout << "Expected Output: " << endl;
+    for (int i = 0; i < expected_output.size(); i++)
+    {
+        cout << expected_output[i] << " ";
+    }
+    cout << endl;
+}
 vector<int> ParseLineToVector(const string &input)
 {
   vector<int> output;
