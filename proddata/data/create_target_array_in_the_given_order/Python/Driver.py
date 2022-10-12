@@ -1,14 +1,15 @@
 from Solution import Solution
+from proddata.python.helpers import createIntArrayFromString, displayErrorMessage
 import sys
 import os
 
-
-def createListFromString(line):
-    array = [s.strip()
-             for s in line.strip()[1:-1].split(",")]
-    return [] if array[0] == "" else list(
-        map(int, array))
-
+# 3
+# [0,1,2,3,4], [0,1,2,2,1]
+# [0,4,1,3,2]
+# [1,2,3,4,0], [0,1,2,3,0]
+# [0,1,2,3,4]
+# [1], [0]
+# [1]
 
 file = open(os.path.join(sys.path[0], '../testcases.txt'), 'r')
 lines = file.readlines()
@@ -19,21 +20,18 @@ solution = Solution()
 for line in lines[1:]:
     line = line.strip()
     if lineNumber % 2 == 1:
+        testCase = line
         pos = 0
         while line[pos] != ']':
             pos += 1
-        nums = list(map(int, [s.strip() for s in line[1:pos].split(",")]))
+        nums = createIntArrayFromString(line[:pos + 1])
         stringFormOfSecondArray = line[pos + 1:].lstrip()[1:].lstrip()
-        indices = list(
-            map(int, [s.strip() for s in stringFormOfSecondArray[1:-1].split(",")]))
+        indices = createIntArrayFromString(stringFormOfSecondArray)
         actualOutput = solution.createTargetArray(nums, indices)
     else:
-        expectedOutput = list(map(int, [s.strip()
-                              for s in line[1:-1].split(",")]))
+        expectedOutput = createIntArrayFromString(line)
         if (actualOutput != expectedOutput):
-            print("Result: Failed")
-            print("Actual Output: ", actualOutput)
-            print("Expected Output: ", expectedOutput)
+            displayErrorMessage(testCase, actualOutput, expectedOutput)
             isSolutionWrong = True
             break
     lineNumber += 1
