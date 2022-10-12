@@ -14,10 +14,11 @@
 
 using namespace std;
 
+
 int main()
 {
     string input1;
-    vector<int> nums;
+    ListNode *head=new ListNode(0);
     string expected_output;
     string actual_output;
     ifstream infile("../testcases.txt");
@@ -35,16 +36,45 @@ int main()
         {
             input1 = line;
             string x = RemoveAllPunctInArray(line);
+            ListNode *prev;
             stringstream ss(x);
-            int v;
+            int v,c=0;
             while (ss >> v)
             {
-                nums.push_back(v);
+                if(c==0){
+                    head->val=v;
+                    prev=head;
+                }
+                if (c>=1){
+                    prev->next=new ListNode(v);
+                    prev=prev->next;
+                }
+                c++;
+            }
+            if (c>=3){
+                ListNode *second_last=head;   
+                int n;    
+                while (second_last->next->next!=NULL){
+                    n =second_last->next->next->val;
+                    second_last=second_last->next;
+                }
+                delete(second_last->next);
+                second_last->next=NULL;
+                int i=0;
+                ListNode *y;
+                y=head;  
+                while (i<=n){
+                    if (i==n){
+                        second_last->next=y;
+                    }
+                    y=y->next;
+                    i++;
+                }
             }
         }
         else
         {
-            bool res = obj->isMonotonic(nums);
+            bool res = obj->hasCycle(head);
 
             actual_output = convertInttoBool(res);
 
@@ -53,10 +83,11 @@ int main()
             {
                 return 0;
             }
-            nums.clear();
         }
         status += 1;
     }
     Success();
     return 0;
 }
+
+
