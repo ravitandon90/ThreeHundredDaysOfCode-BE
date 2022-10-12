@@ -117,6 +117,7 @@ bool Compare(const vector<int> &v1, const vector<int> &v2)
   return v1 == v2;
 }
 
+
 void Success()
 {
     cout << "Result: Success" << endl;
@@ -302,6 +303,43 @@ bool checkOuputStringVec(vector<string> expected_output, vector<string> actual_o
     }
     return false;
 }
+
+
+// input: string
+// output: LinkedList<Int>
+
+void checkOuputLinkedList(ListNode* &expected_output,ListNode* &actual_output, string &input1,int &flag)
+{
+    ListNode* x = expected_output;
+    ListNode* y = actual_output;
+    vector<int> x1;
+    vector<int> y1;
+    while(x){
+        x1.push_back(x->val);
+        x=x->next;
+    }
+    while(y){
+        y1.push_back(y->val);
+        y=y->next;
+    }
+    if (x1 != y1)
+    {
+        cout << "Result: Failed" << endl;
+        cout << "Input: " << input1 << endl;
+        cout << "Expected Output: ";
+        for (auto x : x1)
+        {
+            cout << x << " ";
+        }
+        cout << "\nActual Output: ";
+        for (auto x : y1)
+        {
+            cout << x << " ";
+        }
+        flag=1;
+    }
+}
+
 
 // To Remove all comma's from a string
 
@@ -914,4 +952,22 @@ void parseIntVectorOfVectorAndIntAndInt(string &line, vector<vector<int>> &nums,
     }
     n = temp2[0];
     m = temp2[1];
+}
+
+void convertArrayToLinkedList(ListNode* &head,string &x){
+    ListNode *prev;
+    stringstream ss(x);
+    int v,c=0;
+    while (ss >> v)
+    {
+        if(c==0){
+            head->val=v;
+            prev=head;
+        }
+        if (c>=1){
+            prev->next=new ListNode(v);
+            prev=prev->next;
+        }
+        c++;
+    }
 }
