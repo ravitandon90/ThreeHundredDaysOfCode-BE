@@ -1,25 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "Solution.hpp"
-#include "C:/Users/hp/Documents/GitHub/ThreeHundredDaysOfCode-BE/proddata/cpp/helper1.hpp"
+#include "../../cpp/helper.hpp"
 
 
-void Print(vector<int> actual_output, vector<int> expected_output)
-{
-    cout << "Result: Failed" << endl;
-    cout << "Actual Output: " << endl;
-    for (int i = 0; i < actual_output.size(); i++)
-    {
-        cout << actual_output[i] << " ";
-    }
-    cout << endl;
-    cout << "Expected Output: " << endl;
-    for (int i = 0; i < expected_output.size(); i++)
-    {
-        cout << expected_output[i] << " ";
-    }
-    cout << endl;
-}
+
+
 int main()
 {
 
