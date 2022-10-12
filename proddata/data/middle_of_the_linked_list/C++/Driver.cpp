@@ -14,12 +14,14 @@
 
 using namespace std;
 
+
 int main()
 {
     string input1;
-    vector<int> nums;
-    string expected_output;
-    string actual_output;
+    ListNode *head=new ListNode(0);
+    ListNode* expected_output;
+    ListNode* actual_output;
+    int flag=0;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -35,28 +37,21 @@ int main()
         {
             input1 = line;
             string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            int v;
-            while (ss >> v)
-            {
-                nums.push_back(v);
-            }
+            convertArrayToLinkedList(head,x);
         }
         else
         {
-            bool res = obj->isMonotonic(nums);
-
-            actual_output = convertInttoBool(res);
-
-            expected_output = line;
-            if (checkOuputString(expected_output, actual_output, input1))
-            {
-                return 0;
-            }
-            nums.clear();
+            actual_output = obj->middleNode(head);
+            string x = RemoveAllPunctInArray(line);
+            convertArrayToLinkedList(expected_output,x);
+            checkOuputLinkedList(expected_output, actual_output, input1, flag);
         }
         status += 1;
     }
-    Success();
+    if (flag==0){
+        Success();
+    }
     return 0;
 }
+
+
