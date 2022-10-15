@@ -1,6 +1,5 @@
 from collections import deque
 
-
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -108,7 +107,7 @@ def createArrayFromLinkedList(ll):
 
 
 def displayErrorMessage(testCase, actualOutput, expectedOutput):
-    print("Result: Failed for test case: " + testCase)
+    print("Result: Failed for test case:", testCase)
     print("Actual Output: ", actualOutput)
     print("Expected Output: ", expectedOutput)
 
@@ -131,3 +130,15 @@ def createIntArrayFromString(arrayAsString):
     if arrayWithoutBraces == "":
         return []
     return list(map(int, [s.strip() for s in arrayWithoutBraces.split(",")]))
+
+
+def removeAllPuncFromStringArray(line):
+    array=''
+    for i in line:
+        if i=='[' or i==']' or i==',':
+            array+=' '
+        else:
+            array+=i
+    array=list(map(int,array.split()))
+    return array
+
