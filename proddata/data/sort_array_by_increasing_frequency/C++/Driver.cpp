@@ -10,7 +10,7 @@
 #include <unordered_set>
 
 #include "Solution.hpp"
-#include "../../cpp/helper1.hpp"
+#include "../../cpp/helper.hpp"
 
 using namespace std;
 
