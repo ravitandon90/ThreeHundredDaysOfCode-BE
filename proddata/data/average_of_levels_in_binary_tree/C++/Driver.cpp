@@ -14,13 +14,24 @@
 
 using namespace std;
 
+
+void inOrder(TreeNode* root)
+{
+	if (root != NULL)
+	{
+		inOrder(root->left);
+		cout << root->val<<endl;
+		inOrder(root->right);
+	}
+}
+
 int main()
 {
     string input1;
-    int v, k;
-    vector<int> nums;
-    vector<int> expected_output;
-    vector<int> actual_output;
+    double v;
+    TreeNode* nums=new TreeNode();
+    vector<double> expected_output;
+    vector<double> actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -36,28 +47,21 @@ int main()
         {
             input1 = line;
             string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            while (ss >> v)
-            {
-                nums.push_back(v);
-            }
-            k = nums.back();
-            nums.pop_back();
+            convertStringArrayToBinaryTree(nums,x);
         }
         else
         {
-            actual_output = obj->topKFrequent(nums, k);
+            actual_output = obj->averageOfLevels(nums);
             string x = RemoveAllPunctInArray(line);
             stringstream ss(x);
             while (ss >> v)
             {
                 expected_output.push_back(v);
             }
-            if (checkOuputIntVec(expected_output, actual_output, input1))
+            if (checkOuputDoubleVec(expected_output, actual_output, input1))
             {
                 return 0;
             }
-            nums.clear();
             expected_output.clear();
         }
         status += 1;

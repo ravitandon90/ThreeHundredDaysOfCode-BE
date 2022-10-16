@@ -194,6 +194,30 @@ bool checkOuputIntVec(vector<int> expected_output, vector<int> actual_output, st
     return false;
 }
 
+// input: string
+// output: vector<double>
+
+bool checkOuputDoubleVec(vector<double> expected_output, vector<double> actual_output, string input1)
+{
+    if (expected_output != actual_output)
+    {
+        cout << "Result: Failed" << endl;
+        cout << "Input: " << input1 << endl;
+        cout << "Expected Output: ";
+        for (double x : expected_output)
+        {
+            cout << x << " ";
+        }
+        cout << "\nActual Output: ";
+        for (double x : actual_output)
+        {
+            cout << x << " ";
+        }
+        return true;
+    }
+    return false;
+}
+
 
 // input: string
 // output: vector<int>
@@ -379,6 +403,8 @@ string RemoveAllPunctInArray(string line)
     for (int i = 0, len = line.size(); i < len; i++)
     {
         if (line[i] == '-')
+            continue;
+        if (line[i] == '.')
             continue;
         if (ispunct(line[i]))
         {
@@ -1041,3 +1067,34 @@ void convertIntArrayToLinkedList(ListNode* &head1,vector<int> &x){
         c++;
     }   
 }
+
+
+TreeNode* insertLevelOrder(vector<string> arr, int i, int n)
+{
+	TreeNode *root=nullptr;
+	if (i < n && arr[i]!="null")
+	{
+        stringstream ss(arr[i]);
+        int v;
+        ss>>v;
+        root=newNode(v);
+
+		root->left = insertLevelOrder(arr,2 * i + 1, n);
+
+		root->right = insertLevelOrder(arr,2 * i + 2, n);
+	}
+	return root;
+}
+
+// input: array string
+// output: BinaryTree
+void convertStringArrayToBinaryTree(TreeNode* &nums,string &line){
+    vector<string> values;
+    stringstream ss(line);
+    string v;
+    while(ss>>v){
+        values.push_back(v);
+    }
+    nums=insertLevelOrder(values,0,values.size());
+}
+

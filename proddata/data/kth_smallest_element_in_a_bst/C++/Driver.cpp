@@ -17,10 +17,12 @@ using namespace std;
 int main()
 {
     string input1;
-    int v, k;
-    vector<int> nums;
-    vector<int> expected_output;
-    vector<int> actual_output;
+    string v;
+    vector<string> nums;
+    int k;
+    TreeNode* input=new TreeNode();
+    int expected_output;
+    int actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -41,24 +43,23 @@ int main()
             {
                 nums.push_back(v);
             }
-            k = nums.back();
+            string temp = nums.back();
+            stringstream s(temp);
+            s>>k;
             nums.pop_back();
+            input=insertLevelOrder(nums,0,nums.size());
         }
         else
         {
-            actual_output = obj->topKFrequent(nums, k);
+            actual_output = obj->kthSmallest(input, k);
             string x = RemoveAllPunctInArray(line);
             stringstream ss(x);
-            while (ss >> v)
-            {
-                expected_output.push_back(v);
-            }
-            if (checkOuputIntVec(expected_output, actual_output, input1))
+            ss>>expected_output;
+            if (checkOuputInt(expected_output, actual_output, input1))
             {
                 return 0;
             }
             nums.clear();
-            expected_output.clear();
         }
         status += 1;
     }
