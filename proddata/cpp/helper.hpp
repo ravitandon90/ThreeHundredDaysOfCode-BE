@@ -572,6 +572,7 @@ void parseIntOfVectorAndIntOfVector(string &line, vector<int> &nums, vector<int>
 }
 
 
+
 // Input: vector<vector<int>>, vector<int>
 void parseIntVectorOfVectorAndIntOfVector(string &line, vector<vector<int>> &nums, vector<int> &nums1)
 {
@@ -1098,3 +1099,47 @@ void convertStringArrayToBinaryTree(TreeNode* &nums,string &line){
     nums=insertLevelOrder(values,0,values.size());
 }
 
+
+// Inorder Traversal
+void inorder(TreeNode* &node,vector<int> &vec){
+    if (node!=NULL){
+        inorder(node->left,vec);
+        vec.push_back( node->val);
+        inorder(node->right,vec);
+    }
+}
+
+// LevelOrder Traversal
+void LevelOrder(TreeNode* &root,vector<int> &vec)
+{
+    if (root == NULL)
+        return;
+ 
+    queue<TreeNode*> q;
+ 
+    q.push(root);
+ 
+    while (q.empty() == false) {
+        TreeNode* node = q.front();
+        vec.push_back( node->val);
+        q.pop();
+
+        if (node->left != NULL)
+            q.push(node->left);
+ 
+        if (node->right != NULL)
+            q.push(node->right);
+    }
+}
+
+
+
+// input:string
+// ouput: BinaryTree, BinaryTree
+int checkOutputBinaryTree(TreeNode* &expected_output, TreeNode* &actual_ouput, string &input){
+    vector<int> exp;
+    vector<int> act;
+    LevelOrder(expected_output,exp);
+    LevelOrder(actual_ouput,act);
+    return checkOuputIntVec(exp,act,input);
+}
