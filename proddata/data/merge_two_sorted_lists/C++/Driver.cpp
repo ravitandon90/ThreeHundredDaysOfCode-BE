@@ -8,6 +8,7 @@
 #include <iterator>
 #include <unordered_map>
 #include <unordered_set>
+#include <regex>
 
 #include "Solution.hpp"
 #include "../../cpp/helper.hpp"
@@ -17,10 +18,14 @@ using namespace std;
 int main()
 {
     string input1;
-    int v, k;
     vector<int> nums;
-    vector<int> expected_output;
-    vector<int> actual_output;
+    vector<int> nums1;
+    ListNode* list1;
+    ListNode* list2;
+    int flag=0;
+    int s = 0;
+    ListNode* expected_output;
+    ListNode* actual_output;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -35,33 +40,27 @@ int main()
         if (status % 2 != 0)
         {
             input1 = line;
-            string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            while (ss >> v)
-            {
-                nums.push_back(v);
-            }
-            k = nums.back();
-            nums.pop_back();
+            parseIntOfVectorAndIntOfVector(line, nums,nums1);
+            convertIntArrayToLinkedList(list1,nums);
+            convertIntArrayToLinkedList(list2,nums1);
         }
         else
         {
-            actual_output = obj->topKFrequent(nums, k);
-            string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            while (ss >> v)
-            {
-                expected_output.push_back(v);
-            }
-            if (checkOuputIntVec(expected_output, actual_output, input1))
-            {
-                return 0;
-            }
+            actual_output = obj->mergeTwoLists(list1,list2);
+            line= RemoveAllPunctInArray(line);
+            convertArrayToLinkedList(expected_output,line);
+            checkOuputLinkedList(expected_output,actual_output,input1,flag);   
             nums.clear();
-            expected_output.clear();
+            nums1.clear();
+            break;
         }
         status += 1;
     }
-    Success();
+    if (flag==0){
+        Success();
+    }
     return 0;
 }
+
+
+

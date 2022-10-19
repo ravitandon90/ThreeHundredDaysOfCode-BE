@@ -132,7 +132,6 @@ bool Compare(const vector<int> &v1, const vector<int> &v2)
   return v1 == v2;
 }
 
-
 void Success()
 {
     cout << "Result: Success" << endl;
@@ -202,6 +201,30 @@ bool checkOuputIntVec(vector<int> expected_output, vector<int> actual_output, st
         }
         cout << "\nActual Output: ";
         for (auto x : actual_output)
+        {
+            cout << x << " ";
+        }
+        return true;
+    }
+    return false;
+}
+
+// input: string
+// output: vector<double>
+
+bool checkOuputDoubleVec(vector<double> expected_output, vector<double> actual_output, string input1)
+{
+    if (expected_output != actual_output)
+    {
+        cout << "Result: Failed" << endl;
+        cout << "Input: " << input1 << endl;
+        cout << "Expected Output: ";
+        for (double x : expected_output)
+        {
+            cout << x << " ";
+        }
+        cout << "\nActual Output: ";
+        for (double x : actual_output)
         {
             cout << x << " ";
         }
@@ -396,6 +419,8 @@ string RemoveAllPunctInArray(string line)
     {
         if (line[i] == '-')
             continue;
+        if (line[i] == '.')
+            continue;
         if (ispunct(line[i]))
         {
             line[i] = ' ';
@@ -513,6 +538,53 @@ void parseVectorOfVector(string &line, vector<vector<int>> &nums)
     }
 }
 
+
+// Input: vector<int>, vector<int>
+void parseIntOfVectorAndIntOfVector(string &line, vector<int> &nums, vector<int> &nums1)
+{
+    replace(line.begin(), line.end(), ',', ' ');
+    int index;
+    string sub_str = " [";
+    string sub_str1 = "] ";
+    int gap_count=0;
+    int start = 0, end = 0, status=0;
+    for (int i = 0; i < line.size(); i++)
+    {
+        if (line[i]==' '){
+            gap_count+=1;
+            if (gap_count==2){
+                status=1;
+            }
+            continue;
+        }
+        if (line[i] == '[')
+        {
+            start = i;
+        }
+        if (line[i] == ']' && status==1)
+        {
+            end = i - 1 - start;
+            stringstream ss(line.substr(start + 1, end));
+            int v;
+            while (ss >> v)
+            {
+                nums1.push_back(v);
+            }
+            continue;
+        }
+        if (line[i] == ']')
+        {
+            end = i - 1 - start;
+            stringstream ss(line.substr(start + 1, end));
+            int v;
+            while (ss >> v)
+            {
+                nums.push_back(v);
+            }
+        }
+        gap_count=0;
+    }
+}
 
 
 // Input: vector<vector<int>>, vector<int>
@@ -969,20 +1041,76 @@ void parseIntVectorOfVectorAndIntAndInt(string &line, vector<vector<int>> &nums,
     m = temp2[1];
 }
 
-void convertArrayToLinkedList(ListNode* &head,string &x){
+
+
+// input: string vector
+// output: linkedlist<int>
+void convertArrayToLinkedList(ListNode* &head1,string &x){
     ListNode *prev;
     stringstream ss(x);
     int v,c=0;
     while (ss >> v)
     {
         if(c==0){
-            head->val=v;
-            prev=head;
+            head1=new ListNode(v);
+            prev=head1;
         }
         if (c>=1){
             prev->next=new ListNode(v);
             prev=prev->next;
         }
         c++;
-    }
+    }   
 }
+
+
+// input: vector<int>
+// output: linkedlist<int>
+void convertIntArrayToLinkedList(ListNode* &head1,vector<int> &x){
+    ListNode *prev= new ListNode();
+    int v,c=0;
+    while (c<x.size())
+    {
+        if(c==0){
+            head1=new ListNode(x[c]);
+            prev=head1;
+        }
+        if (c>=1){
+            prev->next=new ListNode(x[c]);
+            prev=prev->next;
+        }
+        c++;
+    }   
+}
+
+
+TreeNode* insertLevelOrder(vector<string> arr, int i, int n)
+{
+	TreeNode *root=nullptr;
+	if (i < n && arr[i]!="null")
+	{
+        stringstream ss(arr[i]);
+        int v;
+        ss>>v;
+        root=newNode(v);
+
+		root->left = insertLevelOrder(arr,2 * i + 1, n);
+
+		root->right = insertLevelOrder(arr,2 * i + 2, n);
+	}
+	return root;
+}
+
+// input: array string
+// output: BinaryTree
+void convertStringArrayToBinaryTree(TreeNode* &nums,string &line){
+    vector<string> values;
+    stringstream ss(line);
+    string v;
+    while(ss>>v){
+        values.push_back(v);
+    }
+
+    nums=insertLevelOrder(values,0,values.size());
+}
+

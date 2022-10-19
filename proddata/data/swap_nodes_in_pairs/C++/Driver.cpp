@@ -14,13 +14,14 @@
 
 using namespace std;
 
+
 int main()
 {
     string input1;
-    int v, k;
-    vector<int> nums;
-    vector<int> expected_output;
-    vector<int> actual_output;
+    ListNode *head = new ListNode();
+    ListNode* expected_output= new ListNode();
+    ListNode* actual_output= new ListNode();
+    int flag=0;
     ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
@@ -36,32 +37,21 @@ int main()
         {
             input1 = line;
             string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            while (ss >> v)
-            {
-                nums.push_back(v);
-            }
-            k = nums.back();
-            nums.pop_back();
+            convertArrayToLinkedList(head,x);
         }
         else
         {
-            actual_output = obj->topKFrequent(nums, k);
+            actual_output = obj->swapPairs(head);
             string x = RemoveAllPunctInArray(line);
-            stringstream ss(x);
-            while (ss >> v)
-            {
-                expected_output.push_back(v);
-            }
-            if (checkOuputIntVec(expected_output, actual_output, input1))
-            {
-                return 0;
-            }
-            nums.clear();
-            expected_output.clear();
+            convertArrayToLinkedList(expected_output,x);
+            checkOuputLinkedList(expected_output, actual_output, input1, flag);
         }
         status += 1;
     }
-    Success();
+    if (flag==0){
+        Success();
+    }
     return 0;
 }
+
+
