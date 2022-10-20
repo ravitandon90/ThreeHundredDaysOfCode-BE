@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "Solution.hpp"
+#include "../../cpp/helper.hpp"
 void Print(vector<int> actual_output, vector<int> expected_output)
 {
     cout << "Result: Failed" << endl;
@@ -20,7 +21,7 @@ void Print(vector<int> actual_output, vector<int> expected_output)
 }
 int main()
 {
-    ifstream infile("testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
     vector<int> nums1, nums2;
