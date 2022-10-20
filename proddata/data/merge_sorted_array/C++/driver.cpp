@@ -1,11 +1,11 @@
 #include <bits/stdc++.h>
 using namespace std;
 #include "Solution.hpp"
-#include "helper.hpp"
+#include "../../cpp/helper.hpp"
 
 int main()
 {
-    ifstream infile(".././testcases.txt");
+    ifstream infile("../testcases.txt");
     Solution *obj = new Solution();
     string line;
 
