@@ -69,6 +69,9 @@ public class MasterController {
     @Autowired
     private SessionAccessor sessionAccessor;
 
+    @Autowired
+    private CompanyQuestionareRepository companyActivityRepository;
+
     /*********************************** End Of API Definitions. *****************************************/
     @GetMapping(path = "/")
     public String handlePing() {return "Master-Ok"; }
@@ -154,6 +157,25 @@ public class MasterController {
     public String handleGetProblemById(Principal user,
                                        @RequestParam(value = "problemId") String problemId) {
         return GetProblemById(user.getName(), problemId);
+    }
+
+    @GetMapping(path = "/problem/companiesAskedAt")
+    public List<CompanyQuestion> handleGetProblems(Principal user, @RequestParam(value = "problemId") String problemId) {
+        return companyActivityRepository.findByProblem(problemId);
+    }
+
+    @PostMapping(path = "/tagProblemToCompany")
+    public void  tagCompanyToProblem(
+            @RequestBody TagProblemToCompanyRequest request, Principal user) {
+
+        CompanyQuestion problemToTagToTheCompany= new CompanyQuestion();
+        // set the data recieved from the user
+        problemToTagToTheCompany.setProblem(request.getProblemId());
+        problemToTagToTheCompany.setPostedBy(request.getUserId());
+        // change all chars to upper casse to avoid issues like vmware/Vmware / VMware for api search by company name
+        problemToTagToTheCompany.setCompanyName(request.getCompanyName().toUpperCase());
+        // saved the information to the database
+        companyActivityRepository.save(problemToTagToTheCompany);
     }
 
     @GetMapping(path = "/google/problemById")
@@ -971,12 +993,16 @@ public class MasterController {
 
     private String GetProblemById(String userId, String problemId) {
         ProblemDescription problemDescription = this.problemDescriptionRepository.getByProblemId(problemId);
+        List<CompanyQuestion> companiesAskedAt=companyActivityRepository.findByProblem(problemId);
         if (problemDescription != null) {
+            JSONArray companiesThisProblemWasAsked = new JSONArray();
+            for(CompanyQuestion company: companiesAskedAt) companiesThisProblemWasAsked.put(company.getCompanyName());
+
             JSONObject jsonObject = new JSONObject()
                     .put("problemTitle", problemDescription.getTitle())
                     .put("problemIndex", problemDescription.getIndex())
                     .put("problemLink", problemDescription.getUrl())
-                    .put("description", problemDescription.getDescription());
+                    .put("description", problemDescription.getDescription()).put("companiesAskedAt",companiesThisProblemWasAsked);
             UserSession userSession =  this.sessionAccessor.getSessionFromProblem(userId, problemId);
             if (userSession != null) {
                 jsonObject.put("sessionId", userSession.getSessionId());
