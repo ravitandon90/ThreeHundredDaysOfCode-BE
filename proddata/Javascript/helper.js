@@ -1,3 +1,34 @@
+class Node {
+  constructor(val) {
+    this.left = null;
+    this.right = null;
+    this.val = val;
+  }
+}
+
+// Function to insert nodes in level order
+function insertLevelOrder(arr, i) {
+  let root = null;
+  // Base case for recursion
+  if (i < arr.length) {
+    root = new Node(arr[i]);
+
+    // insert left child
+    root.left = insertLevelOrder(arr, 2 * i + 1);
+
+    // insert right child
+    root.right = insertLevelOrder(arr, 2 * i + 2);
+  }
+  return root;
+}
+
+function createTreeFromArray({ array, traversalType }) {
+  let root;
+  if (traversalType === "levelOrder") root = insertLevelOrder(array, 0);
+
+  return root;
+}
+
 function compare1DArray(arr1 = [], arr2 = []) {
   if (arr1.length != arr2.length) {
     return false;
@@ -70,4 +101,5 @@ module.exports = {
   convertStringArrToNumArr,
   getArrFromStr,
   printFailedCase,
+  createTreeFromArray,
 };
