@@ -63,14 +63,14 @@ function getTestCases() {
       let j = 0;
       data[i] = data[i].trim();
 
-      while (j < data[i].length && j !== "]") {
+      while (j < data[i].length && data[i][j] !== "]") {
         input1 += data[i][j];
       }
       j++;
       input1 += "]";
 
       let input2 = "";
-      while (j < data[i].length && j != "]") {
+      while (j < data[i].length && data[i][j] != "]") {
         input2 += data[i][j];
       }
 
