@@ -4,6 +4,7 @@ const {
   printFailedCase,
   convertStringArrToNumArr,
   getArrFromStr,
+  createTreeFromArray,
 } = require("../../../Javascript/helper");
 
 let testcases = [];
