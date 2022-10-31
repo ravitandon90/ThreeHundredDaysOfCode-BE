@@ -10,15 +10,16 @@ class Node {
 function insertLevelOrder(arr, i) {
   let root = null;
   // Base case for recursion
-  if (i < arr.length) {
-    root = new Node(arr[i]);
-
-    // insert left child
-    root.left = insertLevelOrder(arr, 2 * i + 1);
-
-    // insert right child
-    root.right = insertLevelOrder(arr, 2 * i + 2);
+  if (i >= arr.length || arr[i] === "null") {
+    return root;
   }
+  root = new Node(arr[i]);
+
+  // insert left child
+  root.left = insertLevelOrder(arr, 2 * i + 1);
+
+  // insert right child
+  root.right = insertLevelOrder(arr, 2 * i + 2);
   return root;
 }
 
